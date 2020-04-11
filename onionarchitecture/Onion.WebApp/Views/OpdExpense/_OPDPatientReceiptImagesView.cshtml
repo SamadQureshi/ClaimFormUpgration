@@ -1,0 +1,131 @@
+﻿@model Onion.WebApp.Models.OpdExpense_MasterDetail
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+                <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">PATIENT INFORMATION</h4>
+        </div>
+        <div class="card-body">
+
+            @if (Model.listOPDEXPENSEPATIENT != null && Model.listOPDEXPENSEPATIENT.Count > 0)
+            {
+            <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Sr.</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>RelationShip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpense_PatientVM customer in Model.listOPDEXPENSEPATIENT)
+                        {
+                        <tr>
+                            <td class="ID">
+                                <span>@customer.ID</span>
+                            </td>
+                            <td class="NAME">
+                                <span>@customer.NAME</span>
+                                <input type="text" value="@customer.NAME" style="display:none" />
+                            </td>
+                            <td class="AGE">
+                                <span>@customer.AGE</span>
+                                <input type="text" value="@customer.AGE" style="display:none" />
+                            </td>
+                            <td class="RELATIONSHIP_EMPLOYEE">
+                                <span>@customer.RELATIONSHIP_EMPLOYEE</span>
+                                <select id="relationShipListForEdit" style="display:none">
+                                    <option value="SELF">SELF</option>
+                                    <option value="FATHER">FATHER</option>
+                                    <option value="MOTHER">MOTHER</option>
+                                    <option value="SPOUSE">SPOUSE</option>
+                                    <option value="DAUGHTER">DAUGHTER</option>
+                                    <option value="SON">SON</option>
+                                </select>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+            else
+            {
+            <p>No Record Found</p>
+            }
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+                <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">PATIENT RECEIPT INFORMATION</h4>
+        </div>
+        <div class="card-body">
+
+            @if (Model.listOPDEXPENSEIMAGE != null && Model.listOPDEXPENSEIMAGE.Count > 0)
+            {
+            <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Sr.</th>
+                            <th>Image Name</th>
+                            <th></th>
+                            <th>Expense Name</th>
+                            <th>Expense Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.listOPDEXPENSEIMAGE.Count; i++)
+                        {
+                        <tr>
+                            <td>@(i + 1)</td>
+
+                            <td>
+                                <div class="input-group">
+                                    <i class="fa fa-2x fa-paperclip text-navy pr-1"></i>
+                                    <a class="download-file1" href="@Url.Action(" DownloadFile", "OPDExpenses" , new { fileId=@Model.listOPDEXPENSEIMAGE[i].IMAGE_ID })" target="_blank">
+                                        @Model.listOPDEXPENSEIMAGE[i].IMAGE_NAME
+                                    </a>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div>
+                                    <img src="@Url.Action(" DownloadFile", "OPDExpenses" , new { fileId=@Model.listOPDEXPENSEIMAGE[i].IMAGE_ID })" width="100" height="100" />
+                                </div>
+                            </td>
+
+                            <td>
+                                <div>
+                                    @Html.DisplayFor(model => @Model.listOPDEXPENSEIMAGE[i].NAME_EXPENSES)
+                                </div>
+                            </td>
+
+                            <td>
+                                <div>
+                                    @Html.DisplayFor(model => @Model.listOPDEXPENSEIMAGE[i].EXPENSE_AMOUNT)
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+            else
+            {
+            <p> No Record Found</p>
+            }
+        </div>
+    </div>
+</div>
+

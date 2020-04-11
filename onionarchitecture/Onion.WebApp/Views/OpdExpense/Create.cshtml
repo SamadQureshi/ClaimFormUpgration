@@ -1,0 +1,116 @@
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpenseVM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header text-center">
+    <h3 class="title">Create</h3>
+</div>
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">add_to_photos</i>
+                    </div>
+                    <h4 class="card-title">OPD Expense</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-md-12">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EMPLOYEE_NAME, "Name of Employee:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.EMPLOYEE_NAME, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
+                                @Html.ValidationMessageFor(model => model.EMPLOYEE_NAME, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.EMPLOYEE_DEPARTMENT, "Employee Department:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.EMPLOYEE_DEPARTMENT, new SelectList(Enumerable.Empty<SelectListItem>()))
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.CLAIM_MONTH, "Claim For Month", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.CLAIM_MONTH, new List<SelectListItem>
+                                {
+                                   new SelectListItem {Text = "JAN", Value = "JAN"},
+                                   new SelectListItem {Text = "FEB", Value = "FEB"},
+                                   new SelectListItem {Text = "MAR", Value = "MAR"},
+                                   new SelectListItem {Text = "APR", Value = "APR"},
+                                   new SelectListItem {Text = "MAY", Value = "MAY"},
+                                   new SelectListItem {Text = "JUN", Value = "JUN"},
+                                   new SelectListItem {Text = "JUL", Value = "JUL"},
+                                   new SelectListItem {Text = "AUG", Value = "AUG"},
+                                   new SelectListItem {Text = "SEP", Value = "SEP"},
+                                   new SelectListItem {Text = "OCT", Value = "OCT"},
+                                   new SelectListItem {Text = "NOV", Value = "NOV"},
+                                   new SelectListItem {Text = "DEC", Value = "DEC"},
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.CLAIM_YEAR, "Claim For Year", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.CLAIM_YEAR, new List<SelectListItem>
+                                {
+                                   new SelectListItem {Text = "2020", Value = "2020"},
+                                   new SelectListItem {Text = "2021", Value = "2021"},
+                                   new SelectListItem {Text = "2022", Value = "2022"},
+                                   new SelectListItem {Text = "2023", Value = "2023"},
+                                   new SelectListItem {Text = "2024", Value = "2024"},
+                                   new SelectListItem {Text = "2025", Value = "2025"},
+                                   new SelectListItem {Text = "2026", Value = "2026"},
+                                   new SelectListItem {Text = "2027", Value = "2027"},
+                                   new SelectListItem {Text = "2028", Value = "2028"},
+                                   new SelectListItem {Text = "2029", Value = "2029"},
+                                   new SelectListItem {Text = "2030", Value = "2030"},
+                                   new SelectListItem {Text = "2031", Value = "2031"},
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TOTAL_AMOUNT_CLAIMED, "Total Amount Claimed:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.TOTAL_AMOUNT_CLAIMED, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TOTAL_AMOUNT_CLAIMED, "", new { @class = "error" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer ml-auto mr-auto">
+                    <button type="submit" class="btn btn-primary create-btn">Create</button>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-md-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+jQuery(function () {
+    var regionsSelect = $('#EMPLOYEE_DEPARTMENT');
+    $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
+        if (regions != null && !jQuery.isEmptyObject(regions)) {
+            $.each(regions, function (index, region) {
+                regionsSelect.append($("<option></option>").val(this.Value).html(this.Text));
+            });
+        };
+        if (regionsSelect.length != 0) {
+            regionsSelect.selectpicker();
+        }
+    });
+});
+    </script>
+}
