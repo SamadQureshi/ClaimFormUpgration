@@ -16,6 +16,7 @@
 
         public const string MSG_GENERAL_ADD_PATIENT_INFORMATION = "Please Add Patient Information";
 
+        public const string MSG_APPROVAL_MANAGERCOMMENTS = "Please Add MAN Comments.";
 
     }
 }

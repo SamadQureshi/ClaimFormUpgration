@@ -17,7 +17,10 @@ namespace Onion.Common.Enum
             HRInProcess,
             FINApproved,
             FINRejected,
-            FINInProcess
+            FINInProcess,
+            MANApproved,
+            MANRejected,
+            MANInProcess
         }        
 
     }

@@ -82,6 +82,15 @@ namespace Onion.Services
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
         }
+
+        public List<OpdExpenseVM> GetOpdExpensesForMAN()
+        {
+            var opdExpense = _opdExpenseRepository.GetQueryable()
+                .Where(e => e.STATUS == Helper.GeneralStatus.FINApproved.ToString() || e.STATUS == Helper.GeneralStatus.MANApproved.ToString() || e.STATUS == Helper.GeneralStatus.MANRejected.ToString() || e.STATUS == Helper.GeneralStatus.MANInProcess.ToString())
+                .ToList();
+
+            return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
+        }
     }
 }
 
