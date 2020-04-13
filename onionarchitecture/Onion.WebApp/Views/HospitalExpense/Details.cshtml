@@ -1,0 +1,88 @@
+﻿@model Onion.WebApp.Models.HospitalExpense_MasterDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">library_books</i>
+                    </div>
+                    <h4 class="card-title">Hospital Expense Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mt-3">
+                        @Html.Partial("_HOSExpenseView", Model)
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.STATUS, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.STATUS, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HR_COMMENT, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HR_COMMENT, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HR_APPROVAL, "HR Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HR_APPROVAL, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HR_NAME, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HR_NAME, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FINANCE_COMMENT, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FINANCE_COMMENT, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FINANCE_APPROVAL, "Finance Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FINANCE_APPROVAL, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FINANCE_NAME, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FINANCE_NAME, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MANAGEMENT_COMMENT, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.MANAGEMENT_COMMENT, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MANAGEMENT_APPROVAL, "Management Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.MANAGEMENT_APPROVAL, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MANAGEMENT_NAME, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.MANAGEMENT_NAME, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_HOSPatientReceiptImagesView", Model)
+        <div class="col-md-12">
+            @Html.ActionLink("Back to List", "Index", "OpdExpense")
+        </div>
+    </div>

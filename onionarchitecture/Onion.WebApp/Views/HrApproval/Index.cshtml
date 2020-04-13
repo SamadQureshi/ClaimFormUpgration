@@ -1,0 +1,81 @@
+﻿@model IEnumerable<TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpenseVM>
+
+@{
+    ViewBag.Title = "Claim Form List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                </div>
+                <h4 class="card-title">Claim Form List</h4>
+            </div>
+            <div class="card-body">
+                <div class="toolbar">
+                    <!--        Here you can write extra buttons/actions for the toolbar              -->
+                </div>
+                <div class="material-datatables">
+                    <table id="datatables" class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayName("Expense Number")</th>
+                                <th>@Html.DisplayName("Employee Name")</th>
+                                <th>@Html.DisplayName("Employee Department")</th>
+                                <th>@Html.DisplayName("Claim For Month")</th>
+                                <th>@Html.DisplayName("Claim For Year")</th>
+                                <th>@Html.DisplayName("Status")</th>
+                                <th>@Html.DisplayName("Total Amount Claimed")</th>
+                                <th>@Html.DisplayName("OPD Type")</th>
+                                <th class="disabled-sorting all text-right actions-col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EXPENSE_NUMBER)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EMPLOYEE_NAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EMPLOYEE_DEPARTMENT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CLAIM_MONTH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CLAIM_YEAR)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.STATUS)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TOTAL_AMOUNT_CLAIMED)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OPDTYPE)
+                                    </td>
+                                    <td class="actions-col text-right">
+                                        @if (item.OPDTYPE.Equals("OPD Expense"))
+                                        {
+                                            <a href="@Url.Action("HrOPDExpense", "HrApproval", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                        }
+                                        @if (item.OPDTYPE.Equals("Hospital Expense"))
+                                        {
+                                            <a href="@Url.Action("HrHospitalExpense", "HrApproval", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

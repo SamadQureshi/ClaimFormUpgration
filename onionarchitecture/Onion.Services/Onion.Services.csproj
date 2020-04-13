@@ -188,6 +188,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Onion.Common\Onion.Common.csproj">
+      <Project>{B2A17B31-7D51-4F90-961E-0BAF2A6AC5FF}</Project>
+      <Name>Onion.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Onion.Domain\Onion.Domain.csproj">
       <Project>{04111DE0-6E10-427B-AE44-F5C11092865B}</Project>
       <Name>Onion.Domain</Name>

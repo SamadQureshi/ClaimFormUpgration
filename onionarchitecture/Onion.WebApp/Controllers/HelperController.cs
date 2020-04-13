@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OPDCLAIMFORM.Controllers
+namespace Onion.WebApp.Controllers
 {
     public class HelperController : Controller
     {

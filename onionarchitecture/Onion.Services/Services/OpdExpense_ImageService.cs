@@ -25,11 +25,39 @@ namespace Onion.Services
         public List<OpdExpense_ImageVM> GetOpdExpenses_ImageAgainstOpdExpenseId(int Id)
         {
             var opdExpense = _opdExpense_ImageRepository.GetQueryable()
-                 .Where(y => y.OPDEXPENSE_ID == Id)
-                 //.Select(t => new { t.IMAGE_ID,t.OPDEXPENSE_ID, t.IMAGE_NAME, t.NAME_EXPENSES, t.EXPENSE_AMOUNT, t.IMAGE_EXT,  t.IMAGE_BASE64   })
+                .Where(y => y.OPDEXPENSE_ID == Id)        
                  .ToList();
             return Mapper.Map<List<OpdExpense_ImageVM>>(opdExpense);
         }
+
+       
+        public OpdExpense_ImageVM CreateOpdExpense_Image(OpdExpense_ImageVM opdExpense_ImageVM)
+        {
+            object Obj_OpdExpense_Image = _opdExpense_ImageRepository.Add(Mapper.Map<OpdExpense_Image>(opdExpense_ImageVM));
+            return Mapper.Map<OpdExpense_ImageVM>(Obj_OpdExpense_Image);
+        }
+
+
+        public void UpdateOpdExpense_Image(OpdExpense_ImageVM opdExpense_ImageVM)
+        {
+
+            _opdExpense_ImageRepository.Update(Mapper.Map<OpdExpense_Image>(opdExpense_ImageVM));
+
+        }
+
+        public void DeleteOpdExpense_Image(object id)
+        {
+
+            _opdExpense_ImageRepository.Delete(id);
+
+        }
+
+        public OpdExpense_ImageVM GetOpdExpensesImagesAgainstId(int Id)
+        {
+            var opdExpenseImage = _opdExpense_ImageRepository.GetById(Id);
+            return Mapper.Map<OpdExpense_ImageVM>(opdExpenseImage);            
+        }
+
     }
 }
 

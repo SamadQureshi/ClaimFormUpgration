@@ -1,4 +1,6 @@
 ﻿using Onion.DependencyResolution;
+using System.IdentityModel.Claims;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -22,8 +24,10 @@ namespace Onion.WebApp
             var kernel = WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             GlobalConfiguration.Configuration.EnsureInitialized();
-            
-           
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+
+
         }
 
     }

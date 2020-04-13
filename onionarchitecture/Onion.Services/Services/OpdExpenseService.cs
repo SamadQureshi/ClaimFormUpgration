@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Onion.Common.Enum;
 using Onion.Domain.Models;
 using Onion.Interfaces;
 using Onion.Interfaces.Services;
@@ -64,7 +65,23 @@ namespace Onion.Services
 
         }
 
+        public List<OpdExpenseVM> GetOpdExpensesForHR()
+        {            
+             var opdExpense = _opdExpenseRepository.GetQueryable()
+                 .Where(e => e.STATUS == Helper.GeneralStatus.Submitted.ToString() || e.STATUS == Helper.GeneralStatus.HRApproved.ToString() || e.STATUS == Helper.GeneralStatus.HRRejected.ToString() || e.STATUS == Helper.GeneralStatus.HRInProcess.ToString())               
+                 .ToList();
 
+            return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
+        }
+
+        public List<OpdExpenseVM> GetOpdExpensesForFIN()
+        {
+            var opdExpense = _opdExpenseRepository.GetQueryable()
+                .Where(e => e.STATUS == Helper.GeneralStatus.HRApproved.ToString() || e.STATUS == Helper.GeneralStatus.FINApproved.ToString() || e.STATUS == Helper.GeneralStatus.FINRejected.ToString() || e.STATUS == Helper.GeneralStatus.FINInProcess.ToString())
+                .ToList();
+
+            return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
+        }
     }
 }
 

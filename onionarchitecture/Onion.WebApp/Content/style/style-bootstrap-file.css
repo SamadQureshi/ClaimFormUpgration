@@ -1,0 +1,83 @@
+﻿/*!
+ * Bootstrap-file http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+ */
+
+.btn-file 
+{
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] 
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+.attachment-file 
+{
+  background-color: white !important;
+  cursor: text !important;
+}
+
+.form-horizontal .control-label.file-label
+{
+    text-align:left !important;
+    color: white;
+}
+
+.download-file,
+.download-file:active,
+.download-file:focus 
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.download-file:hover
+{
+    color: #001f3f;
+    text-decoration: underline;
+}
+
+.download-file-black,
+.download-file-black:active,
+.download-file-black:focus 
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.download-file-black:hover
+{
+    color: #001f3f;
+    text-decoration: underline;
+}
+
+.download-file1,
+.download-file1:active,
+.download-file1:focus 
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.download-file1:hover
+{
+    color: rgba(0,0,0,0.5);
+    text-decoration: underline;
+}

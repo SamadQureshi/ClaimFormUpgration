@@ -18,5 +18,8 @@ namespace Onion.Interfaces.Services
         void UpdateOpdExpense(OpdExpenseVM opdExpenseVm);
 
         void DeleteOpdExpense(object id);
+
+        List<OpdExpenseVM> GetOpdExpensesForHR();
+        List<OpdExpenseVM> GetOpdExpensesForFIN();
     }
 }

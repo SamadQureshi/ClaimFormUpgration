@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpense_PatientVM customer in  Model)
+                                @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpense_PatientVM customer in Model)
                                 {
                                     <tr>
                                         <td class="ID">
@@ -98,21 +98,23 @@
                 </div>
             </div>
         </div>
-        @if (@ViewData["OPDTYPE"].Equals("Hospital Expense"))
+        @if (@ViewData["OPDTYPE"] != null)
         {
-    <div class="col-md-12">
-        @Html.ActionLink("Back to Edit", "Edit", "HOSPITALExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null) <span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
-        
-    </div>
+            if (@ViewData["OPDTYPE"].Equals("Hospital Expense"))
+            {
+                <div class="col-md-12">
+                    @Html.ActionLink("Back to Edit", "Edit", "HOSPITALExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null) <span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
+
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12">
+                    @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)<span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
+                </div>
+            }
         }
-        else
-        {
-    <div class="col-md-12">
-        @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)<span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
-    </div>
-        }
-        
-    </div>
+        </div>
 <script type="text/javascript">
         $(function () {
             //Remove the dummy row if data present.

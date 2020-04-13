@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Onion.Domain.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Web;
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
     public class OpdExpense_ImageVM
@@ -21,5 +19,15 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         public string NAME_EXPENSES { get; set; }
 
         public decimal? EXPENSE_AMOUNT { get; set; }
+      
+        public virtual OpdExpense OpdExpense { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+
+        public string Created_By { get; set; }
+        public string Modified_By { get; set; }
+       
+        
     }
 }

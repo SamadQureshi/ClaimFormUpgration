@@ -1,0 +1,183 @@
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpenseVM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">add_to_photos</i>
+                    </div>
+                    <h4 class="card-title">Hospital Expense</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EMPLOYEE_NAME, "Name of Employee:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.EMPLOYEE_NAME, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
+                                @Html.ValidationMessageFor(model => model.EMPLOYEE_NAME, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.EMPLOYEE_DEPARTMENT, "Employee Department:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.EMPLOYEE_DEPARTMENT, new SelectList(Enumerable.Empty<SelectListItem>()))
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.CLAIM_YEAR, "Claim For Year", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.CLAIM_YEAR, new List<SelectListItem>
+                                {
+                                    new SelectListItem {Text = "2020", Value = "2020"},
+                                    new SelectListItem {Text = "2021", Value = "2021"},
+                                    new SelectListItem {Text = "2022", Value = "2022"},
+                                    new SelectListItem {Text = "2023", Value = "2023"},
+                                    new SelectListItem {Text = "2024", Value = "2024"},
+                                    new SelectListItem {Text = "2025", Value = "2025"},
+                                    new SelectListItem {Text = "2026", Value = "2026"},
+                                    new SelectListItem {Text = "2027", Value = "2027"},
+                                    new SelectListItem {Text = "2028", Value = "2028"},
+                                    new SelectListItem {Text = "2029", Value = "2029"},
+                                    new SelectListItem {Text = "2030", Value = "2030"},
+                                    new SelectListItem {Text = "2031", Value = "2031"},
+
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TOTAL_AMOUNT_CLAIMED, "Total Amount Claimed:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.TOTAL_AMOUNT_CLAIMED, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TOTAL_AMOUNT_CLAIMED, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.DATE_ILLNESS_NOTICED, "Date of Illness Noticed:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.DATE_ILLNESS_NOTICED, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.DATE_ILLNESS_NOTICED, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.DATE_RECOVERY, "Date of Recovery:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.DATE_RECOVERY, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.DATE_RECOVERY, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.DIAGNOSIS, "Diagnosis:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.TextAreaFor(model => model.DIAGNOSIS, 2, 40, new { @class = "form-control custom-textarea" })
+                                @Html.ValidationMessageFor(model => model.DIAGNOSIS, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOSPITAL_NAME, "Name of Hospital:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.HOSPITAL_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.HOSPITAL_NAME, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DOCTOR_NAME, "Name of Doctor:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.DOCTOR_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DOCTOR_NAME, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.PERIOD_CONFINEMENT_DATE_FROM, "Period of Confinement From:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.PERIOD_CONFINEMENT_DATE_FROM, new { htmlAttributes = new { @class = "datepicker form-control" } })
+                                @Html.ValidationMessageFor(model => model.PERIOD_CONFINEMENT_DATE_FROM, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.PERIOD_CONFINEMENT_DATE_TO, "Period of Confinement To:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.PERIOD_CONFINEMENT_DATE_TO, new { htmlAttributes = new { @class = "datepicker form-control" } })
+                                @Html.ValidationMessageFor(model => model.PERIOD_CONFINEMENT_DATE_TO, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.CLAIMANT_SUFFERED_ILLNESS, "The Claimant Suffered from Illness Before?", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.CLAIMANT_SUFFERED_ILLNESS, new { htmlAttributes = new { @class = "selectpicker", @data_style = "btn btn-primary" } })
+                                @Html.ValidationMessageFor(model => model.CLAIMANT_SUFFERED_ILLNESS, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DATE, "The Illness Date:", htmlAttributes: new { @class = "bmd-label-floating custom-label" })
+                                @Html.EditorFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DATE, new { htmlAttributes = new { @class = "datepicker form-control" } })
+                                @Html.ValidationMessageFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DATE, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                                @Html.LabelFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DETAILS, "The Illness Details:", htmlAttributes: new { @class = "label-control" })
+                                @Html.TextAreaFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DETAILS, 2, 40, new { @class = "form-control custom-textarea" })
+                                @Html.ValidationMessageFor(model => model.CLAIMANT_SUFFERED_ILLNESS_DETAILS, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.DRUGS_PRESCRIBED_BOOL, "Drugs Prescribed:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.EditorFor(model => model.DRUGS_PRESCRIBED_BOOL, new { htmlAttributes = new { @class = "selectpicker", @data_style = "btn btn-primary" } })
+                                @Html.ValidationMessageFor(model => model.DRUGS_PRESCRIBED_BOOL, "", new { @class = "error" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                                @Html.LabelFor(model => model.DRUGS_PRESCRIBED_DESCRIPTION, "Drugs Description:")
+                                @Html.TextAreaFor(model => model.DRUGS_PRESCRIBED_DESCRIPTION, 2, 40, new { @class = "form-control custom-textarea" })
+                                @Html.ValidationMessageFor(model => model.DRUGS_PRESCRIBED_DESCRIPTION, "", new { @class = "error" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer ml-auto mr-auto">
+                    <button type="submit" class="btn btn-primary create-btn">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+jQuery(function () {
+    var regionsSelect = $('#EMPLOYEE_DEPARTMENT');
+    $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
+        if (regions != null && !jQuery.isEmptyObject(regions)) {
+            $.each(regions, function (index, region) {
+                regionsSelect.append($("<option></option>").val(this.Value).html(this.Text));
+            });
+        };
+        if (regionsSelect.length != 0) {
+            regionsSelect.selectpicker();
+        }
+    });
+});
+    </script>
+}

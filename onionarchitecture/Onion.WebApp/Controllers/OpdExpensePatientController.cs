@@ -20,8 +20,8 @@ namespace Onion.WebApp.Controllers
         }
         public ActionResult Index(int? id, String opdType)
         {
-            //if (Request.IsAuthenticated)
-            //{
+            if (Request.IsAuthenticated)
+            {
                 AuthenticateUser();
                 ViewData["OPDEXPENSE_ID"] = id;
 
@@ -45,22 +45,22 @@ namespace Onion.WebApp.Controllers
 
 
                 return View(opdExpense_Patient);
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
 
-            //}
+            }
 
         }
 
         [HttpPost]
         public JsonResult InsertOPDExpensePatient(OpdExpense_PatientVM opdExpense_Patient)
         {
+            opdExpense_Patient.CreatedDate = DateTime.Now;
+            OpdExpense_PatientVM OpdExpensePatient_Obj = _opdExpense_PatientService.CreateOpdExpense_Patient(opdExpense_Patient);
 
-            _opdExpense_PatientService.CreateOpdExpense_Patient(opdExpense_Patient);                  
-           
-            return Json(opdExpense_Patient);
+           return Json(OpdExpensePatient_Obj);
         }
 
         [HttpPost]
@@ -84,11 +84,11 @@ namespace Onion.WebApp.Controllers
 
         private void AuthenticateUser()
         {
-            //OFFICEAPIMANAGERController managerController = new OFFICEAPIMANAGERController();
+            OfficeManagerController managerController = new OfficeManagerController();
 
-            //ViewBag.RollType = managerController.AuthenticateUser();
+            ViewBag.RollType = managerController.AuthenticateUser();
 
-            //ViewBag.UserName = managerController.GetName();
+            ViewBag.UserName = managerController.GetName();
 
         }
 
