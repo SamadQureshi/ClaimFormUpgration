@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
-    public class OpdExpense_PatientVM
+    public class OpdExpensePatientVM
     {
         public int ID { get; set; }     
         public string NAME { get; set; }

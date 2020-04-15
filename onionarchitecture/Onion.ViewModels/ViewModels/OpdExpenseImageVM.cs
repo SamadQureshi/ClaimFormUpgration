@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Web;
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
-    public class OpdExpense_ImageVM
+    public class OpdExpenseImageVM
     {
         public int IMAGE_ID { get; set; }
 

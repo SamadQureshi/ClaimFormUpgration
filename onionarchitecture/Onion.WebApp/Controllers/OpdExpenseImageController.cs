@@ -14,11 +14,11 @@ namespace Onion.WebApp.Controllers
     {
         // GET: OPDEXPENSEIMAGE
 
-        private readonly IOpdExpense_ImageService _opdExpense_ImageService;
+        private readonly IOpdExpenseImageService _opdExpenseImageService;
 
-        public OpdExpenseImageController(IOpdExpense_ImageService opdExpenseImageService)
+        public OpdExpenseImageController(IOpdExpenseImageService opdExpenseImageService)
         {
-            _opdExpense_ImageService = opdExpenseImageService;
+            _opdExpenseImageService = opdExpenseImageService;
 
         }
 
@@ -35,9 +35,9 @@ namespace Onion.WebApp.Controllers
                 ViewData["OPDTYPE"] = opdType;
 
 
-                ImgViewModel model = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpense_ImageVM>() };
+                ImgViewModel model = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpenseImageVM>() };
 
-                model.ImgLst = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Convert.ToInt32(id));
+                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(id));
 
                 model.OPDExpense_ID = id;
                 return this.View(model);
@@ -89,7 +89,7 @@ namespace Onion.WebApp.Controllers
                     byte[] uploadedFile = new byte[model.FileAttach.InputStream.Length];
                     model.FileAttach.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
 
-                    OpdExpense_ImageVM opdExpense_Image = new OpdExpense_ImageVM();
+                    OpdExpenseImageVM opdExpense_Image = new OpdExpenseImageVM();
 
 
                 // Initialization.
@@ -100,10 +100,10 @@ namespace Onion.WebApp.Controllers
                     opdExpense_Image.IMAGE_NAME = model.FileAttach.FileName;
                     opdExpense_Image.NAME_EXPENSES = model.ExpenseName;
                     opdExpense_Image.EXPENSE_AMOUNT = model.ExpenseAmount;
-                    OpdExpense_ImageVM OpdExpensePatient_Obj = _opdExpense_ImageService.CreateOpdExpense_Image(opdExpense_Image);
+                    OpdExpenseImageVM OpdExpensePatient_Obj = _opdExpenseImageService.CreateOpdExpenseImage(opdExpense_Image);
                
                 //// Settings.
-                model.ImgLst = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpense_ID));
+                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpense_ID));
 
                 // Info
                 return this.View(model);
@@ -135,7 +135,7 @@ namespace Onion.WebApp.Controllers
             // try
             // {
             // Loading dile info.
-             var fileInfo = _opdExpense_ImageService.GetOpdExpensesImagesAgainstId(fileId); 
+             var fileInfo = _opdExpenseImageService.GetOpdExpensesImagesAgainstId(fileId); 
 
             // Info.
              return this.GetFile(fileInfo.IMAGE_BASE64, fileInfo.IMAGE_EXT);
@@ -161,7 +161,7 @@ namespace Onion.WebApp.Controllers
             {
                 AuthenticateUser();
 
-                _opdExpense_ImageService.DeleteOpdExpense_Image(id);
+                _opdExpenseImageService.DeleteOpdExpenseImage(id);
 
                 ViewData["OPDTYPE"] = opdType;
                 // Info.

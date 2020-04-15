@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Onion.Common.Enum;
+using Onion.Common.Constants;
 using Onion.Domain.Models;
 using Onion.Interfaces;
 using Onion.Interfaces.Services;
@@ -68,7 +68,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForHR()
         {            
              var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(e => e.STATUS == Helper.GeneralStatus.Submitted.ToString() || e.STATUS == Helper.GeneralStatus.HRApproved.ToString() || e.STATUS == Helper.GeneralStatus.HRRejected.ToString() || e.STATUS == Helper.GeneralStatus.HRInProcess.ToString())               
+                 .Where(e => e.STATUS == ClaimStatus.SUBMITTED || e.STATUS == ClaimStatus.HRAPPROVED || e.STATUS == ClaimStatus.HRREJECTED || e.STATUS == ClaimStatus.HRINPROCESS)               
                  .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -77,7 +77,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForFIN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.STATUS == Helper.GeneralStatus.HRApproved.ToString() || e.STATUS == Helper.GeneralStatus.FINApproved.ToString() || e.STATUS == Helper.GeneralStatus.FINRejected.ToString() || e.STATUS == Helper.GeneralStatus.FINInProcess.ToString())
+                .Where(e => e.STATUS == ClaimStatus.HRAPPROVED || e.STATUS == ClaimStatus.FINAPPROVED || e.STATUS == ClaimStatus.FINREJECTED || e.STATUS == ClaimStatus.FININPROCESS)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -86,7 +86,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForMAN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.STATUS == Helper.GeneralStatus.FINApproved.ToString() || e.STATUS == Helper.GeneralStatus.MANApproved.ToString() || e.STATUS == Helper.GeneralStatus.MANRejected.ToString() || e.STATUS == Helper.GeneralStatus.MANInProcess.ToString())
+                .Where(e => e.STATUS == ClaimStatus.FINAPPROVED || e.STATUS == ClaimStatus.MANINPROCESS || e.STATUS == ClaimStatus.MANAPPROVED || e.STATUS == ClaimStatus.MANREJECTED)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);

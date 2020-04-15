@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using TCO.TFM.WDMS.ViewModels.ViewModels;
 
-namespace Onion.WebApp.Models
+
+namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
     public class ImgViewModel
     {
@@ -21,7 +21,7 @@ namespace Onion.WebApp.Models
         /// <summary>
         /// Gets or sets Image file list.
         /// </summary>
-        public List<OpdExpense_ImageVM> ImgLst { get; set; }
+        public List<OpdExpenseImageVM> ImgLst { get; set; }
 
         public int OPDExpense_ID { get; set; }
 

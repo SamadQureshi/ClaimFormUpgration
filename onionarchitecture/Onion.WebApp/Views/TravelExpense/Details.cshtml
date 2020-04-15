@@ -1,4 +1,4 @@
-﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpenseMasterDetail
+﻿@model CO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
 
 @{
     ViewBag.Title = "Details";
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        @Html.Partial("_OPDPatientReceiptImagesView", Model)
+        @Html.Partial("_OPDTravelExpenseView", Model)
         <div class="col-md-12">
             @Html.ActionLink("Back to List", "Index")
         </div>

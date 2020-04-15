@@ -27,6 +27,9 @@ namespace Onion.Data
         public  IDbSet<OpdExpense_Image> OpdExpense_Image { get; set; }
         public  IDbSet<OpdExpense_Patient> OpdExpense_Patient { get; set; }
         public  IDbSet<RelationShip_Employee> RelationShip_Employee { get; set; }
+
+        public IDbSet<TravelExpense> TravelExpense { get; set; }
+
         public new IDbSet<T> Set<T>() where T : class
         {
             return base.Set<T>();

@@ -10,7 +10,6 @@ using System.Data.Entity;
 using Onion.Interfaces.Services;
 using Onion.WebApp.Models;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
-using Onion.Common.Enum;
 using Onion.Common.Constants;
 
 namespace Onion.WebApp.Controllers
@@ -21,10 +20,16 @@ namespace Onion.WebApp.Controllers
 
 
         private readonly IOpdExpenseService _opdExpenseService;
-        private readonly IOpdExpense_ImageService _opdExpense_ImageService;
-        private readonly IOpdExpense_PatientService _opdExpense_PatientService;
+        private readonly IOpdExpenseImageService _opdExpense_ImageService;
+        private readonly IOpdExpensePatientService _opdExpense_PatientService;
 
-        public HospitalExpenseController(IOpdExpenseService opdExpenseService, IOpdExpense_ImageService opdExpenseImageService, IOpdExpense_PatientService opdExpensePatientService)
+
+        private const string UrlIndex = "Index";
+        private const string UrlHome = "Home";
+        private const string UrlOpdExpense = "OpdExpense";
+
+
+        public HospitalExpenseController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpense_ImageService = opdExpenseImageService;
@@ -37,7 +42,7 @@ namespace Onion.WebApp.Controllers
         {
 
             //return View(db.OPDEXPENSEs.Where(e => e.OPDTYPE == "Hospital Expense").ToList());
-            return RedirectToAction("Index", "OpdExpense");
+            return RedirectToAction(UrlIndex, UrlOpdExpense);
 
 
         }
@@ -54,7 +59,7 @@ namespace Onion.WebApp.Controllers
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                     //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
@@ -65,7 +70,7 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
 
             }
@@ -91,7 +96,7 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -109,7 +114,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OPDEXPENSE_ID,EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,DATE_ILLNESS_NOTICED,DATE_RECOVERY,DIAGNOSIS,CLAIMANT_SUFFERED_ILLNESS,CLAIMANT_SUFFERED_ILLNESS_DATE,CLAIMANT_SUFFERED_ILLNESS_DETAILS,HOSPITAL_NAME,DOCTOR_NAME,PERIOD_CONFINEMENT_DATE_FROM,PERIOD_CONFINEMENT_DATE_TO,DRUGS_PRESCRIBED_BOOL,DRUGS_PRESCRIBED_DESCRIPTION,TOTAL_AMOUNT_CLAIMED,CLAIM_YEAR")] OpdExpenseVM opdExpense)
+        public ActionResult Create(OpdExpenseVM opdExpense)
         {
             try
             {
@@ -119,8 +124,8 @@ namespace Onion.WebApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    opdExpense.OPDTYPE = "Hospital Expense";
-                    opdExpense.STATUS = "InProcess";
+                    opdExpense.OPDTYPE = FormType.HospitalExpense;
+                    opdExpense.STATUS = ClaimStatus.INPROGRESS; 
                     opdExpense.CreatedDate = DateTime.Now;
                     opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
                     OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(opdExpense);
@@ -128,7 +133,7 @@ namespace Onion.WebApp.Controllers
                     return RedirectToAction("Edit", "HospitalExpense", new { id = OpdExpense_Obj.OPDEXPENSE_ID , opdType = opdExpense.OPDTYPE });
                 }
 
-                return RedirectToAction("Index", "OpdExpense"); 
+                return RedirectToAction(UrlIndex, UrlOpdExpense); 
             }
             catch (Exception ex)
             {
@@ -152,7 +157,7 @@ namespace Onion.WebApp.Controllers
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }                    
 
                     //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
@@ -164,7 +169,7 @@ namespace Onion.WebApp.Controllers
 
                     if (!AuthenticateEmailAddress(Convert.ToInt32(id)))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
 
@@ -174,7 +179,7 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -192,7 +197,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OPDEXPENSE_ID,EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,CLAIM_MONTH,TOTAL_AMOUNT_CLAIMED,HR_COMMENT,HR_APPROVAL,HR_APPROVAL_DATE,HR_NAME,FINANCE_COMMENT,FINANCE_APPROVAL,FINANCE_APPROVAL_DATE,FINANCE_NAME,MANAGEMENT_COMMENT,MANAGEMENT_APPROVAL,MANAGEMENT_APPROVAL_DATE,MANAGEMENT_NAME,DATE_ILLNESS_NOTICED,DATE_RECOVERY,DIAGNOSIS,CLAIMANT_SUFFERED_ILLNESS,CLAIMANT_SUFFERED_ILLNESS_DATE,CLAIMANT_SUFFERED_ILLNESS_DETAILS,HOSPITAL_NAME,DOCTOR_NAME,PERIOD_CONFINEMENT_DATE_FROM,PERIOD_CONFINEMENT_DATE_TO,DRUGS_PRESCRIBED_BOOL,DRUGS_PRESCRIBED_DESCRIPTION,OPDTYPE,STATUS,CLAIM_YEAR,CREATED_DATE,CLAIMANT_SUFFERED_ILLNESS_DATE,CLAIMANT_SUFFERED_ILLNESS_DETAILS,DRUGS_PRESCRIBED_DESCRIPTION")] OpdExpenseVM opdExpense)
+        public ActionResult Edit(OpdExpenseVM opdExpense)
         {
 
             try
@@ -206,15 +211,15 @@ namespace Onion.WebApp.Controllers
 
                 if (buttonStatus == "submit")
                 {
-                    opdExpense.STATUS = Helper.GeneralStatus.Submitted.ToString(); ;
+                    opdExpense.STATUS = ClaimStatus.SUBMITTED;
                 }
                 else
                 {
-                    opdExpense.STATUS = Helper.GeneralStatus.InProcess.ToString();
+                    opdExpense.STATUS = ClaimStatus.INPROGRESS;
                 }
 
 
-                if (opdExpense.STATUS == Helper.GeneralStatus.Submitted.ToString())
+                if (opdExpense.STATUS == ClaimStatus.SUBMITTED)
                 {
                     if (hospitalInformation.ListOPDEXPENSEPATIENT.Count > 0)
                     {
@@ -227,7 +232,7 @@ namespace Onion.WebApp.Controllers
                                     opdExpense.ModifiedDate = DateTime.Now;
                                     opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
                                     _opdExpenseService.UpdateOpdExpense(opdExpense);
-                                    return RedirectToAction("Index", "OpdExpense");
+                                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                                 }
 
                             }
@@ -259,7 +264,7 @@ namespace Onion.WebApp.Controllers
                         opdExpense.ModifiedDate = DateTime.Now;
                         opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(opdExpense);                        
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
                 }
 
@@ -286,21 +291,21 @@ namespace Onion.WebApp.Controllers
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                     _opdExpenseService.DeleteOpdExpense(id); 
 
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
 
             }
@@ -326,7 +331,7 @@ namespace Onion.WebApp.Controllers
                     AuthenticateUser();
                     if (id == 0)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                     else
@@ -334,11 +339,11 @@ namespace Onion.WebApp.Controllers
                         _opdExpenseService.DeleteOpdExpense(id);
                     }
 
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
 
 
@@ -439,18 +444,18 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        private HospitalExpense_MasterDetail GetHospitalExpense(int Id)
+        private HospitalExpenseMasterDetail GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HospitalExpense_MasterDetail()
+            var hospitalInformation = new HospitalExpenseMasterDetail()
             {
 
                 
-                ListOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpenses_PatientAgainstOpdExpenseId(Id),
-                ListOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
 
                
                 OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
@@ -499,7 +504,7 @@ namespace Onion.WebApp.Controllers
 
             for (int count = 0; count <= hospitalInformation.ListOPDEXPENSEIMAGE.Count - 1; count++)
             {
-                totalAmount = totalAmount + hospitalInformation.ListOPDEXPENSEIMAGE[count].EXPENSE_AMOUNT;
+                totalAmount+=  hospitalInformation.ListOPDEXPENSEIMAGE[count].EXPENSE_AMOUNT;
 
             }
 

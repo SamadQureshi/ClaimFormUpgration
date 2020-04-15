@@ -10,7 +10,6 @@ using Onion.Interfaces.Services;
 using Onion.WebApp.Models;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.WebApp.Controllers;
-using Onion.Common.Enum;
 using Onion.Common.Constants;
 
 namespace OPDCLAIMFORM.Controllers
@@ -20,15 +19,19 @@ namespace OPDCLAIMFORM.Controllers
         //private readonly MedicalInfoEntities db = new MedicalInfoEntities();
         //private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IOpdExpenseService _opdExpenseService;
-        private readonly IOpdExpense_ImageService _opdExpense_ImageService;
-        private readonly IOpdExpense_PatientService _opdExpense_PatientService;
+        private readonly IOpdExpenseImageService _opdExpenseImageService;
+        private readonly IOpdExpensePatientService _opdExpensePatientService;
 
 
-        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpense_ImageService opdExpenseImageService, IOpdExpense_PatientService opdExpensePatientService)
+        private const string UrlIndex = "Index";
+        private const string UrlHome = "Home";
+        private const string UrlManApproval = "ManApproval";
+
+        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
         {
             _opdExpenseService = opdExpenseService;
-            _opdExpense_ImageService = opdExpenseImageService;
-            _opdExpense_PatientService = opdExpensePatientService;
+            _opdExpenseImageService = opdExpenseImageService;
+            _opdExpensePatientService = opdExpensePatientService;
 
         }
 
@@ -43,84 +46,18 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
-                    //ViewBag.CurrentSort = sortOrder;
-                    //ViewBag.EmployeeNameSortParm = String.IsNullOrEmpty(sortOrder) ? "EmployeeName_desc" : "";
-                    //ViewBag.ClaimForMonthSortParm = String.IsNullOrEmpty(sortOrder) ? "ClaimForMonth_desc" : "";
-                    //ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "Status_desc" : "";
-                    //ViewBag.OPDTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "OPDType_desc" : "";
-                    //ViewBag.ExpenseNumberSortParm = String.IsNullOrEmpty(sortOrder) ? "ExpenseNumber_desc" : "";
-                    //if (searchString != null)
-                    //{
-                    //    page = 1;
-                    //}
-                    //else
-                    //{
-                    //    searchString = currentFilter;
-                    //}
-                    //ViewBag.CurrentFilter = searchString;
+                    AuthenticateUser();                   
 
-                    string emailAddress = GetEmailAddress();
-                    //&& e.MANAGEMENT_EMAILADDRESS == emailAddress
+                    string emailAddress = GetEmailAddress();                   
 
-                    var opdExp = _opdExpenseService.GetOpdExpensesForFIN();
-                    //if (!String.IsNullOrEmpty(searchString))
-                    //{
-                    //    opdExp = opdExp.Where(s => s.EXPENSE_NUMBER.Contains(searchString));
-                    //}
-                    //switch (sortOrder)
-                    //{
-                    //    case "EmployeeName_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.EMPLOYEE_NAME);
-                    //        ViewBag.EmployeeNameSortParm = "EmployeeName_asc";
-                    //        break;
-                    //    case "ClaimForMonth_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.CLAIM_MONTH);
-                    //        ViewBag.ClaimForMonthSortParm = "ClaimForMonth_asc";
-                    //        break;
-                    //    case "Status_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.STATUS);
-                    //        ViewBag.StatusSortParm = "Status_asc";
-                    //        break;
-                    //    case "OPDType_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.OPDTYPE);
-                    //        ViewBag.OPDTypeSortParm = "OPDType_asc";
-                    //        break;
-                    //    case "ExpenseNumber_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.EXPENSE_NUMBER);
-                    //        ViewBag.ExpenseNumberSortParm = "ExpenseNumber_asc";
-                    //        break;
-                    //    case "EmployeeName_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.EMPLOYEE_NAME);
-                    //        break;
-                    //    case "ClaimForMonth_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.CLAIM_MONTH);
-                    //        break;
-                    //    case "Status_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.STATUS);
-                    //        break;
-                    //    case "OPDType_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.OPDTYPE);
-                    //        break;
-                    //    case "ExpenseNumber_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.EXPENSE_NUMBER);
-                    //        break;
-                    //    default:  // Name ascending 
-                    //        opdExp = opdExp.OrderBy(s => s.EXPENSE_NUMBER);
-                    //        break;
-                    //}
-
-                    //int pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["PageSize"]);
-                    //int pageNumber = (page ?? 1);
-                    //return View(opdExp.ToPagedList(pageNumber, pageSize));
-
+                    var opdExp = _opdExpenseService.GetOpdExpensesForFIN();                  
+                 
                     return View(opdExp);
 
-                    // return View(db.OPDEXPENSEs.Where(e => e.STATUS == "FINApproved" || e.STATUS == "MANApproved" || e.STATUS == "MANRejected").ToList());
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(UrlIndex, UrlHome);
 
                 }
 
@@ -146,12 +83,12 @@ namespace OPDCLAIMFORM.Controllers
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "ManAPPROVAL");
+                        return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
                     var result2 = GetOPDExpense(Convert.ToInt32(id));
@@ -159,7 +96,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "ManAPPROVAL");
+                    return RedirectToAction(UrlIndex, UrlManApproval);
                 }
             }
             catch (Exception ex)
@@ -184,12 +121,12 @@ namespace OPDCLAIMFORM.Controllers
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "FinAPPROVAL");
+                        return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
                     var result2 = GetHOSExpense(Convert.ToInt32(id));
@@ -198,7 +135,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "FinAPPROVAL");
+                    return RedirectToAction(UrlIndex, UrlManApproval);
                 }
             }
             catch (Exception ex)
@@ -223,12 +160,12 @@ namespace OPDCLAIMFORM.Controllers
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "ManAPPROVAL");
+                        return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
 
@@ -239,7 +176,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "ManAPPROVAL");
+                    return RedirectToAction(UrlIndex, UrlManApproval);
                 }
 
             }
@@ -257,7 +194,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MANOPDExpense([Bind(Include = "OPDEXPENSE_ID,EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,CLAIM_MONTH,CLAIM_YEAR,TOTAL_AMOUNT_CLAIMED,STATUS,OPDTYPE,HR_COMMENT,HR_APPROVAL_DATE,HR_APPROVAL,HR_NAME,FINANCE_COMMENT,FINANCE_APPROVAL,FINANCE_APPROVAL_DATE,FINANCE_NAME,MANAGEMENT_COMMENT,MANAGEMENT_APPROVAL,MANAGEMENT_APPROVAL_DATE,MANAGEMENT_NAME,TOTAL_AMOUNT_APPROVED,MODIFIED_DATE,EMPLOYEE_EMAILADDRESS,FINANCE_EMAILADDRESS,HR_EMAILADDRESS,MANAGEMENT_EMAILADDRESS,CREATED_DATE")] OpdExpenseVM oPDEXPENSE)
+        public ActionResult MANOPDExpense( OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -266,7 +203,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANApproved.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANAPPROVED;
 
                     if (oPDEXPENSE.TOTAL_AMOUNT_APPROVED.ToString() == "")
                     {
@@ -277,7 +214,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANRejected.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANREJECTED;
 
                     if (oPDEXPENSE.HR_COMMENT == null)
                     {
@@ -286,7 +223,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANInProcess.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANINPROCESS;
                 }
 
                 if (ModelState.IsValid)
@@ -294,7 +231,7 @@ namespace OPDCLAIMFORM.Controllers
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.MANAGEMENT_APPROVAL_DATE = DateTime.Now;
                     oPDEXPENSE.MANAGEMENT_EMAILADDRESS = GetEmailAddress();
-                    if (oPDEXPENSE.STATUS == Helper.GeneralStatus.MANApproved.ToString())
+                    if (oPDEXPENSE.STATUS == ClaimStatus.MANAPPROVED)
                     {
                         oPDEXPENSE.HR_APPROVAL = true;
                         oPDEXPENSE.FINANCE_APPROVAL = true;
@@ -305,7 +242,7 @@ namespace OPDCLAIMFORM.Controllers
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
 
                 }
-                return RedirectToAction("Index", "MANAPPROVAL");
+                return RedirectToAction(UrlIndex, UrlManApproval);
 
             }
             catch (Exception ex)
@@ -333,12 +270,12 @@ namespace OPDCLAIMFORM.Controllers
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "ManAPPROVAL");
+                        return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
                     //MedicalInfoEntities entities = new MedicalInfoEntities();
@@ -352,7 +289,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "ManAPPROVAL");
+                    return RedirectToAction(UrlIndex, UrlManApproval);
                 }
 
             }
@@ -371,7 +308,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MANHospitalExpense([Bind(Include = "OPDEXPENSE_ID,EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,CLAIM_MONTH,TOTAL_AMOUNT_CLAIMED,DATE_ILLNESS_NOTICED,DATE_RECOVERY,DIAGNOSIS,CLAIMANT_SUFFERED_ILLNESS,CLAIMANT_SUFFERED_ILLNESS_DATE,CLAIMANT_SUFFERED_ILLNESS_DETAILS,HOSPITAL_NAME,DOCTOR_NAME,PERIOD_CONFINEMENT_DATE_FROM,PERIOD_CONFINEMENT_DATE_TO,DRUGS_PRESCRIBED_BOOL,DRUGS_PRESCRIBED_DESCRIPTION,OPDTYPE,STATUS,HR_COMMENT,HR_APPROVAL,HR_APPROVAL_DATE,HR_NAME,FINANCE_COMMENT,FINANCE_APPROVAL,FINANCE_APPROVAL_DATE,FINANCE_NAME,MANAGEMENT_COMMENT,MANAGEMENT_APPROVAL,MANAGEMENT_APPROVAL_DATE,MANAGEMENT_NAME,CLAIM_YEAR,TOTAL_AMOUNT_APPROVED,MODIFIED_DATE,EMPLOYEE_EMAILADDRESS,FINANCE_EMAILADDRESS,HR_EMAILADDRESS,MANAGEMENT_EMAILADDRESS,CREATED_DATE")] OpdExpenseVM oPDEXPENSE)
+        public ActionResult MANHospitalExpense(OpdExpenseVM oPDEXPENSE)
         {
 
             try
@@ -380,7 +317,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANApproved.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANAPPROVED;
 
                     if (oPDEXPENSE.TOTAL_AMOUNT_APPROVED.ToString() == "")
                     {
@@ -391,7 +328,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANRejected.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANREJECTED;
 
                     if (oPDEXPENSE.HR_COMMENT == null)
                     {
@@ -400,7 +337,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else
                 {
-                    oPDEXPENSE.STATUS = Helper.GeneralStatus.MANInProcess.ToString();
+                    oPDEXPENSE.STATUS = ClaimStatus.MANINPROCESS;
                 }
 
                 if (ModelState.IsValid)
@@ -408,7 +345,7 @@ namespace OPDCLAIMFORM.Controllers
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.MANAGEMENT_APPROVAL_DATE = DateTime.Now;
                     oPDEXPENSE.MANAGEMENT_EMAILADDRESS = GetEmailAddress();
-                    if (oPDEXPENSE.STATUS == Helper.GeneralStatus.MANApproved.ToString())
+                    if (oPDEXPENSE.STATUS == ClaimStatus.MANAPPROVED)
                     {
                         oPDEXPENSE.HR_APPROVAL = true;
                         oPDEXPENSE.FINANCE_APPROVAL = true;
@@ -417,7 +354,7 @@ namespace OPDCLAIMFORM.Controllers
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                 }
-                return RedirectToAction("Index", "MANAPPROVAL");
+                return RedirectToAction(UrlIndex, UrlManApproval);
 
             }
             catch (Exception ex)
@@ -463,36 +400,70 @@ namespace OPDCLAIMFORM.Controllers
             return file;
         }
 
-       
+
 
 
         #endregion
 
-
-        private OpdExpense_MasterDetail GetOPDExpense(int Id)
+        private OpdExpenseMasterDetail GetOPDExpense(int Id)
         {
-            // MedicalInfoEntities entities = new MedicalInfoEntities();
-            var result2 = new OpdExpense_MasterDetail()
+            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
+
+            var opdInformation = new OpdExpenseMasterDetail()
             {
-                opdEXPENSE = _opdExpenseService.GetOpdExpensesAgainstId(Id),
-                listOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpenses_PatientAgainstOpdExpenseId(Id),
-                listOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Id),
+
+                ListOPDEXPENSEPATIENT = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEIMAGE = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
+
+                OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
+                CLAIMANT_SUFFERED_ILLNESS = opdExpense.CLAIMANT_SUFFERED_ILLNESS,
+                CLAIMANT_SUFFERED_ILLNESS_DETAILS = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DETAILS,
+                CLAIMANT_SUFFERED_ILLNESS_DATE = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DATE,
+                DATE_ILLNESS_NOTICED = opdExpense.DATE_ILLNESS_NOTICED,
+                DATE_RECOVERY = opdExpense.DATE_RECOVERY,
+                DIAGNOSIS = opdExpense.DIAGNOSIS,
+                DOCTOR_NAME = opdExpense.DOCTOR_NAME,
+                DRUGS_PRESCRIBED_BOOL = opdExpense.DRUGS_PRESCRIBED_BOOL,
+                DRUGS_PRESCRIBED_DESCRIPTION = opdExpense.DRUGS_PRESCRIBED_DESCRIPTION,
+                EMPLOYEE_DEPARTMENT = opdExpense.EMPLOYEE_DEPARTMENT,
+                EMPLOYEE_NAME = opdExpense.EMPLOYEE_NAME,
+                EMPLOYEE_EMAILADDRESS = opdExpense.EMPLOYEE_EMAILADDRESS,
+                FINANCE_APPROVAL = opdExpense.FINANCE_APPROVAL,
+                FINANCE_COMMENT = opdExpense.FINANCE_COMMENT,
+                FINANCE_NAME = opdExpense.FINANCE_NAME,
+                HOSPITAL_NAME = opdExpense.HOSPITAL_NAME,
+                HR_APPROVAL = opdExpense.HR_APPROVAL,
+                HR_COMMENT = opdExpense.HR_COMMENT,
+                HR_NAME = opdExpense.HR_NAME,
+                MANAGEMENT_APPROVAL = opdExpense.MANAGEMENT_APPROVAL,
+                MANAGEMENT_COMMENT = opdExpense.MANAGEMENT_COMMENT,
+                MANAGEMENT_NAME = opdExpense.MANAGEMENT_NAME,
+                PERIOD_CONFINEMENT_DATE_FROM = opdExpense.PERIOD_CONFINEMENT_DATE_FROM,
+                PERIOD_CONFINEMENT_DATE_TO = opdExpense.PERIOD_CONFINEMENT_DATE_TO,
+                STATUS = opdExpense.STATUS,
+                OPDTYPE = opdExpense.OPDTYPE,
+                TOTAL_AMOUNT_CLAIMED = opdExpense.TOTAL_AMOUNT_CLAIMED,
+                CLAIM_YEAR = opdExpense.CLAIM_YEAR,
+                CREATED_DATE = opdExpense.CreatedDate,
+                MODIFIED_DATE = opdExpense.ModifiedDate
 
             };
-            return result2;
-        }
 
-        private HospitalExpense_MasterDetail GetHOSExpense(int Id)
+            return opdInformation;
+
+
+        }
+        private HospitalExpenseMasterDetail GetHOSExpense(int Id)
         {
             
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var hospitalInformation = new HospitalExpense_MasterDetail()
+            var hospitalInformation = new HospitalExpenseMasterDetail()
             {
 
 
-                ListOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpenses_PatientAgainstOpdExpenseId(Id),
-                ListOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEPATIENT = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEIMAGE = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
 
 
                 OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
@@ -540,7 +511,7 @@ namespace OPDCLAIMFORM.Controllers
 
             string currentEmailAddress = managerController.GetEmailAddress();
 
-            if (currentEmailAddress.Equals(opdInformation.opdEXPENSE.EMPLOYEE_EMAILADDRESS))
+            if (currentEmailAddress.Equals(opdInformation.EMPLOYEE_EMAILADDRESS))
 
                 return true;
             else

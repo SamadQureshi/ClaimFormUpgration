@@ -1,0 +1,104 @@
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+                <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">TRAVEL EXPENSE INFORMATION</h4>
+        </div>
+        <div class="card-body">
+            <div class="toolbar">
+                <!--        Here you can write extra buttons/actions for the toolbar              -->
+                @Html.ActionLink("Add Expense Information", "Index", "TravelExpense", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"]  }, null)
+            </div>
+            @if (Model.ListTravelExpense != null && Model.ListTravelExpense.Count > 0)
+            {
+            <div class="material-datatables">
+                <table class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Sr.</th>
+                            <th>Expense Type</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th style="width:150px">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseVM travelExpense in Model.ListTravelExpense)
+                        {
+                        <tr>
+                            <td class="ID">
+                                <span>@travelExpense.ID</span>
+                            </td>
+                            <td class="Expense Type">
+                                <span>@travelExpense.ExpenseType</span>
+                                <select id="expenseType" style="display:none">
+                                    <option value="SELF">SELF</option>
+                                    <option value="FATHER">FATHER</option>
+                                    <option value="MOTHER">MOTHER</option>
+                                    <option value="SPOUSE">SPOUSE</option>
+                                    <option value="DAUGHTER">DAUGHTER</option>
+                                    <option value="SON">SON</option>
+                                </select>
+                            </td>
+                            <td class="Amount">
+                                <span>@travelExpense.Amount</span>
+                                <input type="text" value="@travelExpense.Amount" style="display:none" />
+                            </td>
+
+                            <td class="Description">
+                                <span>@travelExpense.Description</span>
+                                <input type="text" value="@travelExpense.Description" style="display:none" multiple />
+                            </td>
+                            <td>
+                                <a href="javascript:;" onclick="return DeleteTravelExpense(@travelExpense.ID , this)" class="Delete btn btn-link btn-danger delete-btn btn-just-icon remove"><i class="material-icons">close</i></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+            else
+            {
+            <p>No Record Found</p>
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //Delete event handler For OPD Expense Patient.
+    function DeleteTravelExpense(ID, _this) {
+        swal({
+            title: 'Are you sure?',
+            text: "Do you want to delete this row?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "/TravelExpense/DeleteTravelExpense",
+                    data: '{ID: ' + ID + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $(_this).closest('tr').remove();
+                    },
+                    error: function (data) {
+                        $(_this).closest('tr').remove();
+                    }
+                });
+            }
+        });
+    };
+  
+</script>

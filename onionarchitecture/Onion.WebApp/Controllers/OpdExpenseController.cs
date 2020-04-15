@@ -4,7 +4,6 @@ using System.Net;
 using Onion.Interfaces.Services;
 using Onion.WebApp.Models;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
-using Onion.Common.Enum;
 using Onion.Common.Constants;
 
 namespace Onion.WebApp.Controllers
@@ -13,114 +12,48 @@ namespace Onion.WebApp.Controllers
     {
 
         private readonly IOpdExpenseService _opdExpenseService;
-        private readonly IOpdExpense_ImageService _opdExpense_ImageService;
-        private readonly IOpdExpense_PatientService _opdExpense_PatientService;
+        private readonly IOpdExpenseImageService _opdExpenseImageService;
+        private readonly IOpdExpensePatientService _opdExpensePatientService;
 
-        public OpdExpenseController(IOpdExpenseService opdExpenseService, IOpdExpense_ImageService opdExpenseImageService, IOpdExpense_PatientService opdExpensePatientService)
+        private const string UrlIndex = "Index";
+        private const string UrlHome = "Home";
+        private const string UrlOpdExpense = "OpdExpense";
+        private const string UrlTravelExpense = "TravelExpense";
+
+        public OpdExpenseController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
         {
             _opdExpenseService = opdExpenseService;
-            _opdExpense_ImageService = opdExpenseImageService;
-            _opdExpense_PatientService = opdExpensePatientService;
+            _opdExpenseImageService = opdExpenseImageService;
+            _opdExpensePatientService = opdExpensePatientService;
 
         }
 
 
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index()
         {
             try
             {
                 if (Request.IsAuthenticated)
                 {
 
-                    AuthenticateUser();
-
-                    //ViewBag.CurrentSort = sortOrder;
-                    //ViewBag.EmployeeNameSortParm = String.IsNullOrEmpty(sortOrder) ? "EmployeeName_desc" : "";
-                    //ViewBag.ClaimForMonthSortParm = String.IsNullOrEmpty(sortOrder) ? "ClaimForMonth_desc" : "";
-                    //ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "Status_desc" : "";
-                    //ViewBag.OPDTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "OPDType_desc" : "";
-                    //ViewBag.ExpenseNumberSortParm = String.IsNullOrEmpty(sortOrder) ? "ExpenseNumber_desc" : "";
-
-                    //if (searchString != null)
-                    //{
-                    //    page = 1;
-                    //}
-                    //else
-                    //{
-                    //    searchString = currentFilter;
-                    //}
-
-                    //ViewBag.CurrentFilter = searchString;
+                    AuthenticateUser();               
 
                     string emailAddress = GetEmailAddress();
                     
                     var opdExp = _opdExpenseService.GetOpdExpensesAgainstEmailAddress(emailAddress);
 
-                    //if (!String.IsNullOrEmpty(searchString))
-                    //{
-                    //    opdExp = opdExp.Where(s => s.EXPENSE_NUMBER.Contains(searchString));
-                    //}
-                    //switch (sortOrder)
-                    //{
-                    //    case "EmployeeName_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.EMPLOYEE_NAME);
-                    //        ViewBag.EmployeeNameSortParm = "EmployeeName_asc";
-                    //        break;
-                    //    case "ClaimForMonth_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.CLAIM_MONTH);
-                    //        ViewBag.ClaimForMonthSortParm = "ClaimForMonth_asc";
-                    //        break;
-                    //    case "Status_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.STATUS);
-                    //        ViewBag.StatusSortParm = "Status_asc";
-                    //        break;
-                    //    case "OPDType_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.OPDTYPE);
-                    //        ViewBag.OPDTypeSortParm = "OPDType_asc";
-                    //        break;
-                    //    case "ExpenseNumber_desc":
-                    //        opdExp = opdExp.OrderBy(s => s.EXPENSE_NUMBER);
-                    //        ViewBag.ExpenseNumberSortParm = "ExpenseNumber_asc";
-                    //        break;
-
-                    //    case "EmployeeName_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.EMPLOYEE_NAME);
-                    //        break;
-                    //    case "ClaimForMonth_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.CLAIM_MONTH);
-                    //        break;
-                    //    case "Status_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.STATUS);
-                    //        break;
-                    //    case "OPDType_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.OPDTYPE);
-                    //        break;
-                    //    case "ExpenseNumber_asc":
-                    //        opdExp = opdExp.OrderByDescending(s => s.EXPENSE_NUMBER);
-                    //        break;
-                    //    default:  // Name ascending 
-                    //        opdExp = opdExp.OrderBy(s => s.EXPENSE_NUMBER);
-                    //        break;
-                    //}
-
-                    //int pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["PageSize"]);
-                    //int pageNumber = (page ?? 1);
-                    //return View(opdExp.ToPagedList(pageNumber, pageSize));
-
                     return View(opdExp);
-
-                    // return View(db.OPDEXPENSEs.ToList());
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(UrlIndex, UrlHome);
 
                 }
             }
             catch (Exception ex)
             {
 
-                //logger.Error("OPD Expense : Index()" + ex.Message.ToString());
+                //logger.Error("OPD Expense : UrlIndex()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -140,7 +73,7 @@ namespace Onion.WebApp.Controllers
 
                     if (id == null)
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
 
 
@@ -150,21 +83,21 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Details()", "OpdExpense");
+                    return RedirectToAction("Details()", UrlOpdExpense);
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                
                 //logger.Error("OPD Expense : Details" + ex.Message.ToString());
 
-                //return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
         }
 
 
 
-        public ActionResult Create()
+        public ActionResult Create(string opdType)
         {
             try
             {
@@ -175,7 +108,7 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -193,15 +126,15 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,CLAIM_MONTH,TOTAL_AMOUNT_CLAIMED,CLAIM_YEAR")] OpdExpenseVM OpdExpense)
+        public ActionResult Create(OpdExpenseVM OpdExpense)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                   
-                    OpdExpense.OPDTYPE = "OPD Expense";
-                    OpdExpense.STATUS = "InProcess";
+                   // OpdExpense.OPDTYPE = FormType.OPDExpense;
+                    OpdExpense.STATUS = ClaimStatus.INPROGRESS;
                     OpdExpense.CreatedDate = DateTime.Now;
                     OpdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
 
@@ -210,8 +143,10 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDEXPENSE_ID"] = OpdExpense_Obj.OPDEXPENSE_ID;
                     ViewData["OPDTYPE"] = OpdExpense.OPDTYPE;
 
-                    return RedirectToAction("Edit", "OPDExpense", new { id = OpdExpense_Obj.OPDEXPENSE_ID });
-
+                    if(OpdExpense.OPDTYPE == FormType.OPDExpense)
+                    return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.OPDEXPENSE_ID , opdType = FormType.OPDExpense });
+                    else if (OpdExpense.OPDTYPE == FormType.TravelExpense)
+                    return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.OPDEXPENSE_ID, opdType = FormType.TravelExpense });
                 }
                 return View(OpdExpense);
             }
@@ -225,7 +160,7 @@ namespace Onion.WebApp.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id , string opdType)
         {
             try
             {
@@ -234,17 +169,17 @@ namespace Onion.WebApp.Controllers
                     AuthenticateUser();
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                     var opdInformation = GetOPDExpense(Convert.ToInt32(id));
                     ViewData["OPDEXPENSE_ID"] = id;
-                    ViewData["OPDTYPE"] = opdInformation.opdEXPENSE.OPDTYPE;
+                    ViewData["OPDTYPE"] = opdInformation.OPDTYPE;
 
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
 
@@ -255,7 +190,7 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -272,7 +207,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OPDEXPENSE_ID,EMPLOYEE_NAME,EMPLOYEE_DEPARTMENT,CLAIM_MONTH,CLAIM_YEAR,TOTAL_AMOUNT_CLAIMED,STATUS,OPDTYPE,CREATED_DATE")] OpdExpenseVM OpdExpense)
+        public ActionResult Edit(OpdExpenseVM OpdExpense)
         {
             try
             {
@@ -284,22 +219,20 @@ namespace Onion.WebApp.Controllers
                 ViewData["OPDTYPE"] = OpdExpense.OPDTYPE;
                 if (buttonStatus == "submit")
                 {
-                    OpdExpense.STATUS = Helper.GeneralStatus.Submitted.ToString();
+                    OpdExpense.STATUS = ClaimStatus.SUBMITTED;
                 }
                 else
                 {
-                    OpdExpense.STATUS = Helper.GeneralStatus.InProcess.ToString();
+                    OpdExpense.STATUS = ClaimStatus.INPROGRESS;
                 }
 
 
-                if (OpdExpense.STATUS == Helper.GeneralStatus.Submitted.ToString())
+                if (OpdExpense.STATUS == ClaimStatus.SUBMITTED)
                 {
 
-
-
-                    if (opdInformation.listOPDEXPENSEPATIENT.Count > 0)
+                    if (opdInformation.ListOPDEXPENSEPATIENT.Count > 0)
                     {
-                        if (opdInformation.listOPDEXPENSEIMAGE.Count > 0)
+                        if (opdInformation.ListOPDEXPENSEIMAGE.Count > 0)
                         {
 
                             if (GetOPDExpenseAmount(OpdExpense.OPDEXPENSE_ID, OpdExpense.TOTAL_AMOUNT_CLAIMED))
@@ -309,7 +242,7 @@ namespace Onion.WebApp.Controllers
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
                                     _opdExpenseService.UpdateOpdExpense(OpdExpense);
-                                    return RedirectToAction("Index");
+                                    return RedirectToAction(UrlIndex);
                                 }
 
                             }
@@ -318,8 +251,6 @@ namespace Onion.WebApp.Controllers
                                 ModelState.AddModelError("", Constants.MSG_GENERAL_OPD_EXPENSE_AMOUNT);
                                 return View(opdInformation);
                             }
-
-
 
                         }
                         else
@@ -342,7 +273,7 @@ namespace Onion.WebApp.Controllers
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
-                        return RedirectToAction("Index");
+                        return RedirectToAction(UrlIndex);
                     }
 
                 }
@@ -370,21 +301,21 @@ namespace Onion.WebApp.Controllers
                     AuthenticateUser();
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction(UrlIndex, UrlHome);
                     }
 
                     if (id == null)
                     {
-                        return RedirectToAction("Index", "OpdExpense");
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                      _opdExpenseService.DeleteOpdExpense(id);
 
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -411,7 +342,7 @@ namespace Onion.WebApp.Controllers
                     AuthenticateUser();
                 if (id == 0)
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
 
                 else
@@ -419,11 +350,11 @@ namespace Onion.WebApp.Controllers
                     _opdExpenseService.DeleteOpdExpense(id);
                 }
 
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "OpdExpense");
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
             }
             catch (Exception ex)
@@ -439,13 +370,47 @@ namespace Onion.WebApp.Controllers
 
 
 
-        private OpdExpense_MasterDetail GetOPDExpense(int Id)
+        private OpdExpenseMasterDetail GetOPDExpense(int Id)
         {
-            var opdInformation = new OpdExpense_MasterDetail()
+            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
+
+            var opdInformation = new OpdExpenseMasterDetail()
             {
-                opdEXPENSE = _opdExpenseService.GetOpdExpensesAgainstId(Id),
-                listOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpenses_PatientAgainstOpdExpenseId(Id),
-                listOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpenses_ImageAgainstOpdExpenseId(Id),
+               
+                ListOPDEXPENSEPATIENT = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                ListOPDEXPENSEIMAGE = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
+
+                OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
+                CLAIMANT_SUFFERED_ILLNESS = opdExpense.CLAIMANT_SUFFERED_ILLNESS,
+                CLAIMANT_SUFFERED_ILLNESS_DETAILS = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DETAILS,
+                CLAIMANT_SUFFERED_ILLNESS_DATE = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DATE,
+                DATE_ILLNESS_NOTICED = opdExpense.DATE_ILLNESS_NOTICED,
+                DATE_RECOVERY = opdExpense.DATE_RECOVERY,
+                DIAGNOSIS = opdExpense.DIAGNOSIS,
+                DOCTOR_NAME = opdExpense.DOCTOR_NAME,
+                DRUGS_PRESCRIBED_BOOL = opdExpense.DRUGS_PRESCRIBED_BOOL,
+                DRUGS_PRESCRIBED_DESCRIPTION = opdExpense.DRUGS_PRESCRIBED_DESCRIPTION,
+                EMPLOYEE_DEPARTMENT = opdExpense.EMPLOYEE_DEPARTMENT,
+                EMPLOYEE_NAME = opdExpense.EMPLOYEE_NAME,
+                EMPLOYEE_EMAILADDRESS = opdExpense.EMPLOYEE_EMAILADDRESS,
+                FINANCE_APPROVAL = opdExpense.FINANCE_APPROVAL,
+                FINANCE_COMMENT = opdExpense.FINANCE_COMMENT,
+                FINANCE_NAME = opdExpense.FINANCE_NAME,
+                HOSPITAL_NAME = opdExpense.HOSPITAL_NAME,
+                HR_APPROVAL = opdExpense.HR_APPROVAL,
+                HR_COMMENT = opdExpense.HR_COMMENT,
+                HR_NAME = opdExpense.HR_NAME,
+                MANAGEMENT_APPROVAL = opdExpense.MANAGEMENT_APPROVAL,
+                MANAGEMENT_COMMENT = opdExpense.MANAGEMENT_COMMENT,
+                MANAGEMENT_NAME = opdExpense.MANAGEMENT_NAME,
+                PERIOD_CONFINEMENT_DATE_FROM = opdExpense.PERIOD_CONFINEMENT_DATE_FROM,
+                PERIOD_CONFINEMENT_DATE_TO = opdExpense.PERIOD_CONFINEMENT_DATE_TO,
+                STATUS = opdExpense.STATUS,
+                OPDTYPE = opdExpense.OPDTYPE,
+                TOTAL_AMOUNT_CLAIMED = opdExpense.TOTAL_AMOUNT_CLAIMED,
+                CLAIM_YEAR = opdExpense.CLAIM_YEAR,
+                CREATED_DATE = opdExpense.CreatedDate,
+                MODIFIED_DATE = opdExpense.ModifiedDate
 
             };
 
@@ -460,9 +425,9 @@ namespace Onion.WebApp.Controllers
 
             decimal? totalAmount = 0;
 
-            for (int count = 0; count <= opdInformation.listOPDEXPENSEIMAGE.Count - 1; count++)
+            for (int count = 0; count <= opdInformation.ListOPDEXPENSEIMAGE.Count - 1; count++)
             {
-                totalAmount += opdInformation.listOPDEXPENSEIMAGE[count].EXPENSE_AMOUNT;
+                totalAmount += opdInformation.ListOPDEXPENSEIMAGE[count].EXPENSE_AMOUNT;
 
             }
 
@@ -503,7 +468,7 @@ namespace Onion.WebApp.Controllers
 
             string currentEmailAddress = managerController.GetEmailAddress();
 
-            if (currentEmailAddress.Equals(opdInformation.opdEXPENSE.EMPLOYEE_EMAILADDRESS))
+            if (currentEmailAddress.Equals(opdInformation.EMPLOYEE_EMAILADDRESS))
 
                 return true;
             else
@@ -540,6 +505,30 @@ namespace Onion.WebApp.Controllers
             // info.
             return file;
         }
+
+        public ActionResult DownloadFile(int fileId)
+        {
+
+            // try
+            // {
+            // Loading dile info.
+            var fileInfo = _opdExpenseImageService.GetOpdExpensesImagesAgainstId(fileId);
+
+            // Info.
+            return this.GetFile(fileInfo.IMAGE_BASE64, fileInfo.IMAGE_EXT);
+            //}
+            //catch (Exception ex)
+            //{
+            // Info
+            //Console.Write(ex);
+            //}
+
+            // Info.
+            //return this.View(model);
+
+            //return View();
+        }
+
 
         #endregion
 

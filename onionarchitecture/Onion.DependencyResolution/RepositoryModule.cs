@@ -18,6 +18,7 @@ namespace Onion.DependencyResolution
             Bind<IBaseRepository<OpdExpense_Patient>>().To<BaseRepository<OpdExpense_Patient>>();
             Bind<IBaseRepository<Department>>().To<BaseRepository<Department>>();
             Bind<IBaseRepository<RelationShip_Employee>>().To<BaseRepository<RelationShip_Employee>>();
+            Bind<IBaseRepository<TravelExpense>>().To<BaseRepository<TravelExpense>>();
         }
     }
 }

@@ -8,12 +8,12 @@ using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Models
 {
-    public class HospitalExpense_MasterDetail
+    public class HospitalExpenseMasterDetail
     {
 
-        public List<OpdExpense_PatientVM> ListOPDEXPENSEPATIENT { get; set; }
+        public List<OpdExpensePatientVM> ListOPDEXPENSEPATIENT { get; set; }
 
-        public List<OpdExpense_ImageVM> ListOPDEXPENSEIMAGE { get; set; }
+        public List<OpdExpenseImageVM> ListOPDEXPENSEIMAGE { get; set; }
 
         public int OPDEXPENSE_ID { get; set; }
         public string EMPLOYEE_EMAILADDRESS { get; set; }

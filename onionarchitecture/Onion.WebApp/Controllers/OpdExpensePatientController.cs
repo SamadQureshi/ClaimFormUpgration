@@ -11,11 +11,11 @@ namespace Onion.WebApp.Controllers
     public class OpdExpensePatientController : Controller
     {
 
-        private readonly IOpdExpense_PatientService _opdExpense_PatientService;
+        private readonly IOpdExpensePatientService _opdExpensePatientService;
 
-        public OpdExpensePatientController(IOpdExpense_PatientService opdExpensePatientService)
+        public OpdExpensePatientController(IOpdExpensePatientService opdExpensePatientService)
         {
-           _opdExpense_PatientService = opdExpensePatientService;
+           _opdExpensePatientService = opdExpensePatientService;
 
         }
         public ActionResult Index(int? id, String opdType)
@@ -38,10 +38,10 @@ namespace Onion.WebApp.Controllers
 
              
 
-                var opdExpense_Patient = _opdExpense_PatientService.GetOpdExpenses_PatientAgainstOpdExpenseId(Convert.ToInt32(id));
+                var opdExpense_Patient = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Convert.ToInt32(id));
 
                 //Add a Dummy Row.
-                opdExpense_Patient.Insert(0, new OpdExpense_PatientVM());
+                opdExpense_Patient.Insert(0, new OpdExpensePatientVM());
 
 
                 return View(opdExpense_Patient);
@@ -55,19 +55,19 @@ namespace Onion.WebApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult InsertOPDExpensePatient(OpdExpense_PatientVM opdExpense_Patient)
+        public JsonResult InsertOPDExpensePatient(OpdExpensePatientVM opdExpense_Patient)
         {
             opdExpense_Patient.CreatedDate = DateTime.Now;
-            OpdExpense_PatientVM OpdExpensePatient_Obj = _opdExpense_PatientService.CreateOpdExpense_Patient(opdExpense_Patient);
+            OpdExpensePatientVM OpdExpensePatientObj = _opdExpensePatientService.CreateOpdExpensePatient(opdExpense_Patient);
 
-           return Json(OpdExpensePatient_Obj);
+           return Json(OpdExpensePatientObj);
         }
 
         [HttpPost]
-        public ActionResult UpdateOPDExpensePatient(OpdExpense_PatientVM opdExpense_Patient)
+        public ActionResult UpdateOPDExpensePatient(OpdExpensePatientVM opdExpensePatient)
         {
 
-            _opdExpense_PatientService.UpdateOpdExpense_Patient(opdExpense_Patient);
+            _opdExpensePatientService.UpdateOpdExpensePatient(opdExpensePatient);
 
             return new EmptyResult();
         }
@@ -76,7 +76,7 @@ namespace Onion.WebApp.Controllers
         public ActionResult DeleteOPDExpensePatient(int id)
         {
 
-            _opdExpense_PatientService.DeleteOpdExpense_Patient(id);           
+            _opdExpensePatientService.DeleteOpdExpensePatient(id);           
             
 
             return new EmptyResult();

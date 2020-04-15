@@ -10,8 +10,6 @@ namespace Onion.Domain.Models
     {
         [Key]
         public int IMAGE_ID { get; set; }
-
-
         
         public int? OPDEXPENSE_ID { get; set; }
 

@@ -178,9 +178,10 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DepartmentService.cs" />
+    <Compile Include="Services\TravelExpenseService.cs" />
     <Compile Include="Services\OpdExpenseService.cs" />
-    <Compile Include="Services\OpdExpense_ImageService.cs" />
-    <Compile Include="Services\OpdExpense_PatientService.cs" />
+    <Compile Include="Services\OpdExpenseImageService.cs" />
+    <Compile Include="Services\OpdExpensePatientService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

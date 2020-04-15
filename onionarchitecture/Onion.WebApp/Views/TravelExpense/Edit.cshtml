@@ -1,4 +1,4 @@
-﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpenseMasterDetail
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
 
 @{
     ViewBag.Title = "Edit";
@@ -21,7 +21,7 @@
                     <div class="card-icon">
                         <i class="material-icons">library_books</i>
                     </div>
-                    <h4 class="card-title">OPD Expense</h4>
+                    <h4 class="card-title">Travel Expense</h4>
                 </div>
                 @Html.HiddenFor(model => model.OPDEXPENSE_ID)
                 @Html.HiddenFor(model => model.OPDTYPE)
@@ -101,6 +101,29 @@
                                 @Html.EditorFor(model => model.STATUS, new { htmlAttributes = new { @class = "form-control disabled" } })
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.ManagerName, "Manager Name", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.ManagerName, new List<SelectListItem>
+                                {
+                                new SelectListItem {Text = "A", Value = "A"},
+                                new SelectListItem {Text = "B", Value = "B"},
+                                new SelectListItem {Text = "C", Value = "C"},
+                                new SelectListItem {Text = "D", Value = "D"},
+                                new SelectListItem {Text = "E", Value = "E"},
+                                new SelectListItem {Text = "F", Value = "F"},
+                                new SelectListItem {Text = "G", Value = "G"},
+                                new SelectListItem {Text = "H", Value = "H"},
+                                new SelectListItem {Text = "I", Value = "I"},
+                                new SelectListItem {Text = "J", Value = "J"},
+                                new SelectListItem {Text = "K", Value = "K"},
+                                new SelectListItem {Text = "L", Value = "L"},
+
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
                 <div class="card-footer ml-auto mr-auto">
@@ -110,7 +133,7 @@
             </div>
         </div>
     }
-    @Html.Partial("_OPDPatientReceiptImagesEdit", Model)
+    @Html.Partial("_OPDTravelExpenseEdit", Model)
     <div class="col-md-12">
         <div>
             @Html.ActionLink("Back to List", "Index")
@@ -119,7 +142,7 @@
 </div>
 <script type="text/javascript">
 jQuery(function () {
-    var regionsSelect = $('#EMPLOYEE_DEPARTMENT');
+    var regionsSelect = $('#opdEXPENSE_EMPLOYEE_DEPARTMENT');
     $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
         if (regions != null && !jQuery.isEmptyObject(regions)) {
             $.each(regions, function (index, region) {

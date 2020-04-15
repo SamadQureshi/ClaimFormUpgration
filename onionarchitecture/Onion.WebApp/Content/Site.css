@@ -1,24 +1,149 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/* Custom Styles */
+.card .card-body .form-group { margin: 8px 0 15px; }
+.form-control:disabled, .form-control[readonly] { background-color: transparent; }
+.bmd-form-group .custom-label { position: absolute; top: -1rem !important; left: 0; font-size: .6875rem; font-weight: 400; line-height: 1.4; margin: 0; pointer-events: none; transition: all .3s ease; will-change: left,top,contents; }
+.custom-form-group .bootstrap-select { width: 100% !important; }
+.custom-form-group .bootstrap-select > .dropdown-toggle {	 
+    background: no-repeat bottom,50% calc(100% - 1px);
+	background-image: linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+    background-size: 0 100%,100% 100%;
+	box-shadow: none;
+    height: 36px;
+	font-size: 14px; 
+	color: #495057; 
+	height: 36px;
+	padding: .4375rem 0; 
+	margin: 0;
+	text-transform: capitalize;
+	border-radius: 0;
+    transition: background 0s ease-out;
+}
+.custom-form-group .bootstrap-select > .dropdown-toggle.bs-placeholder {
+	color: rgba(73, 80, 87, .5) !important;
+}
+.custom-form-group .btn.btn-primary.active, 
+.custom-form-group .btn.btn-primary:active, 
+.custom-form-group .open > .btn.btn-primary.dropdown-toggle, 
+.custom-form-group .show > .btn.btn-primary.dropdown-toggle {
+	background-color: transparent;
+	background-image: linear-gradient(0deg,#9c27b0 2px,rgba(156,39,176,0) 0),linear-gradient(0deg,#d2d2d2 1px,hsla(0,0%,82%,0) 0);
+	background-size: 100% 100%, 100% 100%;	
+    box-shadow: none;
+    height: 36px;
+	font-size: 14px; 
+	color: #495057; 
+	height: 36px;
+	padding: .4375rem 0; 
+	margin: 0;	
+	text-transform: capitalize;	
+	border-radius: 0;
+	transition-duration: 0.3s;	
+}
+.custom-textarea {
+	max-height: 36px;
+}
+.bootstrap-select.custom-select>.dropdown-toggle {
+	margin-bottom: 0 !important;
+    height: 30px;
+    line-height: 1.5;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+/* Datatables */
+table.dataTable.dtr-inline.collapsed tbody td:first-child,
+table.dataTable.dtr-inline.collapsed tbody th:first-child {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
 }
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+table.dataTable.dtr-inline.collapsed tbody td:first-child:before,
+table.dataTable.dtr-inline.collapsed tbody th:first-child:before {
+  top: 8px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  display: block;
+  position: absolute;
+  color: white;
+  border: 2px solid white;
+  border-radius: 16px;
+  text-align: center;
+  line-height: 14px;
+  box-shadow: 0 0 3px #444;
+  box-sizing: content-box;
+  content: '+';
 }
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+table.dataTable.dtr-inline.collapsed tbody tr.parent td:first-child:before,
+table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
+  content: '-';
 }
+table.dataTable.dtr-inline.collapsed tbody tr.child td:before {
+  display: none;
+}
+table.dataTable.dtr-column tbody td.control,
+table.dataTable.dtr-column tbody th.control {
+  position: relative;
+  cursor: pointer;
+}
+table.dataTable.dtr-column tbody td.control:before,
+table.dataTable.dtr-column tbody th.control:before {
+  top: 50%;
+  left: 50%;
+  height: 16px;
+  width: 16px;
+  margin-top: -10px;
+  margin-left: -10px;
+  display: block;
+  position: absolute;
+  color: white;
+  border: 2px solid white;
+  border-radius: 16px;
+  text-align: center;
+  line-height: 14px;
+  box-shadow: 0 0 3px #444;
+  box-sizing: content-box;
+  content: '+';
+  background-color: #31b131;
+}
+table.dataTable.dtr-column tbody tr.parent td.control:before,
+table.dataTable.dtr-column tbody tr.parent th.control:before {
+  content: '-';
+}
+table.dataTable tr.child {
+  padding: 0.5em 1em;
+}
+table.dataTable thead tr th {
+  vertical-align: top;
+}
+table.dataTable tr.child:hover {
+  background: transparent !important;
+}
+table.dataTable tr.child ul {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+table.dataTable tr.child ul li {
+  border-bottom: 1px solid #efefef;
+  padding: 0.5em 0;
+}
+table.dataTable tr.child ul li:first-child {
+  padding-top: 0;
+}
+table.dataTable tr.child ul li:last-child {
+  border-bottom: none;
+}
+table.dataTable tr.child span.dtr-title {
+  display: inline-block;
+  min-width: 75px;
+  font-weight: bold;
+}
+.dataTable>tbody>tr>td, .dataTable>tbody>tr>th, .dataTable>tfoot>tr>td, .dataTable>tfoot>tr>th, .dataTable>thead>tr>td, .dataTable>thead>tr>th {
+    padding: 5px 25px 5px 5px!important;
+}
+.dataTable>thead>tr>th.actions-col,
+.dataTable>tbody>tr>td.actions-col {
+	padding-right: 5px !important;
+	white-space: nowrap;
+}
+form { width: 100%; }

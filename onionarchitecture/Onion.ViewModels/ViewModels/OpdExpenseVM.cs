@@ -7,9 +7,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
     public class OpdExpenseVM
     {
 
-        public ICollection<OpdExpense_ImageVM> OpdExpense_Images { get; set; }
+        public ICollection<OpdExpenseImageVM> OpdExpense_Images { get; set; }
 
-        public ICollection<OpdExpense_PatientVM> OpdExpense_Patients { get; set; }
+        public ICollection<OpdExpensePatientVM> OpdExpense_Patients { get; set; }
 
         public int OPDEXPENSE_ID { get; set; }
 
@@ -108,7 +108,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         public string Modified_By { get; set; }
 
 
-
+        public string ManagerName { get; set; }
 
 
 

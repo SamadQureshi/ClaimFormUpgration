@@ -12,8 +12,9 @@ namespace Onion.DependencyResolution
             Bind<IUserService>().To<UserService>();
             Bind<IDepartmentService>().To<DepartmentService>();
             Bind<IOpdExpenseService>().To<OpdExpenseService>();
-            Bind<IOpdExpense_ImageService>().To<OpdExpense_ImageService>();
-            Bind<IOpdExpense_PatientService>().To<OpdExpense_PatientService>();           
+            Bind<IOpdExpenseImageService>().To<OpdExpenseImageService>();
+            Bind<IOpdExpensePatientService>().To<OpdExpensePatientService>();
+            Bind<ITravelExpenseService>().To<TravelExpenseService>();
         }
     }
 }

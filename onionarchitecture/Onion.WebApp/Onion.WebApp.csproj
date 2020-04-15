@@ -236,12 +236,10 @@
     <Compile Include="Controllers\OpdExpenseController.cs" />
     <Compile Include="Controllers\OpdExpenseImageController.cs" />
     <Compile Include="Controllers\OpdExpensePatientController.cs" />
+    <Compile Include="Controllers\TravelExpenseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\HospitalExpense_MasterDetail.cs" />
-    <Compile Include="Models\ImgViewModel.cs" />
-    <Compile Include="Models\OpdExpense_MasterDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenStorage\SessionTokenCache.cs" />
   </ItemGroup>
@@ -408,9 +406,15 @@
     <Content Include="Views\ManApproval\Index.cshtml" />
     <Content Include="Views\ManApproval\MANHOSPITALExpense.cshtml" />
     <Content Include="Views\ManApproval\MANOPDExpense.cshtml" />
+    <Content Include="Views\TravelExpense\Index.cshtml" />
+    <Content Include="Views\TravelExpense\Edit.cshtml" />
+    <Content Include="Views\TravelExpense\_OPDTravelExpenseEdit.cshtml" />
+    <Content Include="Views\TravelExpense\_OPDTravelExpenseView.cshtml" />
+    <Content Include="Views\TravelExpense\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
