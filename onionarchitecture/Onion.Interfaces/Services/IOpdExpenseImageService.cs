@@ -7,7 +7,7 @@ namespace Onion.Interfaces.Services
     public interface IOpdExpenseImageService
     {
 
-        List<OpdExpense_Image> GetAllOpdExpenseImages();
+        List<OpdExpenseImage> GetAllOpdExpenseImages();
        List<OpdExpenseImageVM> GetOpdExpensesImageAgainstOpdExpenseId(int Id);
 
         OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpense);

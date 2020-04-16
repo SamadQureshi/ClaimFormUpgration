@@ -10,14 +10,14 @@ namespace Onion.Services
 {
     public class OpdExpenseImageService : IOpdExpenseImageService
     {
-        private readonly IBaseRepository<OpdExpense_Image> _opdExpenseImageRepository;
+        private readonly IBaseRepository<OpdExpenseImage> _opdExpenseImageRepository;
         
-        public OpdExpenseImageService(IBaseRepository<OpdExpense_Image> opdExpenseImageRepository)
+        public OpdExpenseImageService(IBaseRepository<OpdExpenseImage> opdExpenseImageRepository)
         {
             _opdExpenseImageRepository = opdExpenseImageRepository;
         }
 
-        public List<OpdExpense_Image> GetAllOpdExpenseImages()
+        public List<OpdExpenseImage> GetAllOpdExpenseImages()
         {
             return _opdExpenseImageRepository.GetQueryable().ToList();
         }
@@ -25,7 +25,7 @@ namespace Onion.Services
         public List<OpdExpenseImageVM> GetOpdExpensesImageAgainstOpdExpenseId(int Id)
         {
             var opdExpense = _opdExpenseImageRepository.GetQueryable()
-                .Where(y => y.OPDEXPENSE_ID == Id)        
+                .Where(y => y.OpdExpense.ID == Id)        
                  .ToList();
             return Mapper.Map<List<OpdExpenseImageVM>>(opdExpense);
         }
@@ -33,7 +33,7 @@ namespace Onion.Services
        
         public OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM)
         {
-            object ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpense_Image>(opdExpenseImageVM));
+            object ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
             return Mapper.Map<OpdExpenseImageVM>(ObjOpdExpenseImage);
         }
 
@@ -41,7 +41,7 @@ namespace Onion.Services
         public void UpdateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM)
         {
 
-            _opdExpenseImageRepository.Update(Mapper.Map<OpdExpense_Image>(opdExpenseImageVM));
+            _opdExpenseImageRepository.Update(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
 
         }
 

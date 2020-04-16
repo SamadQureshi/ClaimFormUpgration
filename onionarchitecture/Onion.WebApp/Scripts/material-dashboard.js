@@ -559,34 +559,34 @@ $(document).ready(function () {
 	//$("#CLAIMANT_SUFFERED_ILLNESS_DETAILS").attr("disabled", "disabled");
 	//$("#DRUGS_PRESCRIBED_DESCRIPTION").attr("disabled", "disabled");
 
-    if ($("#CLAIMANT_SUFFERED_ILLNESS option:selected").text() == "True") {
-        $("#CLAIMANT_SUFFERED_ILLNESS_DATE").removeAttr("disabled");
-        $("#CLAIMANT_SUFFERED_ILLNESS_DETAILS").removeAttr("disabled");
+    if ($("#ClaimantSufferedIllness option:selected").text() == "True") {
+        $("#ClaimantSufferedIllnessDate").removeAttr("disabled");
+        $("#ClaimantSufferedIllnessDetails").removeAttr("disabled");
     }
    
 
-    if ($("#DRUGS_PRESCRIBED_BOOL option:selected").text() == "True") {
-        $("#DRUGS_PRESCRIBED_DESCRIPTION").removeAttr("disabled");
+    if ($("#DrugsPrescribedBool option:selected").text() == "True") {
+        $("#DrugsPrescribedDescription").removeAttr("disabled");
     }   
 
 	
-	$("#CLAIMANT_SUFFERED_ILLNESS").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
-		if ($("#CLAIMANT_SUFFERED_ILLNESS option:selected").text() == "True") {
-			$("#CLAIMANT_SUFFERED_ILLNESS_DATE").removeAttr("disabled");
-			$("#CLAIMANT_SUFFERED_ILLNESS_DETAILS").removeAttr("disabled");
+    $("#ClaimantSufferedIllness").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+        if ($("#ClaimantSufferedIllness option:selected").text() == "True") {
+            $("#ClaimantSufferedIllnessDate").removeAttr("disabled");
+            $("#ClaimantSufferedIllnessDetails").removeAttr("disabled");
 		}
 		else {
-			$("#CLAIMANT_SUFFERED_ILLNESS_DATE").attr("disabled", "disabled");
-			$("#CLAIMANT_SUFFERED_ILLNESS_DETAILS").attr("disabled", "disabled");
+            $("#ClaimantSufferedIllnessDate").attr("disabled", "disabled");
+            $("#ClaimantSufferedIllnessDetails").attr("disabled", "disabled");
 		}
 	});
   
-	$("#DRUGS_PRESCRIBED_BOOL").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
-		if ($("#DRUGS_PRESCRIBED_BOOL option:selected").text() == "True") {
-			$("#DRUGS_PRESCRIBED_DESCRIPTION").removeAttr("disabled");
+    $("#DrugsPrescribedBool").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+        if ($("#DrugsPrescribedBool option:selected").text() == "True") {
+            $("#DrugsPrescribedDescription").removeAttr("disabled");
 		}
 		else {
-			$("#DRUGS_PRESCRIBED_DESCRIPTION").attr("disabled", "disabled");
+            $("#DrugsPrescribedDescription").attr("disabled", "disabled");
 		}
 	});
 

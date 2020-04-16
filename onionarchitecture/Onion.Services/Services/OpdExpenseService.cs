@@ -27,7 +27,7 @@ namespace Onion.Services
         {
             var opdExpense = _opdExpenseRepository.GetById(Id);
             //.Where(y => y.OPDEXPENSE_ID == Id)
-            //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.STATUS, t.OPDTYPE, t.OPDEXPENSE_ID, t.EXPENSE_NUMBER })
+            //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.Status, t.OPDTYPE, t.OPDEXPENSE_ID, t.EXPENSE_NUMBER })
             //.ToList();
             return Mapper.Map<OpdExpenseVM>(opdExpense);
             //return opdExpense;
@@ -36,8 +36,8 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesAgainstEmailAddress(string EmailAddress)
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(y => y.EMPLOYEE_EMAILADDRESS == EmailAddress)
-                 //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.STATUS, t.OPDTYPE, t.OPDEXPENSE_ID , t.EXPENSE_NUMBER })
+                 .Where(y => y.EmployeeEmailAddress == EmailAddress)
+                 //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.Status, t.OPDTYPE, t.OPDEXPENSE_ID , t.EXPENSE_NUMBER })
                  .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -68,7 +68,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForHR()
         {            
              var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(e => e.STATUS == ClaimStatus.SUBMITTED || e.STATUS == ClaimStatus.HRAPPROVED || e.STATUS == ClaimStatus.HRREJECTED || e.STATUS == ClaimStatus.HRINPROCESS)               
+                 .Where(e => e.Status == ClaimStatus.SUBMITTED || e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.HRREJECTED || e.Status == ClaimStatus.HRINPROCESS)               
                  .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -77,7 +77,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForFIN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.STATUS == ClaimStatus.HRAPPROVED || e.STATUS == ClaimStatus.FINAPPROVED || e.STATUS == ClaimStatus.FINREJECTED || e.STATUS == ClaimStatus.FININPROCESS)
+                .Where(e => e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.FINREJECTED || e.Status == ClaimStatus.FININPROCESS)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -86,7 +86,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForMAN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.STATUS == ClaimStatus.FINAPPROVED || e.STATUS == ClaimStatus.MANINPROCESS || e.STATUS == ClaimStatus.MANAPPROVED || e.STATUS == ClaimStatus.MANREJECTED)
+                .Where(e => e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.MANINPROCESS || e.Status == ClaimStatus.MANAPPROVED || e.Status == ClaimStatus.MANREJECTED)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);

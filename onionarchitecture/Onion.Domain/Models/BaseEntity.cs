@@ -4,12 +4,11 @@ namespace Onion.Domain.Models
 {
     public class BaseEntity
     {
-        
+        public int ID { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
-
-        public string Created_By { get; set; }
-        public string Modified_By { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
 
     }

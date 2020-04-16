@@ -24,21 +24,21 @@
                         <div class="col-md-12">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.EMPLOYEE_NAME, "Name of Employee:", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.EditorFor(model => model.EMPLOYEE_NAME, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
-                                @Html.ValidationMessageFor(model => model.EMPLOYEE_NAME, "", new { @class = "error" })
+                                @Html.LabelFor(model => model.EmployeeName, "Name of Employee:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
+                                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "error" })
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.EMPLOYEE_DEPARTMENT, "Employee Department:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.DropDownListFor(model => model.EMPLOYEE_DEPARTMENT, new SelectList(Enumerable.Empty<SelectListItem>()))
+                                @Html.LabelFor(model => model.EmployeeDepartment, "Employee Department:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.EmployeeDepartment, new SelectList(Enumerable.Empty<SelectListItem>()))
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.CLAIM_MONTH, "Claim For Month", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.DropDownListFor(model => model.CLAIM_MONTH, new List<SelectListItem>
+                                @Html.LabelFor(model => model.ClaimMonth, "Claim For Month", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.ClaimMonth, new List<SelectListItem>
                                 {
                                    new SelectListItem {Text = "JAN", Value = "JAN"},
                                    new SelectListItem {Text = "FEB", Value = "FEB"},
@@ -57,8 +57,8 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.CLAIM_YEAR, "Claim For Year", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.DropDownListFor(model => model.CLAIM_YEAR, new List<SelectListItem>
+                                @Html.LabelFor(model => model.ClaimYear, "Claim For Year", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.ClaimYear, new List<SelectListItem>
                                 {
                                    new SelectListItem {Text = "2020", Value = "2020"},
                                    new SelectListItem {Text = "2021", Value = "2021"},
@@ -77,9 +77,9 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.TOTAL_AMOUNT_CLAIMED, "Total Amount Claimed:", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.EditorFor(model => model.TOTAL_AMOUNT_CLAIMED, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.TOTAL_AMOUNT_CLAIMED, "", new { @class = "error" })
+                                @Html.LabelFor(model => model.TotalAmountClaimed, "Total Amount Claimed:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.TotalAmountClaimed, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TotalAmountClaimed, "", new { @class = "error" })
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
 
     <script type="text/javascript">
 jQuery(function () {
-    var regionsSelect = $('#EMPLOYEE_DEPARTMENT');
+    var regionsSelect = $('#EmployeeDepartment');
     $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
         if (regions != null && !jQuery.isEmptyObject(regions)) {
             $.each(regions, function (index, region) {

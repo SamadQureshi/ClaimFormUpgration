@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpense_PatientVM>
+﻿@model IEnumerable<TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpensePatientVM>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -60,22 +60,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpense_PatientVM customer in Model)
+                                @foreach (TCO.TFM.WDMS.ViewModels.ViewModels.OpdExpensePatientVM customer in Model)
                                 {
                                     <tr>
                                         <td class="ID">
                                             <span>@customer.ID</span>
                                         </td>
                                         <td class="NAME">
-                                            <span>@customer.NAME</span>
-                                            <input type="text" value="@customer.NAME" style="display:none" />
+                                            <span>@customer.Name</span>
+                                            <input type="text" value="@customer.Name" style="display:none" />
                                         </td>
                                         <td class="AGE">
-                                            <span>@customer.AGE</span>
-                                            <input type="text" value="@customer.AGE" style="display:none" />
+                                            <span>@customer.Age</span>
+                                            <input type="text" value="@customer.Age" style="display:none" />
                                         </td>
                                         <td class="RELATIONSHIP_EMPLOYEE">
-                                            <span>@customer.RELATIONSHIP_EMPLOYEE</span>
+                                            <span>@customer.RelationshipEmployee</span>
                                             <select id="relationShipListForEdit" style="display:none">
                                                 <option value="SELF">SELF</option>
                                                 <option value="FATHER">FATHER</option>
@@ -163,10 +163,11 @@
                 var txtAge = $("#txtAGE");
                 var ddlRelationship_Employee = $("#relationShipList option:selected").text();
                 var txtOPDExpense = "@ViewData["OPDEXPENSE_ID"]";
+                var txtOPDType = "@ViewData["OPDTYPE"]";
                 $.ajax({
                     type: "POST",
                     url: "/OpdExpensePatient/InsertOPDExpensePatient",
-                    data: '{NAME: "' + txtName.val() + '", AGE: "' + txtAge.val() + '", RELATIONSHIP_EMPLOYEE: "' + ddlRelationship_Employee + '", OPDEXPENSE_ID: "' + txtOPDExpense + '"}',
+                    data: '{Name: "' + txtName.val() + '", Age: "' + txtAge.val() + '", RelationshipEmployee: "' + ddlRelationship_Employee + '", OpdExpenseId: "' + txtOPDExpense + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
@@ -174,7 +175,7 @@
                         if ($("#tblCustomers tr:last span").eq(0).html() != "&nbsp;") {
                             row = row.clone();
                         }
-                        AppendRow(row, r.ID, r.NAME, r.AGE, r.RELATIONSHIP_EMPLOYEE);
+                        AppendRow(row, r.ID, r.Name, r.Age, r.RelationshipEmployee);
                         txtName.val("");
                         txtAge.val("");
                         $('#relationShipList').val("SELF").change();

@@ -22,11 +22,11 @@ namespace Onion.Data
 
         public IDbSet<User> Users { get; set; }
 
-        public IDbSet<Department> Departments { get; set; }
-        public  IDbSet<OpdExpense> OpdExpenses { get; set; }
-        public  IDbSet<OpdExpense_Image> OpdExpense_Image { get; set; }
-        public  IDbSet<OpdExpense_Patient> OpdExpense_Patient { get; set; }
-        public  IDbSet<RelationShip_Employee> RelationShip_Employee { get; set; }
+        public IDbSet<Department> Department { get; set; }
+        public  IDbSet<OpdExpense> OpdExpense { get; set; }
+        public  IDbSet<OpdExpenseImage> OpdExpenseImage { get; set; }
+        public  IDbSet<OpdExpensePatient> OpdExpensePatient { get; set; }
+        public  IDbSet<RelationShipEmployee> RelationShipEmployee { get; set; }
 
         public IDbSet<TravelExpense> TravelExpense { get; set; }
 

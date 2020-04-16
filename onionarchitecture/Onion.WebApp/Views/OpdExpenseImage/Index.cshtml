@@ -1,4 +1,4 @@
-﻿@model  Onion.WebApp.Models.ImgViewModel
+﻿@model  TCO.TFM.WDMS.ViewModels.ViewModels.ImgViewModel
 
 @{
     ViewBag.Title = "Receipt Information";
@@ -15,8 +15,8 @@
                 <div class="card-body">
                     @using (Html.BeginForm("Index", "OpdExpenseImage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                     {
-                        @*@Html.Hidden("opdType", Model.OPDType);*@
-                        @Html.Hidden("OPDEXPENSE_ID", Model.OPDExpense_ID);
+                        @Html.Hidden("opdType", Model.OPDType);
+                        @Html.Hidden("OPDEXPENSEID", Model.OPDExpenseID);
                         @Html.AntiForgeryToken()
                         <div class="form-group">
                             @Html.LabelFor(m => m.ExpenseName, "Receipt Name", htmlAttributes: new { @class = "bmd-label-floating" })
@@ -84,32 +84,32 @@
                                             <td>
                                                 <div class="input-group">
                                                     <i class="fa fa-2x fa-paperclip text-navy pr-1"></i>
-                                                    <a class="download-file1" href="@Url.Action("DownloadFile", "OpdExpenseImage", new { fileId = @Model.ImgLst[i].IMAGE_ID })" target="_blank">
-                                                        @Model.ImgLst[i].IMAGE_NAME
+                                                    <a class="download-file1" href="@Url.Action("DownloadFile", "OpdExpenseImage", new { fileId = @Model.ImgLst[i].ID })" target="_blank">
+                                                        @Model.ImgLst[i].ImageName
                                                     </a>
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div>
-                                                    <img src="@Url.Action("DownloadFile", "OpdExpenseImage", new { fileId = @Model.ImgLst[i].IMAGE_ID })" width="100" height="100" />
+                                                    <img src="@Url.Action("DownloadFile", "OpdExpenseImage", new { fileId = @Model.ImgLst[i].ID })" width="100" height="100" />
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div>
-                                                    @Html.DisplayFor(model => @Model.ImgLst[i].NAME_EXPENSES)
+                                                    @Html.DisplayFor(model => @Model.ImgLst[i].NameExpenses)
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div>
-                                                    @Html.DisplayFor(model => @Model.ImgLst[i].NAME_EXPENSES)
+                                                    @Html.DisplayFor(model => @Model.ImgLst[i].ExpenseAmount)
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
-                                                    @{string dumyDeleteID = @Html.DisplayFor(model => @Model.ImgLst[i].IMAGE_ID) + "?opdexpenseid=" + @Html.DisplayFor(model => @Model.ImgLst[i].OPDEXPENSE_ID);}
+                                                    @{string dumyDeleteID = @Html.DisplayFor(model => @Model.ImgLst[i].ID) + "?opdexpenseid=" + @Html.DisplayFor(model => @Model.ImgLst[i].OpdExpenseId);}
                                                     <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpenseImage', '@dumyDeleteID')" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>                                                    
                                                 </div>
                                             </td>

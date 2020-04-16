@@ -10,19 +10,18 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
     public class OpdExpensePatientVM
     {
         public int ID { get; set; }     
-        public string NAME { get; set; }
-        public int? AGE { get; set; }
-        public string RELATIONSHIP_EMPLOYEE { get; set; }
-        public int OPDEXPENSE_ID { get; set; }
-
-        public virtual OpdExpense OpdExpense { get; set; }
+        public string Name { get; set; }
+        public int? Age { get; set; }
+        public string RelationshipEmployee { get; set; }
+        public int OpdExpenseId { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public string Created_By { get; set; }
-        public string Modified_By { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
+        public virtual OpdExpense OpdExpense { get; set; }
 
 
     }

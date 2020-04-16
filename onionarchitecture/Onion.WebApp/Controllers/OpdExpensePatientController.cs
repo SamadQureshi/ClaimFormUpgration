@@ -12,37 +12,33 @@ namespace Onion.WebApp.Controllers
     {
 
         private readonly IOpdExpensePatientService _opdExpensePatientService;
+        private readonly IOpdExpenseService _opdExpenseService;
 
-        public OpdExpensePatientController(IOpdExpensePatientService opdExpensePatientService)
+        public OpdExpensePatientController(IOpdExpensePatientService opdExpensePatientService, IOpdExpenseService opdExpenseService)
         {
            _opdExpensePatientService = opdExpensePatientService;
+            
+           _opdExpenseService = opdExpenseService;
 
         }
-        public ActionResult Index(int? id, String opdType)
+        public ActionResult Index(int? id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
-                ViewData["OPDEXPENSE_ID"] = id;
-
-                if(opdType ==null)
-                {
-                    ViewData["OPDTYPE"] = HttpContext.Request.UrlReferrer.Query.Split('=')[1].Replace("%20", "").ToString();
-                }
-
-                else
-                {
-                    ViewData["OPDTYPE"] = opdType;
-                }
+                ViewData["OPDEXPENSE_ID"] = id;             
+                 
                
 
-             
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
 
                 var opdExpense_Patient = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Convert.ToInt32(id));
 
-                //Add a Dummy Row.
-                opdExpense_Patient.Insert(0, new OpdExpensePatientVM());
+                var objOpdExpensePatient = new OpdExpensePatientVM();
 
+                ViewData["OPDTYPE"] = opdExpenseService.OpdType;
+                //Add a Dummy Row.
+                opdExpense_Patient.Insert(0, objOpdExpensePatient);              
 
                 return View(opdExpense_Patient);
             }
@@ -58,8 +54,7 @@ namespace Onion.WebApp.Controllers
         public JsonResult InsertOPDExpensePatient(OpdExpensePatientVM opdExpense_Patient)
         {
             opdExpense_Patient.CreatedDate = DateTime.Now;
-            OpdExpensePatientVM OpdExpensePatientObj = _opdExpensePatientService.CreateOpdExpensePatient(opdExpense_Patient);
-
+            OpdExpensePatientVM OpdExpensePatientObj = _opdExpensePatientService.CreateOpdExpensePatient(opdExpense_Patient);            
            return Json(OpdExpensePatientObj);
         }
 

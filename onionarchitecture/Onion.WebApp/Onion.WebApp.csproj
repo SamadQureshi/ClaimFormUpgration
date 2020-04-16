@@ -322,15 +322,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\core\bootstrap-material-design.min.js" />
     <Content Include="Scripts\core\core.min.js" />
     <Content Include="Scripts\core\jquery.min.js" />
     <Content Include="Scripts\core\popper.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -406,7 +401,6 @@
     <Content Include="Views\ManApproval\Index.cshtml" />
     <Content Include="Views\ManApproval\MANHOSPITALExpense.cshtml" />
     <Content Include="Views\ManApproval\MANOPDExpense.cshtml" />
-    <Content Include="Views\TravelExpense\Index.cshtml" />
     <Content Include="Views\TravelExpense\Edit.cshtml" />
     <Content Include="Views\TravelExpense\_OPDTravelExpenseEdit.cshtml" />
     <Content Include="Views\TravelExpense\_OPDTravelExpenseView.cshtml" />
@@ -424,8 +418,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Onion.Common\Onion.Common.csproj">

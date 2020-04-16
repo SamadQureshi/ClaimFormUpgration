@@ -14,10 +14,10 @@ namespace Onion.DependencyResolution
             Bind<IApplicationDBContext>().To<ApplicationDBContext>().WithConstructorArgument("Name", "ApplicationConnectionString");
             Bind<IBaseRepository<User>>().To<BaseRepository<User>>();
             Bind<IBaseRepository<OpdExpense>>().To<BaseRepository<OpdExpense>>();
-            Bind<IBaseRepository<OpdExpense_Image>>().To<BaseRepository<OpdExpense_Image>>();
-            Bind<IBaseRepository<OpdExpense_Patient>>().To<BaseRepository<OpdExpense_Patient>>();
+            Bind<IBaseRepository<OpdExpenseImage>>().To<BaseRepository<OpdExpenseImage>>();
+            Bind<IBaseRepository<OpdExpensePatient>>().To<BaseRepository<OpdExpensePatient>>();
             Bind<IBaseRepository<Department>>().To<BaseRepository<Department>>();
-            Bind<IBaseRepository<RelationShip_Employee>>().To<BaseRepository<RelationShip_Employee>>();
+            Bind<IBaseRepository<RelationShipEmployee>>().To<BaseRepository<RelationShipEmployee>>();
             Bind<IBaseRepository<TravelExpense>>().To<BaseRepository<TravelExpense>>();
         }
     }

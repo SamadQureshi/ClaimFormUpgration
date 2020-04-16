@@ -38,14 +38,14 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.EMPLOYEE_NAME)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.TOTAL_AMOUNT_CLAIMED)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.DATE_ILLNESS_NOTICED)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.DATE_RECOVERY)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.HOSPITAL_NAME)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.DOCTOR_NAME)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.PERIOD_CONFINEMENT_DATE_FROM)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.PERIOD_CONFINEMENT_DATE_TO)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TotalAmountClaimed)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DateIllnessNoticed)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DateRecovery)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.HospitalName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DoctorName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.PeriodConfinementDateFrom)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.PeriodConfinementDateTo)</td>
                                         <td class="actions-col text-right">
                                             <a href="@Url.Action("Edit", "OpdExpense", new { id = item.OPDEXPENSE_ID })" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                             <a href="@Url.Action("Details", "OpdExpense", new { id = item.OPDEXPENSE_ID })" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>

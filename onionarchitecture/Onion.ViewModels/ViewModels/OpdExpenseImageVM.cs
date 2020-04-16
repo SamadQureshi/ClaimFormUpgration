@@ -6,28 +6,24 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
     public class OpdExpenseImageVM
     {
-        public int IMAGE_ID { get; set; }
+        public int ID { get; set; }
+        public string ImageName { get; set; }
 
-        public int? OPDEXPENSE_ID { get; set; }
+        public string ImageExt { get; set; }
 
-        public string IMAGE_NAME { get; set; }
+        public string ImageBase64 { get; set; }
 
-        public string IMAGE_EXT { get; set; }
+        public string NameExpenses { get; set; }
 
-        public string IMAGE_BASE64 { get; set; }
+        public decimal? ExpenseAmount { get; set; }
 
-        public string NAME_EXPENSES { get; set; }
-
-        public decimal? EXPENSE_AMOUNT { get; set; }
-      
-        public virtual OpdExpense OpdExpense { get; set; }
+        public int OpdExpenseId { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
-        public string Created_By { get; set; }
-        public string Modified_By { get; set; }
-       
-        
+        public virtual OpdExpense OpdExpense { get; set; }
     }
 }

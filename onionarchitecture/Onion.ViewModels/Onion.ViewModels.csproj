@@ -46,12 +46,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DepartmentVM.cs" />
-    <Compile Include="ViewModels\HospitalExpenseMasterDetail.cs" />
+    <Compile Include="ViewModels\HospitalExpenseVM.cs" />
     <Compile Include="ViewModels\ImgViewModel.cs" />
     <Compile Include="ViewModels\TravelExpenseMasterDetail.cs" />
     <Compile Include="ViewModels\OpdExpenseVM.cs" />
     <Compile Include="ViewModels\OpdExpenseImageVM.cs" />
-    <Compile Include="ViewModels\OpdExpenseMasterDetail.cs" />
     <Compile Include="ViewModels\OpdExpensePatientVM.cs" />
     <Compile Include="ViewModels\TravelExpenseVM.cs" />
     <Compile Include="ViewModels\UserVM.cs" />

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using System.Configuration;
 using Onion.Interfaces.Services;
 using Onion.WebApp.Controllers;
-using Onion.WebApp.Models;
+
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 
@@ -136,7 +136,7 @@ namespace OPDCLAIMFORM.Controllers
                         return RedirectToAction(UrlIndex, UrlFinApproval);
                     }             
 
-                    var result2 = GetHOSExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
                    
                     return View(result2);
                 }
@@ -209,45 +209,45 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.FINAPPROVED;
+                    oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;
 
-                    if (oPDEXPENSE.TOTAL_AMOUNT_APPROVED.ToString() == "")
+                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
                     {
                         ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
                     }
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.FINREJECTED;
+                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
 
-                    if (oPDEXPENSE.FINANCE_COMMENT == null)
+                    if (oPDEXPENSE.FinanceComment == null)
                     {
                         ModelState.AddModelError("", Constants.MSG_APPROVAL_FINANCECOMMENTS);
                     }
                 }
                 else
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.FININPROCESS;
+                    oPDEXPENSE.Status = ClaimStatus.FININPROCESS;
                 }
 
 
                 if (ModelState.IsValid)
                 {
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
-                    oPDEXPENSE.FINANCE_APPROVAL_DATE = DateTime.Now;
-                    oPDEXPENSE.FINANCE_EMAILADDRESS = GetEmailAddress();
-                    if (oPDEXPENSE.STATUS == ClaimStatus.FINAPPROVED)
+                    oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
+                    oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
+                    if (oPDEXPENSE.Status == ClaimStatus.FINAPPROVED)
                     {
-                        oPDEXPENSE.HR_APPROVAL = true;
-                        oPDEXPENSE.FINANCE_APPROVAL = true;
+                        oPDEXPENSE.HrApproval = true;
+                        oPDEXPENSE.FinanceApproval = true;
                     }
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndex, UrlFinApproval);
                 }
                
-                var opdExpense = GetOPDExpense(Convert.ToInt32(oPDEXPENSE.OPDEXPENSE_ID));
-                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.OPDEXPENSE_ID;
+                var opdExpense = GetOPDExpense(Convert.ToInt32(oPDEXPENSE.ID));
+                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
                 return View(opdExpense);
             }
             catch (Exception ex)
@@ -281,7 +281,7 @@ namespace OPDCLAIMFORM.Controllers
                     //MedicalInfoEntities entities = new MedicalInfoEntities();
                     //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
 
-                    var result2 = GetHOSExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
              
 
                     ViewData["OPDEXPENSE_ID"] = id;
@@ -315,9 +315,9 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.FINAPPROVED;
+                    oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;
 
-                    if (oPDEXPENSE.TOTAL_AMOUNT_APPROVED.ToString() == "")
+                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
                     {
                         ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
                     }
@@ -325,34 +325,34 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.FINREJECTED;
+                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
 
-                    if (oPDEXPENSE.FINANCE_COMMENT == null)
+                    if (oPDEXPENSE.FinanceComment == null)
                     {
                         ModelState.AddModelError("", Constants.MSG_APPROVAL_FINANCECOMMENTS);
                     }
                 }
                 else
                 {
-                    oPDEXPENSE.STATUS = ClaimStatus.HRINPROCESS;
+                    oPDEXPENSE.Status = ClaimStatus.HRINPROCESS;
                 }
 
                 if (ModelState.IsValid)
                 {
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
-                    oPDEXPENSE.FINANCE_APPROVAL_DATE = DateTime.Now;
-                    oPDEXPENSE.FINANCE_EMAILADDRESS = GetEmailAddress();
-                    if (oPDEXPENSE.STATUS == ClaimStatus.FINAPPROVED)
+                    oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
+                    oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
+                    if (oPDEXPENSE.Status == ClaimStatus.FINAPPROVED)
                     {
-                        oPDEXPENSE.HR_APPROVAL = true;
-                        oPDEXPENSE.FINANCE_APPROVAL = true;
+                        oPDEXPENSE.HrApproval = true;
+                        oPDEXPENSE.FinanceApproval = true;
                     }
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndex, UrlFinApproval);
                 }
-                var opdExpense = GetHOSExpense(Convert.ToInt32(oPDEXPENSE.OPDEXPENSE_ID));
-                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.OPDEXPENSE_ID;
+                var opdExpense = GetHospitalExpense(Convert.ToInt32(oPDEXPENSE.ID));
+                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
                 return View(opdExpense);
 
 
@@ -428,99 +428,97 @@ namespace OPDCLAIMFORM.Controllers
         }
 
 
-        private OpdExpenseMasterDetail GetOPDExpense(int Id)
+        private OpdExpenseVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new OpdExpenseMasterDetail()
+            var opdInformation = new OpdExpenseVM()
             {
 
-                ListOPDEXPENSEPATIENT = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-                ListOPDEXPENSEIMAGE = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
+                OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
 
-                OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
-                CLAIMANT_SUFFERED_ILLNESS = opdExpense.CLAIMANT_SUFFERED_ILLNESS,
-                CLAIMANT_SUFFERED_ILLNESS_DETAILS = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DETAILS,
-                CLAIMANT_SUFFERED_ILLNESS_DATE = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DATE,
-                DATE_ILLNESS_NOTICED = opdExpense.DATE_ILLNESS_NOTICED,
-                DATE_RECOVERY = opdExpense.DATE_RECOVERY,
-                DIAGNOSIS = opdExpense.DIAGNOSIS,
-                DOCTOR_NAME = opdExpense.DOCTOR_NAME,
-                DRUGS_PRESCRIBED_BOOL = opdExpense.DRUGS_PRESCRIBED_BOOL,
-                DRUGS_PRESCRIBED_DESCRIPTION = opdExpense.DRUGS_PRESCRIBED_DESCRIPTION,
-                EMPLOYEE_DEPARTMENT = opdExpense.EMPLOYEE_DEPARTMENT,
-                EMPLOYEE_NAME = opdExpense.EMPLOYEE_NAME,
-                EMPLOYEE_EMAILADDRESS = opdExpense.EMPLOYEE_EMAILADDRESS,
-                FINANCE_APPROVAL = opdExpense.FINANCE_APPROVAL,
-                FINANCE_COMMENT = opdExpense.FINANCE_COMMENT,
-                FINANCE_NAME = opdExpense.FINANCE_NAME,
-                HOSPITAL_NAME = opdExpense.HOSPITAL_NAME,
-                HR_APPROVAL = opdExpense.HR_APPROVAL,
-                HR_COMMENT = opdExpense.HR_COMMENT,
-                HR_NAME = opdExpense.HR_NAME,
-                MANAGEMENT_APPROVAL = opdExpense.MANAGEMENT_APPROVAL,
-                MANAGEMENT_COMMENT = opdExpense.MANAGEMENT_COMMENT,
-                MANAGEMENT_NAME = opdExpense.MANAGEMENT_NAME,
-                PERIOD_CONFINEMENT_DATE_FROM = opdExpense.PERIOD_CONFINEMENT_DATE_FROM,
-                PERIOD_CONFINEMENT_DATE_TO = opdExpense.PERIOD_CONFINEMENT_DATE_TO,
-                STATUS = opdExpense.STATUS,
-                OPDTYPE = opdExpense.OPDTYPE,
-                TOTAL_AMOUNT_CLAIMED = opdExpense.TOTAL_AMOUNT_CLAIMED,
-                CLAIM_YEAR = opdExpense.CLAIM_YEAR,
-                CREATED_DATE = opdExpense.CreatedDate,
-                MODIFIED_DATE = opdExpense.ModifiedDate
+                ID = opdExpense.ID,
+                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
+                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
+                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
+                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
+                DateRecovery = opdExpense.DateRecovery,
+                Diagnosis = opdExpense.Diagnosis,
+                DoctorName = opdExpense.DoctorName,
+                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
+                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
+                EmployeeDepartment = opdExpense.EmployeeDepartment,
+                EmployeeName = opdExpense.EmployeeName,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                FinanceApproval = opdExpense.FinanceApproval,
+                FinanceComment = opdExpense.FinanceComment,
+                FinanceName = opdExpense.FinanceName,
+                HospitalName = opdExpense.HospitalName,
+                HrApproval = opdExpense.HrApproval,
+                HrComment = opdExpense.HrComment,
+                HrName = opdExpense.HrName,
+                ManagementApproval = opdExpense.ManagementApproval,
+                ManagementComment = opdExpense.ManagementComment,
+                ManagementName = opdExpense.ManagementName,
+                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
+                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
+                Status = opdExpense.Status,
+                OpdType = opdExpense.OpdType,
+                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                ClaimYear = opdExpense.ClaimYear,
+                CreatedDate = opdExpense.CreatedDate,
+                ModifiedDate = opdExpense.ModifiedDate
 
             };
 
             return opdInformation;
-
-
         }
-
-        private HospitalExpenseMasterDetail GetHOSExpense(int Id)
+        private HospitalExpenseVM GetHospitalExpense(int Id)
         {
-            //MedicalInfoEntities entities = new MedicalInfoEntities();
+
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var hospitalInformation = new HospitalExpenseMasterDetail()
+
+            var hospitalInformation = new HospitalExpenseVM()
             {
 
 
-                ListOPDEXPENSEPATIENT = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-                ListOPDEXPENSEIMAGE = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
+                OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
 
 
-                OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
-                CLAIMANT_SUFFERED_ILLNESS = opdExpense.CLAIMANT_SUFFERED_ILLNESS,
-                CLAIMANT_SUFFERED_ILLNESS_DETAILS = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DETAILS,
-                CLAIMANT_SUFFERED_ILLNESS_DATE = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DATE,
-                DATE_ILLNESS_NOTICED = opdExpense.DATE_ILLNESS_NOTICED,
-                DATE_RECOVERY = opdExpense.DATE_RECOVERY,
-                DIAGNOSIS = opdExpense.DIAGNOSIS,
-                DOCTOR_NAME = opdExpense.DOCTOR_NAME,
-                DRUGS_PRESCRIBED_BOOL = opdExpense.DRUGS_PRESCRIBED_BOOL,
-                DRUGS_PRESCRIBED_DESCRIPTION = opdExpense.DRUGS_PRESCRIBED_DESCRIPTION,
-                EMPLOYEE_DEPARTMENT = opdExpense.EMPLOYEE_DEPARTMENT,
-                EMPLOYEE_NAME = opdExpense.EMPLOYEE_NAME,
-                EMPLOYEE_EMAILADDRESS = opdExpense.EMPLOYEE_EMAILADDRESS,
-                FINANCE_APPROVAL = opdExpense.FINANCE_APPROVAL,
-                FINANCE_COMMENT = opdExpense.FINANCE_COMMENT,
-                FINANCE_NAME = opdExpense.FINANCE_NAME,
-                HOSPITAL_NAME = opdExpense.HOSPITAL_NAME,
-                HR_APPROVAL = opdExpense.HR_APPROVAL,
-                HR_COMMENT = opdExpense.HR_COMMENT,
-                HR_NAME = opdExpense.HR_NAME,
-                MANAGEMENT_APPROVAL = opdExpense.MANAGEMENT_APPROVAL,
-                MANAGEMENT_COMMENT = opdExpense.MANAGEMENT_COMMENT,
-                MANAGEMENT_NAME = opdExpense.MANAGEMENT_NAME,
-                PERIOD_CONFINEMENT_DATE_FROM = opdExpense.PERIOD_CONFINEMENT_DATE_FROM,
-                PERIOD_CONFINEMENT_DATE_TO = opdExpense.PERIOD_CONFINEMENT_DATE_TO,
-                STATUS = opdExpense.STATUS,
-                OPDTYPE = opdExpense.OPDTYPE,
-                TOTAL_AMOUNT_CLAIMED = opdExpense.TOTAL_AMOUNT_CLAIMED,
-                CLAIM_YEAR = opdExpense.CLAIM_YEAR,
-                CREATED_DATE = opdExpense.CreatedDate,
-                MODIFIED_DATE = opdExpense.ModifiedDate
+                ID = opdExpense.ID,
+                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
+                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
+                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
+                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
+                DateRecovery = opdExpense.DateRecovery,
+                Diagnosis = opdExpense.Diagnosis,
+                DoctorName = opdExpense.DoctorName,
+                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
+                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
+                EmployeeDepartment = opdExpense.EmployeeDepartment,
+                EmployeeName = opdExpense.EmployeeName,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                FinanceApproval = opdExpense.FinanceApproval,
+                FinanceComment = opdExpense.FinanceComment,
+                FinanceName = opdExpense.FinanceName,
+                HospitalName = opdExpense.HospitalName,
+                HrApproval = opdExpense.HrApproval,
+                HrComment = opdExpense.HrComment,
+                HrName = opdExpense.HrName,
+                ManagementApproval = opdExpense.ManagementApproval,
+                ManagementComment = opdExpense.ManagementComment,
+                ManagementName = opdExpense.ManagementName,
+                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
+                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
+                Status = opdExpense.Status,
+                OpdType = opdExpense.OpdType,
+                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                ClaimYear = opdExpense.ClaimYear,
+                CreatedDate = opdExpense.CreatedDate,
+                ModifiedDate = opdExpense.ModifiedDate
             };
 
             return hospitalInformation;
@@ -535,7 +533,7 @@ namespace OPDCLAIMFORM.Controllers
 
             string currentEmailAddress = managerController.GetEmailAddress();
 
-            if (currentEmailAddress.Equals(opdInformation.EMPLOYEE_EMAILADDRESS))
+            if (currentEmailAddress.Equals(opdInformation.EmployeeEmailAddress))
 
                 return true;
             else

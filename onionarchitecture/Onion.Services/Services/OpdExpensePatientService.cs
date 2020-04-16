@@ -10,14 +10,14 @@ namespace Onion.Services
 {
     public class OpdExpensePatientService : IOpdExpensePatientService
     {
-        private readonly IBaseRepository<OpdExpense_Patient> _opdExpensePatientRepository;
+        private readonly IBaseRepository<OpdExpensePatient> _opdExpensePatientRepository;
         
-        public OpdExpensePatientService(IBaseRepository<OpdExpense_Patient> opdExpensePatientRepository)
+        public OpdExpensePatientService(IBaseRepository<OpdExpensePatient> opdExpensePatientRepository)
         {
             _opdExpensePatientRepository = opdExpensePatientRepository;
         }
 
-        public List<OpdExpense_Patient> GetAllOpdExpensePatients()
+        public List<OpdExpensePatient> GetAllOpdExpensePatients()
         {
             return _opdExpensePatientRepository.GetQueryable().ToList();
         }
@@ -26,7 +26,7 @@ namespace Onion.Services
         public List<OpdExpensePatientVM> GetOpdExpensesPatientAgainstOpdExpenseId(int Id)
         {
             var opdExpense = _opdExpensePatientRepository.GetQueryable()
-                 .Where(y => y.OPDEXPENSE_ID == Id)               
+                 .Where(y => y.OpdExpenseId == Id)               
                  .ToList();
 
             return Mapper.Map<List<OpdExpensePatientVM>>(opdExpense);
@@ -34,7 +34,7 @@ namespace Onion.Services
 
         public OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM)
         {
-            object ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpense_Patient>(opdExpensePatientVM));
+            object ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
             return Mapper.Map<OpdExpensePatientVM>(ObjOpdExpensePatient);
         }
 
@@ -42,7 +42,7 @@ namespace Onion.Services
         public void UpdateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM)
         {
 
-            _opdExpensePatientRepository.Update(Mapper.Map<OpdExpense_Patient>(opdExpensePatientVM));
+            _opdExpensePatientRepository.Update(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
 
         }
 

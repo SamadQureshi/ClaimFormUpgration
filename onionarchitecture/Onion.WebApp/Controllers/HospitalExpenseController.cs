@@ -8,7 +8,6 @@ using System.Data.Entity;
 
 
 using Onion.Interfaces.Services;
-using Onion.WebApp.Models;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 
@@ -20,8 +19,8 @@ namespace Onion.WebApp.Controllers
 
 
         private readonly IOpdExpenseService _opdExpenseService;
-        private readonly IOpdExpenseImageService _opdExpense_ImageService;
-        private readonly IOpdExpensePatientService _opdExpense_PatientService;
+        private readonly IOpdExpenseImageService _opdExpenseImageService;
+        private readonly IOpdExpensePatientService _opdExpensePatientService;
 
 
         private const string UrlIndex = "Index";
@@ -32,8 +31,8 @@ namespace Onion.WebApp.Controllers
         public HospitalExpenseController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
         {
             _opdExpenseService = opdExpenseService;
-            _opdExpense_ImageService = opdExpenseImageService;
-            _opdExpense_PatientService = opdExpensePatientService;
+            _opdExpenseImageService = opdExpenseImageService;
+            _opdExpensePatientService = opdExpensePatientService;
 
         }
 
@@ -61,8 +60,6 @@ namespace Onion.WebApp.Controllers
                     {
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
-
-                    //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
 
                     var hospitalInformation = GetHospitalExpense(Convert.ToInt32(id));                  
                   
@@ -124,13 +121,13 @@ namespace Onion.WebApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    opdExpense.OPDTYPE = FormType.HospitalExpense;
-                    opdExpense.STATUS = ClaimStatus.INPROGRESS; 
+                    opdExpense.OpdType = FormType.HospitalExpense;
+                    opdExpense.Status = ClaimStatus.INPROGRESS; 
                     opdExpense.CreatedDate = DateTime.Now;
-                    opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
+                    opdExpense.EmployeeEmailAddress = GetEmailAddress();
                     OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(opdExpense);
 
-                    return RedirectToAction("Edit", "HospitalExpense", new { id = OpdExpense_Obj.OPDEXPENSE_ID , opdType = opdExpense.OPDTYPE });
+                    return RedirectToAction("Edit", "HospitalExpense", new { id = OpdExpense_Obj.ID , opdType = opdExpense.OpdType });
                 }
 
                 return RedirectToAction(UrlIndex, UrlOpdExpense); 
@@ -158,13 +155,11 @@ namespace Onion.WebApp.Controllers
                     if (id == null)
                     {
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
-                    }                    
-
-                    //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
+                    }  
                     var hospitalInformation = GetHospitalExpense(Convert.ToInt32(id));                  
 
                     ViewData["OPDEXPENSE_ID"] = id;
-                    ViewData["OPDTYPE"] = hospitalInformation.OPDTYPE;
+                    ViewData["OPDTYPE"] = hospitalInformation.OpdType;
 
 
                     if (!AuthenticateEmailAddress(Convert.ToInt32(id)))
@@ -203,34 +198,34 @@ namespace Onion.WebApp.Controllers
             try
             {
                 AuthenticateUser();
-                var hospitalInformation = GetHospitalExpense(opdExpense.OPDEXPENSE_ID);
-                ViewData["OPDEXPENSE_ID"] = opdExpense.OPDEXPENSE_ID;
-                ViewData["OPDTYPE"] = opdExpense.OPDTYPE;
+                var hospitalInformation = GetHospitalExpense(opdExpense.ID);
+                ViewData["OPDEXPENSE_ID"] = opdExpense.ID;
+                ViewData["OPDTYPE"] = opdExpense.OpdType;
 
                 string buttonStatus = Request.Form["buttonName"];
 
                 if (buttonStatus == "submit")
                 {
-                    opdExpense.STATUS = ClaimStatus.SUBMITTED;
+                    opdExpense.Status = ClaimStatus.SUBMITTED;
                 }
                 else
                 {
-                    opdExpense.STATUS = ClaimStatus.INPROGRESS;
+                    opdExpense.Status = ClaimStatus.INPROGRESS;
                 }
 
 
-                if (opdExpense.STATUS == ClaimStatus.SUBMITTED)
+                if (opdExpense.Status == ClaimStatus.SUBMITTED)
                 {
-                    if (hospitalInformation.ListOPDEXPENSEPATIENT.Count > 0)
+                    if (hospitalInformation.OpdExpensePatients.Count > 0)
                     {
-                        if (hospitalInformation.ListOPDEXPENSEIMAGE.Count > 0)
+                        if (hospitalInformation.OpdExpenseImages.Count > 0)
                         {
-                            if (GetHOSExpenseAmount(opdExpense, opdExpense.TOTAL_AMOUNT_CLAIMED))
+                            if (GetHOSExpenseAmount(opdExpense, opdExpense.TotalAmountClaimed))
                             {
                                 if (ModelState.IsValid)
                                 {
                                     opdExpense.ModifiedDate = DateTime.Now;
-                                    opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
+                                    opdExpense.EmployeeEmailAddress = GetEmailAddress();
                                     _opdExpenseService.UpdateOpdExpense(opdExpense);
                                     return RedirectToAction(UrlIndex, UrlOpdExpense);
                                 }
@@ -262,7 +257,7 @@ namespace Onion.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         opdExpense.ModifiedDate = DateTime.Now;
-                        opdExpense.EMPLOYEE_EMAILADDRESS = GetEmailAddress();
+                        opdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(opdExpense);                        
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
@@ -370,10 +365,10 @@ namespace Onion.WebApp.Controllers
             try
             {
                 // Loading dile info.
-                var fileInfo = _opdExpense_ImageService.GetOpdExpensesImagesAgainstId(fileId);
+                var fileInfo = _opdExpenseImageService.GetOpdExpensesImagesAgainstId(fileId);
 
                 // Info.
-                return this.GetFile(fileInfo.IMAGE_BASE64, fileInfo.IMAGE_EXT);
+                return this.GetFile(fileInfo.ImageBase64, fileInfo.ImageExt);
             }
             catch (Exception ex)
             {
@@ -444,51 +439,49 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        private HospitalExpenseMasterDetail GetHospitalExpense(int Id)
+        private HospitalExpenseVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HospitalExpenseMasterDetail()
+            var hospitalInformation = new HospitalExpenseVM()
             {
 
-                
-                ListOPDEXPENSEPATIENT = _opdExpense_PatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-                ListOPDEXPENSEIMAGE = _opdExpense_ImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
+                OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
+                OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
 
-               
-                OPDEXPENSE_ID = opdExpense.OPDEXPENSE_ID,
-                CLAIMANT_SUFFERED_ILLNESS = opdExpense.CLAIMANT_SUFFERED_ILLNESS,
-                CLAIMANT_SUFFERED_ILLNESS_DETAILS = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DETAILS,
-                CLAIMANT_SUFFERED_ILLNESS_DATE = opdExpense.CLAIMANT_SUFFERED_ILLNESS_DATE,
-                DATE_ILLNESS_NOTICED = opdExpense.DATE_ILLNESS_NOTICED,
-                DATE_RECOVERY = opdExpense.DATE_RECOVERY,
-                DIAGNOSIS = opdExpense.DIAGNOSIS,
-                DOCTOR_NAME = opdExpense.DOCTOR_NAME,
-                DRUGS_PRESCRIBED_BOOL = opdExpense.DRUGS_PRESCRIBED_BOOL,
-                DRUGS_PRESCRIBED_DESCRIPTION = opdExpense.DRUGS_PRESCRIBED_DESCRIPTION,
-                EMPLOYEE_DEPARTMENT = opdExpense.EMPLOYEE_DEPARTMENT,
-                EMPLOYEE_NAME = opdExpense.EMPLOYEE_NAME,
-                EMPLOYEE_EMAILADDRESS = opdExpense.EMPLOYEE_EMAILADDRESS,
-                FINANCE_APPROVAL = opdExpense.FINANCE_APPROVAL,
-                FINANCE_COMMENT = opdExpense.FINANCE_COMMENT,
-                FINANCE_NAME = opdExpense.FINANCE_NAME,
-                HOSPITAL_NAME = opdExpense.HOSPITAL_NAME,
-                HR_APPROVAL = opdExpense.HR_APPROVAL,
-                HR_COMMENT = opdExpense.HR_COMMENT,
-                HR_NAME = opdExpense.HR_NAME,
-                MANAGEMENT_APPROVAL = opdExpense.MANAGEMENT_APPROVAL,
-                MANAGEMENT_COMMENT = opdExpense.MANAGEMENT_COMMENT,
-                MANAGEMENT_NAME = opdExpense.MANAGEMENT_NAME,
-                PERIOD_CONFINEMENT_DATE_FROM = opdExpense.PERIOD_CONFINEMENT_DATE_FROM,
-                PERIOD_CONFINEMENT_DATE_TO = opdExpense.PERIOD_CONFINEMENT_DATE_TO,
-                STATUS = opdExpense.STATUS,
-                OPDTYPE = opdExpense.OPDTYPE,
-                TOTAL_AMOUNT_CLAIMED = opdExpense.TOTAL_AMOUNT_CLAIMED,
-                CLAIM_YEAR = opdExpense.CLAIM_YEAR,
-                CREATED_DATE = opdExpense.CreatedDate,
-                MODIFIED_DATE = opdExpense.ModifiedDate
+                ID = opdExpense.ID,
+                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
+                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
+                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
+                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
+                DateRecovery = opdExpense.DateRecovery,
+                Diagnosis = opdExpense.Diagnosis,
+                DoctorName = opdExpense.DoctorName,
+                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
+                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
+                EmployeeDepartment = opdExpense.EmployeeDepartment,
+                EmployeeName = opdExpense.EmployeeName,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                FinanceApproval = opdExpense.FinanceApproval,
+                FinanceComment = opdExpense.FinanceComment,
+                FinanceName = opdExpense.FinanceName,
+                HospitalName = opdExpense.HospitalName,
+                HrApproval = opdExpense.HrApproval,
+                HrComment = opdExpense.HrComment,
+                HrName = opdExpense.HrName,
+                ManagementApproval = opdExpense.ManagementApproval,
+                ManagementComment = opdExpense.ManagementComment,
+                ManagementName = opdExpense.ManagementName,
+                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
+                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
+                Status = opdExpense.Status,
+                OpdType = opdExpense.OpdType,
+                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                ClaimYear = opdExpense.ClaimYear,
+                CreatedDate = opdExpense.CreatedDate,
+                ModifiedDate = opdExpense.ModifiedDate
             };
 
             return hospitalInformation;
@@ -498,14 +491,13 @@ namespace Onion.WebApp.Controllers
         {
             bool result = false;
 
-            var hospitalInformation = GetHospitalExpense(opdExpense.OPDEXPENSE_ID);
+            var hospitalInformation = GetHospitalExpense(opdExpense.ID);
 
             decimal? totalAmount = 0;
 
-            for (int count = 0; count <= hospitalInformation.ListOPDEXPENSEIMAGE.Count - 1; count++)
+            foreach (var item in hospitalInformation.OpdExpenseImages)
             {
-                totalAmount+=  hospitalInformation.ListOPDEXPENSEIMAGE[count].EXPENSE_AMOUNT;
-
+                totalAmount += item.ExpenseAmount;
             }
 
             if (totalAmount.Equals(totalAmountClaimed))
@@ -527,7 +519,7 @@ namespace Onion.WebApp.Controllers
 
             string currentEmailAddress = managerController.GetEmailAddress();
 
-            if (currentEmailAddress.Equals(opdInformation.EMPLOYEE_EMAILADDRESS))
+            if (currentEmailAddress.Equals(opdInformation.EmployeeEmailAddress))
 
                 return true;
             else

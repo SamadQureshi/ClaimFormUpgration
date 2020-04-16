@@ -13,9 +13,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         public string ExpenseType { get; set; }
         public decimal? Amount { get; set; }
         public string Description { get; set; }
-        public int OPDEXPENSE_ID { get; set; }
-
-        public virtual OpdExpense OpdExpense { get; set; }
+        public int OpdExpenseId { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }

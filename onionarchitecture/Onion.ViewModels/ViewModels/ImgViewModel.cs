@@ -23,7 +23,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         /// </summary>
         public List<OpdExpenseImageVM> ImgLst { get; set; }
 
-        public int OPDExpense_ID { get; set; }
+        public int OPDExpenseID { get; set; }
 
         [Required]
         [Display(Name = "Expense Amount")]

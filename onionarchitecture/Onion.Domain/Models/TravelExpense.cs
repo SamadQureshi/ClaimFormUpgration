@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace Onion.Domain.Models
 {
     public class TravelExpense : BaseEntity
-    {
-        [Key]
-        public int ID { get; set; }
+    {       
 
         [StringLength(100)]
         public string ExpenseType { get; set; }
@@ -21,10 +19,9 @@ namespace Onion.Domain.Models
         [StringLength(5000)]
         public string Description { get; set; }
 
+        public int OpdExpenseId { get; set; }
 
-        public int OPDEXPENSE_ID { get; set; }
-
-        [ForeignKey("OPDEXPENSE_ID")]
+        [ForeignKey("OpdExpenseId")]
         public virtual OpdExpense OpdExpense { get; set; }
 
 

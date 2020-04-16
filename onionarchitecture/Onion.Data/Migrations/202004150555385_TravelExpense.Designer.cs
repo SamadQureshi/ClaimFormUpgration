@@ -7,13 +7,13 @@ namespace Onion.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class EXPENSE_NUMBERComputed : IMigrationMetadata
+    public sealed partial class TravelExpense : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(EXPENSE_NUMBERComputed));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TravelExpense));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004091059295_EXPENSE_NUMBERComputed"; }
+            get { return "202004150555385_TravelExpense"; }
         }
         
         string IMigrationMetadata.Source

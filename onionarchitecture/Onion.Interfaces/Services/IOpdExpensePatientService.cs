@@ -7,7 +7,7 @@ namespace Onion.Interfaces.Services
     public interface IOpdExpensePatientService
     {
 
-        List<OpdExpense_Patient> GetAllOpdExpensePatients();
+        List<OpdExpensePatient> GetAllOpdExpensePatients();
 
         List<OpdExpensePatientVM> GetOpdExpensesPatientAgainstOpdExpenseId(int Id);
 

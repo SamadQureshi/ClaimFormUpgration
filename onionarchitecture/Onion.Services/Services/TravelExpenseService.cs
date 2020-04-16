@@ -26,7 +26,7 @@ namespace Onion.Services
         public List<TravelExpenseVM> GetTravelExpensesAgainstOpdExpenseId(int id)
         {
             var travelExpense = _travelExpenseRepository.GetQueryable()
-                 .Where(y => y.OPDEXPENSE_ID == id)               
+                 .Where(y => y.OpdExpense.ID == id)               
                  .ToList();
 
             return Mapper.Map<List<TravelExpenseVM>>(travelExpense);

@@ -1,5 +1,4 @@
 ﻿using Onion.Interfaces.Services;
-using Onion.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,36 +14,41 @@ namespace Onion.WebApp.Controllers
         // GET: OPDEXPENSEIMAGE
 
         private readonly IOpdExpenseImageService _opdExpenseImageService;
-
-        public OpdExpenseImageController(IOpdExpenseImageService opdExpenseImageService)
+        private readonly IOpdExpenseService _opdExpenseService;
+        private const string UrlIndex = "Index";
+        private const string UrlHome = "Home";
+        public OpdExpenseImageController(IOpdExpenseImageService opdExpenseImageService,IOpdExpenseService opdExpenseService)
         {
             _opdExpenseImageService = opdExpenseImageService;
+
+            _opdExpenseService = opdExpenseService;
 
         }
 
 
 
-        public ActionResult Index(int id, String opdType)
+        public ActionResult Index(int id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
 
+
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
+
+                ViewData["OPDTYPE"] = opdExpenseService.OpdType;
                 ViewData["OPDEXPENSE_ID"] = id;
-
-                ViewData["OPDTYPE"] = opdType;
-
 
                 ImgViewModel model = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpenseImageVM>() };
 
                 model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(id));
 
-                model.OPDExpense_ID = id;
+                model.OPDExpenseID = id;
                 return this.View(model);
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(UrlIndex, UrlHome);
 
             }
 
@@ -65,23 +69,10 @@ namespace Onion.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(ImgViewModel model)
         {
-            // Initialization.
-            //string fileContent = string.Empty;
-            //string fileContentType = string.Empty;
 
             if (Request.IsAuthenticated)
             {
-                AuthenticateUser();
-
-                //int opdExpense_Id = Convert.ToInt32(Request.Url.Segments[3].ToString());
-
-                //opdExpense_Image.OPDEXPENSE_ID = opdExpense_Id;
-
-                //opdExpense_Image.OPDType = Request.Form["opdType"];
-
-                //ViewData["OPDEXPENSE_ID"] = model.OPDExpense_ID;
-
-                //ViewData["OPDTYPE"] = model.OPDType;
+                AuthenticateUser();              
 
                 if (ModelState.IsValid)
                 {
@@ -91,19 +82,20 @@ namespace Onion.WebApp.Controllers
 
                     OpdExpenseImageVM opdExpense_Image = new OpdExpenseImageVM();
 
-
-                // Initialization.
-                    opdExpense_Image.OPDEXPENSE_ID = model.OPDExpense_ID;
-                    opdExpense_Image.IMAGE_BASE64 = Convert.ToBase64String(uploadedFile);
-                    opdExpense_Image.IMAGE_EXT = model.FileAttach.ContentType;                  
+                    ViewData["OPDTYPE"] = model.OPDType;
+                    ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
+                    // Initialization.
+                    opdExpense_Image.OpdExpenseId = model.OPDExpenseID;
+                    opdExpense_Image.ImageBase64 = Convert.ToBase64String(uploadedFile);
+                    opdExpense_Image.ImageExt = model.FileAttach.ContentType;                  
                     opdExpense_Image.CreatedDate = DateTime.Now;
-                    opdExpense_Image.IMAGE_NAME = model.FileAttach.FileName;
-                    opdExpense_Image.NAME_EXPENSES = model.ExpenseName;
-                    opdExpense_Image.EXPENSE_AMOUNT = model.ExpenseAmount;
+                    opdExpense_Image.ImageName = model.FileAttach.FileName;
+                    opdExpense_Image.NameExpenses = model.ExpenseName;
+                    opdExpense_Image.ExpenseAmount = model.ExpenseAmount;
                     OpdExpenseImageVM OpdExpensePatient_Obj = _opdExpenseImageService.CreateOpdExpenseImage(opdExpense_Image);
                
                 //// Settings.
-                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpense_ID));
+                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
 
                 // Info
                 return this.View(model);
@@ -111,7 +103,7 @@ namespace Onion.WebApp.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(UrlIndex, UrlHome);
 
             }
             return View();
@@ -130,31 +122,17 @@ namespace Onion.WebApp.Controllers
         /// <param name="fileId">File Id parameter</param>
         /// <returns>Return download file</returns>
         public ActionResult DownloadFile(int fileId)
-        {
-           
-            // try
-            // {
-            // Loading dile info.
+        {          
+         
              var fileInfo = _opdExpenseImageService.GetOpdExpensesImagesAgainstId(fileId); 
 
-            // Info.
-             return this.GetFile(fileInfo.IMAGE_BASE64, fileInfo.IMAGE_EXT);
-            //}
-            //catch (Exception ex)
-            //{
-            // Info
-            //Console.Write(ex);
-            //}
-
-            // Info.
-            //return this.View(model);
-
-            //return View();
+             return this.GetFile(fileInfo.ImageBase64, fileInfo.ImageExt);
+         
         }
 
 
         // POST: OPDEXPENSEIMAGE/Delete/5
-        public ActionResult Delete(int id , int opdexpenseid, string opdType)
+        public ActionResult Delete(int id , int opdexpenseid)
         {
 
             if (Request.IsAuthenticated)
@@ -163,18 +141,35 @@ namespace Onion.WebApp.Controllers
 
                 _opdExpenseImageService.DeleteOpdExpenseImage(id);
 
-                ViewData["OPDTYPE"] = opdType;
+                //ViewData["OPDTYPE"] = opdType;
                 // Info.
-                return RedirectToAction("Index", "OPDEXPENSEIMAGE", new { id = opdexpenseid ,opdType = opdType });
+                return RedirectToAction(UrlIndex, "OPDEXPENSEIMAGE", new { id = opdexpenseid});
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(UrlIndex, UrlHome);
 
             }
         }
 
-      
+        [HttpPost]
+        public ActionResult DeleteOPDEXPENSEIMAGE(int id)
+        {
+            try
+            {
+
+                // Loading dile info.
+                _opdExpenseImageService.DeleteOpdExpenseImage(id);
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
+
+            // Info.
+            return new EmptyResult();
+        }
         #endregion
 
         #endregion

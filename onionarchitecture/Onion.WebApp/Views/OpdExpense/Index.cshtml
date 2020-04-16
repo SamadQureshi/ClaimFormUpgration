@@ -39,50 +39,50 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.EXPENSE_NUMBER)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.EMPLOYEE_NAME)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.EMPLOYEE_DEPARTMENT)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CLAIM_MONTH)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CLAIM_YEAR)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.STATUS)</td>
-                                        <td class="text-right">@Html.DisplayFor(modelItem => item.TOTAL_AMOUNT_CLAIMED)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.OPDTYPE)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ExpenseNumber)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.EmployeeDepartment)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ClaimMonth)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ClaimYear)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                        <td class="text-right">@Html.DisplayFor(modelItem => item.TotalAmountClaimed)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpdType)</td>
                                         <td class="actions-col text-right">
-                                            @if (item.OPDTYPE.Equals("OPD Expense"))
+                                            @if (item.OpdType.Equals("OPD Expense"))
                                             {
-                                                if (item.STATUS.Equals("InProcess"))
+                                                if (item.Status.Equals("InProcess"))
                                                 {
-                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
-                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.OPDEXPENSE_ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                                 }
-                                                else if (item.STATUS.Equals("HRRejected"))
+                                                else if (item.Status.Equals("HRRejected"))
                                                 {
-                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                                 }
                                             }
 
-                                            @if (item.OPDTYPE.Equals("Hospital Expense"))
+                                            @if (item.OpdType.Equals("Hospital Expense"))
                                             {
-                                                if (item.STATUS.Equals("InProcess"))
+                                                if (item.Status.Equals("InProcess"))
                                                 {
-                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
-                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.OPDEXPENSE_ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                                 }
-                                                else if (item.STATUS.Equals("HRRejected"))
+                                                else if (item.Status.Equals("HRRejected"))
                                                 {
-                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                                 }
                                             }
                                         </td>
