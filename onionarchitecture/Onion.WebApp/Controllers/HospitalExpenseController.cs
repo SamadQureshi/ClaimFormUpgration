@@ -10,13 +10,13 @@ using System.Data.Entity;
 using Onion.Interfaces.Services;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
+using NLog;
 
 namespace Onion.WebApp.Controllers
 {
     public class HospitalExpenseController : Controller
     {       
-        //private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
@@ -39,8 +39,7 @@ namespace Onion.WebApp.Controllers
         // GET: OPDEXPENSEs
         public ActionResult Index()
         {
-
-            //return View(db.OPDEXPENSEs.Where(e => e.OPDTYPE == "Hospital Expense").ToList());
+          
             return RedirectToAction(UrlIndex, UrlOpdExpense);
 
 
@@ -74,7 +73,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Details()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Details()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -99,7 +98,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -135,7 +134,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -180,7 +179,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -269,7 +268,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -307,7 +306,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -346,7 +345,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
+                logger.Error("Hospital Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }

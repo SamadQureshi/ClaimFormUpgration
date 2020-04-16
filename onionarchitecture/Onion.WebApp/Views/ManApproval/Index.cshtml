@@ -38,7 +38,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.EXPENSE_NUMBER)
+                                            @Html.DisplayFor(modelItem => item.ExpenseNumber)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.EmployeeName)
@@ -59,16 +59,16 @@
                                             @Html.DisplayFor(modelItem => item.TotalAmountClaimed)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.OPDTYPE)
+                                            @Html.DisplayFor(modelItem => item.OpdType)
                                         </td>
                                         <td class="actions-col text-right">
-                                            @if (item.OPDTYPE.Equals("OPD Expense"))
+                                            @if (item.OpdType.Equals("OPD Expense"))
                                             {
-                                                <a href="@Url.Action("MANOPDExpense", "MANAPPROVAL", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="@Url.Action("ManOPDExpense", "ManApproval", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                             }
-                                            @if (item.OPDTYPE.Equals("Hospital Expense"))
+                                            @if (item.OpdType.Equals("Hospital Expense"))
                                             {
-                                                <a href="@Url.Action("MANHOSPITALExpense", "MANAPPROVAL", new { id = item.OPDEXPENSE_ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="@Url.Action("ManHOSPITALExpense", "ManApproval", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                             }
                                         </td>
                                     </tr>

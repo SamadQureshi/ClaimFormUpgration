@@ -1,4 +1,5 @@
-﻿using Onion.Interfaces.Services;
+﻿using NLog;
+using Onion.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace Onion.WebApp.Controllers
     {
         // GET: OPDEXPENSEIMAGE
 
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpenseService _opdExpenseService;
         private const string UrlIndex = "Index";
@@ -140,8 +142,7 @@ namespace Onion.WebApp.Controllers
                 AuthenticateUser();
 
                 _opdExpenseImageService.DeleteOpdExpenseImage(id);
-
-                //ViewData["OPDTYPE"] = opdType;
+            
                 // Info.
                 return RedirectToAction(UrlIndex, "OPDEXPENSEIMAGE", new { id = opdexpenseid});
             }
@@ -216,8 +217,6 @@ namespace Onion.WebApp.Controllers
             ViewBag.UserName = managerController.GetName();
 
         }
-
-
 
     }
 }

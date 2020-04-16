@@ -4,12 +4,14 @@ using System.Net;
 using Onion.Interfaces.Services;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
+using NLog;
 
 namespace Onion.WebApp.Controllers
 {
     public class OpdExpenseController : Controller
     {
-
+        
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
@@ -52,7 +54,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("OPD Expense : UrlIndex()" + ex.Message.ToString());
+                logger.Error("OPD Expense : UrlIndex()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -88,7 +90,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
                 
-                //logger.Error("OPD Expense : Details" + ex.Message.ToString());
+                logger.Error("OPD Expense : Details" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -113,7 +115,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("OPD Expense : Create()" + ex.Message.ToString());
+                logger.Error("OPD Expense : Create()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -151,7 +153,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Create([Bind])" + ex.Message.ToString());
+                logger.Error("OPD Expense : Create([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -194,7 +196,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Edit()" + ex.Message.ToString());
+                logger.Error("OPD Expense : Edit()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -281,7 +283,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Edit([Bind])" + ex.Message.ToString());
+                logger.Error("OPD Expense : Edit([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -319,7 +321,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Delete()" + ex.Message.ToString());
+                logger.Error("OPD Expense : Delete()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -358,7 +360,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : DeleteConfirmed()" + ex.Message.ToString());
+                logger.Error("OPD Expense : DeleteConfirmed()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }

@@ -10,12 +10,13 @@ using Onion.Interfaces.Services;
 using Onion.WebApp.Controllers;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
+using NLog;
 
 namespace Onion.WebApp.Controllers
 {
     public class HrApprovalController : Controller
     {    
-       // private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+       private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
@@ -61,7 +62,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("HRAPPROVAL : Index()" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : Index()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -101,7 +102,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("HRAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -141,7 +142,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("HRAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -182,7 +183,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-               // logger.Error("HRAPPROVAL : HROPDExpense()" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : HROPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -198,6 +199,8 @@ namespace Onion.WebApp.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -231,7 +234,7 @@ namespace Onion.WebApp.Controllers
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.HrApprovalDate = DateTime.Now;
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();
-                    if (oPDEXPENSE.Status == UrlHrApproval)
+                    if (oPDEXPENSE.Status == ClaimStatus.HRAPPROVED)
                     {
                         oPDEXPENSE.HrApproval = true;
                     }
@@ -249,7 +252,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("HRAPPROVAL : HROPDExpense([Bind])" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : HROPDExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -293,7 +296,7 @@ namespace Onion.WebApp.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("HRAPPROVAL : HRHospitalExpense()" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : HRHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -310,6 +313,8 @@ namespace Onion.WebApp.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -356,7 +361,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("HRAPPROVAL : HRHospitalExpense([Bind])" + ex.Message.ToString());
+                logger.Error("HRAPPROVAL : HRHospitalExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -454,6 +459,8 @@ namespace Onion.WebApp.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
+                ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
@@ -506,6 +513,7 @@ namespace Onion.WebApp.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate

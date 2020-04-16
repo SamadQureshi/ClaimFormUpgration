@@ -26,9 +26,8 @@ namespace Onion.WebApp.Controllers
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
-                ViewData["OPDEXPENSE_ID"] = id;             
-                 
-               
+                ViewData["OPDEXPENSE_ID"] = id;          
+                                
 
                 var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
 

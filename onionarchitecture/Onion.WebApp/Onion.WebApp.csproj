@@ -102,6 +102,9 @@
     <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.2.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.2\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -119,6 +122,7 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.3.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -133,6 +137,8 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
@@ -379,9 +385,6 @@
     <Content Include="Views\OpdExpense\Edit.cshtml" />
     <Content Include="Views\OpdExpense\Details.cshtml" />
     <Content Include="Views\OpdExpense\Create.cshtml" />
-    <Content Include="Views\OpdExpense\_OPDExpenseView.cshtml" />
-    <Content Include="Views\OpdExpense\_OPDPatientReceiptImagesEdit.cshtml" />
-    <Content Include="Views\OpdExpense\_OPDPatientReceiptImagesView.cshtml" />
     <Content Include="Views\OpdExpensePatient\Index.cshtml" />
     <Content Include="Scripts\material-dashboard.js.map" />
     <Content Include="Views\OpdExpenseImage\Index.cshtml" />
@@ -389,9 +392,6 @@
     <Content Include="Views\HospitalExpense\Details.cshtml" />
     <Content Include="Views\HospitalExpense\Edit.cshtml" />
     <Content Include="Views\HospitalExpense\Index.cshtml" />
-    <Content Include="Views\HospitalExpense\_HOSExpenseView.cshtml" />
-    <Content Include="Views\HospitalExpense\_HOSPatientReceiptImagesEdit.cshtml" />
-    <Content Include="Views\HospitalExpense\_HOSPatientReceiptImagesView.cshtml" />
     <Content Include="Views\HrApproval\HrHospitalExpense.cshtml" />
     <Content Include="Views\HrApproval\HrOPDExpense.cshtml" />
     <Content Include="Views\HrApproval\Index.cshtml" />
@@ -405,6 +405,12 @@
     <Content Include="Views\TravelExpense\_OPDTravelExpenseEdit.cshtml" />
     <Content Include="Views\TravelExpense\_OPDTravelExpenseView.cshtml" />
     <Content Include="Views\TravelExpense\Details.cshtml" />
+    <Content Include="Views\Shared\_HOSExpenseView.cshtml" />
+    <Content Include="Views\Shared\_HOSPatientReceiptImagesEdit.cshtml" />
+    <Content Include="Views\Shared\_HOSPatientReceiptImagesView.cshtml" />
+    <Content Include="Views\Shared\_OPDExpenseView.cshtml" />
+    <Content Include="Views\Shared\_OPDPatientReceiptImagesEdit.cshtml" />
+    <Content Include="Views\Shared\_OPDPatientReceiptImagesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

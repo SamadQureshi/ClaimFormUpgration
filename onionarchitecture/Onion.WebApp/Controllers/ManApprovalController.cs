@@ -10,13 +10,14 @@ using Onion.Interfaces.Services;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.WebApp.Controllers;
 using Onion.Common.Constants;
+using NLog;
 
 namespace OPDCLAIMFORM.Controllers
 {
     public class ManApprovalController : Controller
     {
-        //private readonly MedicalInfoEntities db = new MedicalInfoEntities();
-        //private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
@@ -38,7 +39,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         // GET: OPDEXPENSEs
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index()
         {
             try
             {
@@ -49,7 +50,7 @@ namespace OPDCLAIMFORM.Controllers
 
                     string emailAddress = GetEmailAddress();                   
 
-                    var opdExp = _opdExpenseService.GetOpdExpensesForFIN();                  
+                    var opdExp = _opdExpenseService.GetOpdExpensesForMAN();                  
                  
                     return View(opdExp);
 
@@ -64,7 +65,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("MANAPPROVAL : Index()" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : Index()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -73,7 +74,7 @@ namespace OPDCLAIMFORM.Controllers
         // GET: OPDEXPENSEs/Details/5
         public ActionResult DetailsForOPDExpense(int? id)
         {
-            //MedicalInfoEntities entities = new MedicalInfoEntities();
+
             try
             {
                 if (Request.IsAuthenticated)
@@ -101,7 +102,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("MANAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -140,7 +141,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-               // logger.Error("MANAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
+               logger.Error("MANAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -182,7 +183,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-               //logger.Error("MANAPPROVAL : MANOPDExpense()" + ex.Message.ToString());
+               logger.Error("MANAPPROVAL : MANOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -199,6 +200,7 @@ namespace OPDCLAIMFORM.Controllers
             {
 
                 string buttonStatus = Request.Form["buttonName"];
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -247,7 +249,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("MANAPPROVAL : MANOPDExpense([Bind])" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : MANOPDExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -276,12 +278,8 @@ namespace OPDCLAIMFORM.Controllers
                     {
                         return RedirectToAction(UrlIndex, UrlManApproval);
                     }
-
-                    //MedicalInfoEntities entities = new MedicalInfoEntities();
-                    //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
-
+                   
                     var result2 = GetHospitalExpense(Convert.ToInt32(id));
-
 
                     ViewData["OPDEXPENSE_ID"] = id;
                     return View(result2);
@@ -295,7 +293,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("MANAPPROVAL : MANHospitalExpense()" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : MANHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -313,6 +311,7 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -359,7 +358,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("MANAPPROVAL : MANHospitalExpense([Bind])" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : MANHospitalExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -442,6 +441,8 @@ namespace OPDCLAIMFORM.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
+                ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
@@ -492,6 +493,7 @@ namespace OPDCLAIMFORM.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate

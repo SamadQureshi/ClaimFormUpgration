@@ -63,7 +63,7 @@
                     @if (ViewContext.RouteData.Values["controller"].ToString().Contains("OPDE"))
                     {
                         <li class="nav-item active">
-                            <a class="nav-link" href="@Url.Action("Index", "OpdExpense")">
+                            <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
                                 <i class="material-icons">content_paste</i>
                                 <p>Expense</p>
                             </a>
@@ -72,7 +72,7 @@
                     else if (ViewContext.RouteData.Values["controller"].ToString().Contains("HOS"))
                     {
                         <li class="nav-item active">
-                            <a class="nav-link" href="@Url.Action("Index", "OpdExpense")">
+                            <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
                                 <i class="material-icons">content_paste</i>
                                 <p>Expense</p>
                             </a>
@@ -81,7 +81,7 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "OpdExpense")">
+                            <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
                                 <i class="material-icons">content_paste</i>
                                 <p>Expense</p>
                             </a>

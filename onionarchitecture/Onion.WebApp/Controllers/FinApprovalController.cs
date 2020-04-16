@@ -13,14 +13,14 @@ using Onion.WebApp.Controllers;
 
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
+using NLog;
 
 namespace OPDCLAIMFORM.Controllers
 {
     public class FinApprovalController : Controller
     {
-        //private readonly MedicalInfoEntities db = new MedicalInfoEntities();
-        //private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
@@ -38,13 +38,8 @@ namespace OPDCLAIMFORM.Controllers
 
         }
 
-
-
-
-
-
         // GET: OPDEXPENSEs
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index()
         {
             try
             {
@@ -59,7 +54,6 @@ namespace OPDCLAIMFORM.Controllers
                    
                     return View(opdExp);
 
-
                 }
                 else
                 {
@@ -69,7 +63,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FINAPPROVAL : Index()" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL : Index()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -107,7 +101,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FINAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL : DetailsForOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -149,7 +143,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FINAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -190,7 +184,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FinAPPROVAL : FINOPDExpense()" + ex.Message.ToString());
+                logger.Error("FinAPPROVAL : FINOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -206,6 +200,7 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -253,7 +248,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FINAPPROVAL : FINOPDExpense([Bind])" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL : FINOPDExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -278,11 +273,7 @@ namespace OPDCLAIMFORM.Controllers
                         return RedirectToAction(UrlIndex, UrlFinApproval);
                     }
 
-                    //MedicalInfoEntities entities = new MedicalInfoEntities();
-                    //OPDEXPENSE oPDEXPENSE = db.OPDEXPENSEs.Find(id);
-
-                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
-             
+                    var result2 = GetHospitalExpense(Convert.ToInt32(id));             
 
                     ViewData["OPDEXPENSE_ID"] = id;
                     return View(result2);
@@ -295,7 +286,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-                //logger.Error("FINAPPROVAL : FINHospitalExpense()" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL : FINHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -312,6 +303,8 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+
+                AuthenticateUser();
 
                 if (buttonStatus == "approved")
                 {
@@ -360,7 +353,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-               // logger.Error("FINAPPROVAL :  FINHospitalExpense([Bind])" + ex.Message.ToString());
+                logger.Error("FINAPPROVAL :  FINHospitalExpense([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -394,18 +387,7 @@ namespace OPDCLAIMFORM.Controllers
 
             // info.
             return file;
-        }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-
+        }  
 
         #endregion
 
@@ -466,6 +448,8 @@ namespace OPDCLAIMFORM.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
+                ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
@@ -516,6 +500,7 @@ namespace OPDCLAIMFORM.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
