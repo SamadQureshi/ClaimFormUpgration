@@ -37,7 +37,7 @@ namespace Onion.WebApp.Controllers
                 if (Request.IsAuthenticated)
                 {
 
-                    AuthenticateUser();               
+                    AuthenticateUser();                  
 
                     string emailAddress = GetEmailAddress();
                     
@@ -531,6 +531,6 @@ namespace Onion.WebApp.Controllers
 
 
         #endregion
-
+       
     }
 }

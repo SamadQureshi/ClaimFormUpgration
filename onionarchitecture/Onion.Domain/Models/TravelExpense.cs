@@ -9,7 +9,12 @@ using System.Threading.Tasks;
 namespace Onion.Domain.Models
 {
     public class TravelExpense : BaseEntity
-    {       
+    {
+        public string ImageName { get; set; }
+
+        public string ImageExt { get; set; }
+
+        public string ImageBase64 { get; set; }
 
         [StringLength(100)]
         public string ExpenseType { get; set; }

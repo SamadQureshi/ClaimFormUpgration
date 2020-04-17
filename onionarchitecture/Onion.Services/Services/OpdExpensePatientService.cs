@@ -34,7 +34,7 @@ namespace Onion.Services
 
         public OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM)
         {
-            object ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
+            var ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
             return Mapper.Map<OpdExpensePatientVM>(ObjOpdExpensePatient);
         }
 

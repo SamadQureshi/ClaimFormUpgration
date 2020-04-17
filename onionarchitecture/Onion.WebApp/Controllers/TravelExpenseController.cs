@@ -1,4 +1,5 @@
-﻿using Onion.Common.Constants;
+﻿using NLog;
+using Onion.Common.Constants;
 using Onion.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,12 @@ namespace Onion.WebApp.Controllers
     {
 
         private readonly ITravelExpenseService _travelExpenseService;
-        private readonly IOpdExpenseService _opdExpenseService;
-
+        private readonly IOpdExpenseService _opdExpenseService;   
         private const string UrlIndex = "Index";
         private const string UrlHome = "Home";
         private const string UrlOpdExpense = "OpdExpense";
         private const string UrlTravelExpense = "TravelExpense";
-
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public TravelExpenseController(ITravelExpenseService travelExpenseService,IOpdExpenseService opdExpenseService)
         {
@@ -28,68 +28,181 @@ namespace Onion.WebApp.Controllers
             _opdExpenseService = opdExpenseService;
 
         }
-        public ActionResult Index(int? id, String opdType)
+        public ActionResult Index(int id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
+
+
+
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
+
+                ViewData["OPDTYPE"] = opdExpenseService.OpdType;
                 ViewData["OPDEXPENSE_ID"] = id;
 
-                if(opdType ==null)
-                {
-                    ViewData["OPDTYPE"] = HttpContext.Request.UrlReferrer.Query.Split('=')[1].Replace("%20", "").ToString();
-                }
+                ImgTravelModel model = new ImgTravelModel { FileAttach = null, ImgLst = new List<TravelExpenseVM>() };
 
-                else
-                {
-                    ViewData["OPDTYPE"] = opdType;
-                }    
+                model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(id));
 
-                var travelExpense = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(id));
-
-                //Add a Dummy Row.
-                travelExpense.Insert(0, new TravelExpenseVM());
-
-
-                return View(travelExpense);
+                model.OPDExpenseID = id;
+                return this.View(model);
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(UrlIndex, UrlHome);
 
             }
 
         }
 
-        [HttpPost]
-        public JsonResult InsertTravelExpense(TravelExpenseVM _travelExpenseVM)
-        {
-            _travelExpenseVM.CreatedDate = DateTime.Now;
-            TravelExpenseVM TravelExpenseObj = _travelExpenseService.CreateTravelExpense(_travelExpenseVM);
 
-           return Json(TravelExpenseObj);
+
+
+
+        #region POST: /Img/Index
+
+        /// <summary>
+        /// POST: /Img/Index
+        /// </summary>
+        /// <param name="model">Model parameter</param>
+        /// <returns>Return - Response information</returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(ImgTravelModel model)
+        {
+
+            if (Request.IsAuthenticated)
+            {
+                AuthenticateUser();
+
+                if (ModelState.IsValid)
+                {
+                    // Converting to bytes.
+                    byte[] uploadedFile = new byte[model.FileAttach.InputStream.Length];
+                    model.FileAttach.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+
+                    TravelExpenseVM opdExpense_Image = new TravelExpenseVM();
+
+                    ViewData["OPDTYPE"] = model.OPDType;
+                    ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
+                    // Initialization.
+                    opdExpense_Image.OpdExpenseId = model.OPDExpenseID;
+                    opdExpense_Image.ImageBase64 = Convert.ToBase64String(uploadedFile);
+                    opdExpense_Image.ImageExt = model.FileAttach.ContentType;
+                    opdExpense_Image.CreatedDate = DateTime.Now;
+                    opdExpense_Image.ImageName = model.FileAttach.FileName;
+                    opdExpense_Image.Description = model.Description;
+                    opdExpense_Image.Amount = model.Amount;
+                    opdExpense_Image.ExpenseType = model.ExpenseType;
+                    TravelExpenseVM OpdExpensePatient_Obj = _travelExpenseService.CreateTravelExpense(opdExpense_Image);
+
+                    //// Settings.
+                    model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
+
+                    // Info
+                    return this.View(model);
+                }
+            }
+            else
+            {
+                return RedirectToAction(UrlIndex, UrlHome);
+
+            }
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult UpdateTravelExpense(TravelExpenseVM _travelExpenseVM)
+       
+        /// <summary>
+        /// GET: /Img/DownloadFile
+        /// </summary>
+        /// <param name="fileId">File Id parameter</param>
+        /// <returns>Return download file</returns>
+        public ActionResult DownloadFile(int fileId)
         {
 
-            _travelExpenseService.UpdateTravelExpense(_travelExpenseVM);
+            var fileInfo = _travelExpenseService.GetTravelExpenseAgainstId(fileId);
 
-            return new EmptyResult();
+            return this.GetFile(fileInfo.ImageBase64, fileInfo.ImageExt);
+
+        }
+
+
+        // POST: OPDEXPENSEIMAGE/Delete/5
+        public ActionResult Delete(int id, int opdexpenseid)
+        {
+
+            if (Request.IsAuthenticated)
+            {
+                AuthenticateUser();
+
+                _travelExpenseService.DeleteTravelExpense(id);
+
+                // Info.
+                return RedirectToAction(UrlIndex, "TravelExpense", new { id = opdexpenseid });
+            }
+            else
+            {
+                return RedirectToAction(UrlIndex, UrlHome);
+
+            }
+        }
+
+        /// <summary>
+        /// Get file method.
+        /// </summary>
+        /// <param name="fileContent">File content parameter.</param>
+        /// <param name="fileContentType">File content type parameter</param>
+        /// <returns>Returns - File.</returns>
+        private FileResult GetFile(string fileContent, string fileContentType)
+        {
+            // Initialization.
+            FileResult file;
+            try
+            {
+                // Get file.
+                byte[] byteContent = Convert.FromBase64String(fileContent);
+                file = this.File(byteContent, fileContentType);
+            }
+            catch (Exception ex)
+            {
+                // Info.
+                throw ex;
+            }
+
+            // info.
+            return file;
         }
 
         [HttpPost]
         public ActionResult DeleteTravelExpense(int id)
         {
+            try
+            {
 
-            _travelExpenseService.DeleteTravelExpense(id);           
-            
+                // Loading dile info.
+                _travelExpenseService.DeleteTravelExpense(id);
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
 
+            // Info.
             return new EmptyResult();
         }
 
-       
+
+
+        #endregion
+
+
+
+
+        #region Travel Expense 
+
         public ActionResult Edit(int? id, string opdType)
         {
             try
@@ -125,7 +238,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Edit()" + ex.Message.ToString());
+                logger.Error("Travel Expense : Edit()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -206,13 +319,46 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                //logger.Error("OPD Expense : Edit([Bind])" + ex.Message.ToString());
+                logger.Error("Travel Expense : Edit([Bind])" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
         }
 
+        public ActionResult Details(int? id)
+        {
 
+
+            try
+            {
+
+                if (Request.IsAuthenticated)
+                {
+                    AuthenticateUser();
+
+                    if (id == null)
+                    {
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
+                    }
+
+
+                    var result2 = GetTravelExpense(Convert.ToInt32(id));
+                    return View(result2);
+
+                }
+                else
+                {
+                    return RedirectToAction("Details()", UrlOpdExpense);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error("OPD Expense : Details" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+        }
 
         private TravelExpenseMasterDetail GetTravelExpense(int Id)
         {
@@ -293,8 +439,6 @@ namespace Onion.WebApp.Controllers
             ViewBag.UserName = managerController.GetName();
 
         }
-
-
         private bool GetTravelExpenseAmount(int Id, decimal? totalAmountClaimed)
         {
             bool result = false;
@@ -320,6 +464,9 @@ namespace Onion.WebApp.Controllers
         }
 
 
+       
+        
+        #endregion
 
     }
 }

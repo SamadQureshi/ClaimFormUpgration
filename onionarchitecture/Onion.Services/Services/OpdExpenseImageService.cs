@@ -33,7 +33,7 @@ namespace Onion.Services
        
         public OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM)
         {
-            object ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
+            var ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
             return Mapper.Map<OpdExpenseImageVM>(ObjOpdExpenseImage);
         }
 

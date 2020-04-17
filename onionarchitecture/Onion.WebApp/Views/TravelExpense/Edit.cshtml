@@ -103,23 +103,9 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.ManagerName, "Manager Name", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.DropDownListFor(model => model.ManagerName, new List<SelectListItem>
-                                {
-                                new SelectListItem {Text = "A", Value = "A"},
-                                new SelectListItem {Text = "B", Value = "B"},
-                                new SelectListItem {Text = "C", Value = "C"},
-                                new SelectListItem {Text = "D", Value = "D"},
-                                new SelectListItem {Text = "E", Value = "E"},
-                                new SelectListItem {Text = "F", Value = "F"},
-                                new SelectListItem {Text = "G", Value = "G"},
-                                new SelectListItem {Text = "H", Value = "H"},
-                                new SelectListItem {Text = "I", Value = "I"},
-                                new SelectListItem {Text = "J", Value = "J"},
-                                new SelectListItem {Text = "K", Value = "K"},
-                                new SelectListItem {Text = "L", Value = "L"},
-
-                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                                @Html.LabelFor(model => model.ManagerName, "Name of Manager:", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.ManagerName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ManagerName, "", new { @class = "error" })
                             </div>
                         </div>
 
@@ -136,13 +122,13 @@
     @Html.Partial("_OPDTravelExpenseEdit", Model)
     <div class="col-md-12">
         <div>
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List","Index", "OpdExpense")
         </div>
     </div>
 </div>
 <script type="text/javascript">
 jQuery(function () {
-    var regionsSelect = $('#opdEXPENSE_EMPLOYEE_DEPARTMENT');
+    var regionsSelect = $('#EmployeeDepartment');
     $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
         if (regions != null && !jQuery.isEmptyObject(regions)) {
             $.each(regions, function (index, region) {

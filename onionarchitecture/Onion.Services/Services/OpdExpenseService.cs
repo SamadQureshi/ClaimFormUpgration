@@ -25,12 +25,9 @@ namespace Onion.Services
 
         public OpdExpenseVM GetOpdExpensesAgainstId(int Id)
         {
-            var opdExpense = _opdExpenseRepository.GetById(Id);
-            //.Where(y => y.OPDEXPENSE_ID == Id)
-            //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.Status, t.OPDTYPE, t.OPDEXPENSE_ID, t.EXPENSE_NUMBER })
-            //.ToList();
+            var opdExpense = _opdExpenseRepository.GetById(Id);        
             return Mapper.Map<OpdExpenseVM>(opdExpense);
-            //return opdExpense;
+           
         }
 
         public List<OpdExpenseVM> GetOpdExpensesAgainstEmailAddress(string EmailAddress)
@@ -46,7 +43,7 @@ namespace Onion.Services
         public OpdExpenseVM CreateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
            
-            object OpdExpense  =_opdExpenseRepository.Add(Mapper.Map<OpdExpense>(opdExpenseVm));
+            var OpdExpense  =_opdExpenseRepository.Add(Mapper.Map<OpdExpense>(opdExpenseVm));
             return Mapper.Map<OpdExpenseVM>(OpdExpense);
         }
 

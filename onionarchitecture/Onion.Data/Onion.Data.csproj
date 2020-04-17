@@ -54,6 +54,10 @@
     <Compile Include="Migrations\202004150615490_TravelExpense2.Designer.cs">
       <DependentUpon>202004150615490_TravelExpense2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004161047584_TravelExpenseImage.cs" />
+    <Compile Include="Migrations\202004161047584_TravelExpenseImage.Designer.cs">
+      <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004150615490_TravelExpense2.resx">
       <DependentUpon>202004150615490_TravelExpense2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161047584_TravelExpenseImage.resx">
+      <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

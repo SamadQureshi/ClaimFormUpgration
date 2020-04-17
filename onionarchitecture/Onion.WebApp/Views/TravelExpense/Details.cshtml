@@ -1,4 +1,4 @@
-﻿@model CO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
 
 @{
     ViewBag.Title = "Details";
@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row mt-3">
-                        @Html.Partial("_OPDExpenseView", Model)
+                        @Html.Partial("_TravelExpenseView", Model)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })

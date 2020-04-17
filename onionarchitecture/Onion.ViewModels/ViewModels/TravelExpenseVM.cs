@@ -13,15 +13,23 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         public string ExpenseType { get; set; }
         public decimal? Amount { get; set; }
         public string Description { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string ImageExt { get; set; }
+
+        public string ImageBase64 { get; set; }
+
         public int OpdExpenseId { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public string Created_By { get; set; }
-        public string Modified_By { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
-        public string ManagerName { get; set; }
+        public virtual OpdExpense OpdExpense { get; set; }
+      
 
     }
 }

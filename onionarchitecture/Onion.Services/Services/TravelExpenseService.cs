@@ -34,24 +34,27 @@ namespace Onion.Services
 
         public TravelExpenseVM CreateTravelExpense(TravelExpenseVM travelExpenseVM)
         {
-            object ObjOpdExpensePatient = _travelExpenseRepository.Add(Mapper.Map<TravelExpense>(travelExpenseVM));
+            var ObjOpdExpensePatient = _travelExpenseRepository.Add(Mapper.Map<TravelExpense>(travelExpenseVM));
             return Mapper.Map<TravelExpenseVM>(ObjOpdExpensePatient);
         }
 
 
         public void UpdateTravelExpense(TravelExpenseVM travelExpenseVM)
         {
-
             _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseVM));
-
         }
 
         public void DeleteTravelExpense(object id)
         {
-
             _travelExpenseRepository.Delete(id);
-
         }
+
+        public TravelExpenseVM GetTravelExpenseAgainstId(int Id)
+        {
+            var opdExpenseImage = _travelExpenseRepository.GetById(Id);
+            return Mapper.Map<TravelExpenseVM>(opdExpenseImage);
+        }
+
 
     }
 }

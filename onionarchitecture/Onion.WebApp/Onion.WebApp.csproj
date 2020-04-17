@@ -411,6 +411,8 @@
     <Content Include="Views\Shared\_OPDExpenseView.cshtml" />
     <Content Include="Views\Shared\_OPDPatientReceiptImagesEdit.cshtml" />
     <Content Include="Views\Shared\_OPDPatientReceiptImagesView.cshtml" />
+    <Content Include="Views\TravelExpense\Index.cshtml" />
+    <Content Include="Views\TravelExpense\_TravelExpenseView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

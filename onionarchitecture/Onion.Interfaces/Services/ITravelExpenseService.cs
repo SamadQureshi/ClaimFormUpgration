@@ -16,6 +16,7 @@ namespace Onion.Interfaces.Services
         void UpdateTravelExpense(TravelExpenseVM travelExpenseVM);
 
         void DeleteTravelExpense(object id);
+        TravelExpenseVM GetTravelExpenseAgainstId(int Id);
 
     }
 }

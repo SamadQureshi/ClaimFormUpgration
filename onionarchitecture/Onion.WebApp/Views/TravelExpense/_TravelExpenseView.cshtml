@@ -1,0 +1,49 @@
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeName, "Employee Name", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.EmployeeName, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeDepartment, "Employee Department", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.EmployeeDepartment, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimMonth, "Claim For Month", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimMonth, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimYear, "Claim For Year", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimYear, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.TotalAmountClaimed, "Total Amount Claimed", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.TotalAmountClaimed, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control disabled" } })
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group bmd-form-group is-filled custom-form-group">
+        @Html.LabelFor(model => model.ManagerName, "Manager Name", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+        @Html.EditorFor(model => model.ManagerName, new { htmlAttributes = new { @class = "form-control disabled" } })
+    </div>
+</div>

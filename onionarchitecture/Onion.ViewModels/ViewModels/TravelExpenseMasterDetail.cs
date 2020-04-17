@@ -95,6 +95,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string DrugsPrescribedDescription { get; set; }
 
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string ManagerName { get; set; }
 
         public string ExpenseNumber { get; set; }
