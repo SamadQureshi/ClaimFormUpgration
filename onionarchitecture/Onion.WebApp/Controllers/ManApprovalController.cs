@@ -194,7 +194,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MANOPDExpense( OpdExpenseVM oPDEXPENSE)
+        public ActionResult MANOPDExpense(ManOPDVM oPDEXPENSE)
         {
             try
             {
@@ -305,7 +305,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MANHospitalExpense(OpdExpenseVM oPDEXPENSE)
+        public ActionResult MANHospitalExpense(ManOPDVM oPDEXPENSE)
         {
 
             try
@@ -403,11 +403,11 @@ namespace OPDCLAIMFORM.Controllers
 
         #endregion
 
-        private OpdExpenseVM GetOPDExpense(int Id)
+        private ManOPDVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new OpdExpenseVM()
+            var opdInformation = new ManOPDVM()
             {
 
                 OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
@@ -451,13 +451,13 @@ namespace OPDCLAIMFORM.Controllers
 
             return opdInformation;
         }
-        private HospitalExpenseVM GetHospitalExpense(int Id)
+        private ManHOSVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HospitalExpenseVM()
+            var hospitalInformation = new ManHOSVM()
             {
 
 

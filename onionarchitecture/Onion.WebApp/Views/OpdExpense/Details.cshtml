@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row mt-3">
-                        @Html.Partial("_OPDExpenseView", Model)
+                        @Html.Partial("~/Views/OpdExpense/_OPDExpenseView.cshtml", Model)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        @Html.Partial("_OPDPatientReceiptImagesView", Model)
+        @Html.Partial("~/Views/OpdExpense/_OPDPatientReceiptImagesView.cshtml", Model)
         <div class="col-md-12">
             @Html.ActionLink("Back to List", "Index")
         </div>

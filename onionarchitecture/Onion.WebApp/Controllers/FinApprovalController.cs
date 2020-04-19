@@ -195,7 +195,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FINOPDExpense(OpdExpenseVM oPDEXPENSE)
+        public ActionResult FINOPDExpense(FinOPDVM oPDEXPENSE)
         {
             try
             {
@@ -298,7 +298,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FINHospitalExpense(OpdExpenseVM oPDEXPENSE)
+        public ActionResult FINHospitalExpense(FinOPDVM oPDEXPENSE)
         {
             try
             {
@@ -410,11 +410,11 @@ namespace OPDCLAIMFORM.Controllers
         }
 
 
-        private OpdExpenseVM GetOPDExpense(int Id)
+        private FinOPDVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new OpdExpenseVM()
+            var opdInformation = new FinOPDVM()
             {
 
                 OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
@@ -458,13 +458,13 @@ namespace OPDCLAIMFORM.Controllers
 
             return opdInformation;
         }
-        private HospitalExpenseVM GetHospitalExpense(int Id)
+        private FinHOSVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HospitalExpenseVM()
+            var hospitalInformation = new FinHOSVM()
             {
 
 

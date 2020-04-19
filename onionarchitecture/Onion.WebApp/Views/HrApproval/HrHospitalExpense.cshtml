@@ -1,26 +1,26 @@
-﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.HospitalExpenseVM
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.HrHOSVM
 
 @{
     ViewBag.Title = "HR-HospitalExpense";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">assignment</i>
-                    </div>
-                    <h4 class="card-title">HR-HospitalExpense</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">assignment</i>
                 </div>
-                <div class="card-body">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new  
-    {  
-        id = "EditForm"
-        
-    }))
-                    {
-                        @Html.AntiForgeryToken()
+                <h4 class="card-title">HR-HospitalExpense</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new
+                {
+                    id = "EditForm"
+
+                }))
+                {
+                    @Html.AntiForgeryToken()
 
                     <div class="row mt-3">
                         @Html.HiddenFor(model => model.ID)
@@ -29,7 +29,7 @@
                         @Html.HiddenFor(model => model.EmployeeEmailAddress)
                         @Html.Hidden("buttonName")
 
-                        @Html.Partial("_HOSExpenseView", Model)
+                        @Html.Partial("~/Views/HospitalExpense/_HOSExpenseView.cshtml", Model)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextAreaFor(model => model.HrComment, 2, 40, new { @class = "form-control custom-textarea" })
                                 @Html.ValidationMessageFor(model => model.HrComment, "", new { @class = "text-danger" })
                             </div>
@@ -54,23 +54,24 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                                <button type="submit" class="btn btn-primary" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                                <button type="submit" class="btn btn-primary" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
+                                <input type="submit" value="Save" class="btn btn-primary create-btn" />
+                                <button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
+                                <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
                             </div>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    }
-                </div>
+                }
             </div>
         </div>
-        @Html.Partial("_HOSPatientReceiptImagesView", Model)
-        <div class="col-md-12">
-            @Html.ActionLink("Back to List", "Index")
-        </div>
     </div>
-
+    @Html.Partial("~/Views/HospitalExpense/_HOSPatientReceiptImagesView.cshtml", Model)
+    <div class="col-md-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
     function Validate(ctl, event) {
@@ -79,3 +80,4 @@
     md.initShowSwal('warning-message-and-edit-HR', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl);
     }
     </script>
+}

@@ -1,4 +1,4 @@
-﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.HospitalExpenseVM
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.ManHOSVM
 
 @{
     ViewBag.Title = "Manager-HospitalExpense";
@@ -15,105 +15,108 @@
                 <h4 class="card-title">Manager-HospitalExpense</h4>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new  
-    {  
-        id = "EditForm"
-        
-    }))
+                @using (Html.BeginForm(null, null, FormMethod.Post, new
+                {
+                    id = "EditForm"
+
+                }))
                 {
                     @Html.AntiForgeryToken()
 
-                <div class="row mt-3">
+                    <div class="row mt-3">
 
-                    @Html.HiddenFor(model => model.ID)
-                    @Html.HiddenFor(model => model.OpdType)
-                    @Html.HiddenFor(model => model.ManagementApprovalDate)
-                    @Html.HiddenFor(model => model.HrApprovalDate)
-                    @Html.HiddenFor(model => model.FinanceApprovalDate)
-                    @Html.HiddenFor(model => model.CreatedDate)
-                    @Html.HiddenFor(model => model.EmployeeEmailAddress)
-                    @Html.HiddenFor(model => model.HrEmailAddress)
-                    @Html.HiddenFor(model => model.FinanceEmailAddress)
-                    @Html.Hidden("buttonName")
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.HiddenFor(model => model.OpdType)
+                        @Html.HiddenFor(model => model.ManagementApprovalDate)
+                        @Html.HiddenFor(model => model.HrApprovalDate)
+                        @Html.HiddenFor(model => model.FinanceApprovalDate)
+                        @Html.HiddenFor(model => model.CreatedDate)
+                        @Html.HiddenFor(model => model.EmployeeEmailAddress)
+                        @Html.HiddenFor(model => model.HrEmailAddress)
+                        @Html.HiddenFor(model => model.FinanceEmailAddress)
+                        @Html.Hidden("buttonName")
 
-                    @Html.Partial("_HOSExpenseView", Model)
+                        @Html.Partial("~/Views/HospitalExpense/_HOSExpenseView.cshtml", Model)
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.EditorFor(model => model.TotalAmountApproved, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TotalAmountApproved, "", new { @class = "text-danger" })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.TotalAmountApproved, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TotalAmountApproved, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FinanceName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextAreaFor(model => model.ManagementComment, 2, 40, new { @class = "form-control custom-textarea" })
+                                @Html.ValidationMessageFor(model => model.ManagementComment, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.ManagementName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
+                                @Html.ValidationMessageFor(model => model.ManagementName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="submit" value="Save" class="btn btn-primary  create-btn">Save</button>
+                                <button type="submit" class="btn btn-primary  create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
+                                <button type="submit" class="btn btn-primary  create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.FinanceName, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group bmd-form-group is-filled custom-form-group">
-                            @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                            @Html.TextAreaFor(model => model.ManagementComment, 2, 40, new { @class = "form-control custom-textarea" })
-                            @Html.ValidationMessageFor(model => model.ManagementComment, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.EditorFor(model => model.ManagementName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
-                            @Html.ValidationMessageFor(model => model.ManagementName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <button type="submit" value="Save" class="btn btn-primary">Save</button>
-                            <button type="submit" class="btn btn-primary" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                            <button type="submit" class="btn btn-primary" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
-                        </div>
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    </div>
-                </div>
                 }
             </div>
         </div>
     </div>
-    @Html.Partial("_HOSPatientReceiptImagesView", Model)
+    @Html.Partial("~/Views/HospitalExpense/_HOSPatientReceiptImagesView.cshtml", Model)
     <div class="col-md-12">
         @Html.ActionLink("Back to List", "Index")
     </div>
 </div>
-
-<script type="text/javascript">
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
 
     function Validate(ctl, event) {
     event.preventDefault();
     document.getElementById("buttonName").value = ctl.value;
     md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl);
     }
-</script>
+    </script>
+
+}

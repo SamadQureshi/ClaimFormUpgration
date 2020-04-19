@@ -399,20 +399,23 @@
     <Content Include="Views\FinApproval\FinOPDExpense.cshtml" />
     <Content Include="Views\FinApproval\Index.cshtml" />
     <Content Include="Views\ManApproval\Index.cshtml" />
-    <Content Include="Views\ManApproval\MANHOSPITALExpense.cshtml" />
-    <Content Include="Views\ManApproval\MANOPDExpense.cshtml" />
+    <Content Include="Views\ManApproval\ManHospitalExpense.cshtml" />
+    <Content Include="Views\ManApproval\ManOPDExpense.cshtml" />
     <Content Include="Views\TravelExpense\Edit.cshtml" />
     <Content Include="Views\TravelExpense\_OPDTravelExpenseEdit.cshtml" />
     <Content Include="Views\TravelExpense\_OPDTravelExpenseView.cshtml" />
     <Content Include="Views\TravelExpense\Details.cshtml" />
-    <Content Include="Views\Shared\_HOSExpenseView.cshtml" />
-    <Content Include="Views\Shared\_HOSPatientReceiptImagesEdit.cshtml" />
-    <Content Include="Views\Shared\_HOSPatientReceiptImagesView.cshtml" />
-    <Content Include="Views\Shared\_OPDExpenseView.cshtml" />
-    <Content Include="Views\Shared\_OPDPatientReceiptImagesEdit.cshtml" />
-    <Content Include="Views\Shared\_OPDPatientReceiptImagesView.cshtml" />
+    <Content Include="Views\HospitalExpense\_HOSExpenseView.cshtml" />
+    <Content Include="Views\HospitalExpense\_HOSPatientReceiptImagesEdit.cshtml" />
+    <Content Include="Views\HospitalExpense\_HOSPatientReceiptImagesView.cshtml" />
+    <Content Include="Views\OpdExpense\_OPDExpenseView.cshtml" />
+    <Content Include="Views\OpdExpense\_OPDPatientReceiptImagesEdit.cshtml" />
+    <Content Include="Views\OpdExpense\_OPDPatientReceiptImagesView.cshtml" />
     <Content Include="Views\TravelExpense\Index.cshtml" />
     <Content Include="Views\TravelExpense\_TravelExpenseView.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Shared\_Footerbar.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

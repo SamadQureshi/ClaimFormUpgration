@@ -194,43 +194,43 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HROPDExpense(OpdExpenseVM oPDEXPENSE)
+        public ActionResult HROPDExpense(HrOPDVM oPDEXPENSE)
         {
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
 
                 AuthenticateUser();
-
-                if (buttonStatus == "approved")
-                {
-                    oPDEXPENSE.Status = ClaimStatus.HRAPPROVED;
-
-                   if(oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }                
-                   
-
-                }
-                else if (buttonStatus == "rejected")
-                {
-                    oPDEXPENSE.Status = ClaimStatus.HRREJECTED;
-
-                    if (oPDEXPENSE.HrComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_HRCOMMENTS);
-                    }
-                }
-                else
-                {
-                    oPDEXPENSE.Status = ClaimStatus.HRINPROCESS;
-                }
-
-               
-
                 if (ModelState.IsValid)
                 {
+                    if (buttonStatus == "approved")
+                    {
+                        oPDEXPENSE.Status = ClaimStatus.HRAPPROVED;
+
+                        //if(oPDEXPENSE.TotalAmountApproved.ToString() == "")
+                        // {
+                        //     ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
+                        // }                
+
+
+                    }
+                    else if (buttonStatus == "rejected")
+                    {
+                        oPDEXPENSE.Status = ClaimStatus.HRREJECTED;
+
+                        //if (oPDEXPENSE.HrComment == null)
+                        //{
+                        //    ModelState.AddModelError("", Constants.MSG_APPROVAL_HRCOMMENTS);
+                        //}
+                    }
+                    else
+                    {
+                        oPDEXPENSE.Status = ClaimStatus.HRINPROCESS;
+                    }
+
+
+
+
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.HrApprovalDate = DateTime.Now;
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();
@@ -308,7 +308,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HRHospitalExpense( OpdExpenseVM oPDEXPENSE)
+        public ActionResult HRHospitalExpense(HrOPDVM oPDEXPENSE)
         {
             try
             {
@@ -421,11 +421,11 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        private OpdExpenseVM GetOPDExpense(int Id)
+        private HrOPDVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new OpdExpenseVM()
+            var opdInformation = new HrOPDVM()
             {
 
                 OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
@@ -470,13 +470,13 @@ namespace Onion.WebApp.Controllers
             return opdInformation;
         }
 
-        private HospitalExpenseVM GetHospitalExpense(int Id)
+        private HrHOSVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HospitalExpenseVM()
+            var hospitalInformation = new HrHOSVM()
             {
 
 
