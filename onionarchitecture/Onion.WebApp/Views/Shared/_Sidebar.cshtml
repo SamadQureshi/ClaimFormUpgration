@@ -38,93 +38,110 @@
                 </div>
             </div>
         }
-        <ul class="nav">
-            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
-                <a class="nav-link" href="@Url.Action("Index", "Home")">
-                    <i class="material-icons">dashboard</i>
-                    <p>Home</p>
+    <ul class="nav">
+        <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+            <a class="nav-link" href="@Url.Action("Index", "Home")">
+                <i class="material-icons">dashboard</i>
+                <p>Home</p>
+            </a>
+        </li>
+        @if (ViewContext.RouteData.Values["controller"].ToString().Contains("OPDE"))
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
+                    <i class="material-icons">content_paste</i>
+                    <p>Expense</p>
                 </a>
             </li>
-            @if (ViewContext.RouteData.Values["controller"].ToString().Contains("OPDE"))
-            {
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
-                        <i class="material-icons">content_paste</i>
-                        <p>Expense</p>
-                    </a>
-                </li>
-            }
-            else if (ViewContext.RouteData.Values["controller"].ToString().Contains("HOS"))
-            {
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
-                        <i class="material-icons">content_paste</i>
-                        <p>Expense</p>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
-                        <i class="material-icons">content_paste</i>
-                        <p>Expense</p>
-                    </a>
-                </li>
-            }
+        }
+        else if (ViewContext.RouteData.Values["controller"].ToString().Contains("HOS"))
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
+                    <i class="material-icons">content_paste</i>
+                    <p>Expense</p>
+                </a>
+            </li>
+        }
+        else if (ViewContext.RouteData.Values["controller"].ToString().Contains("Travel"))
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
+                    <i class="material-icons">content_paste</i>
+                    <p>Expense</p>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
+                    <i class="material-icons">content_paste</i>
+                    <p>Expense</p>
+                </a>
+            </li>
+        }
 
-            @if (ViewBag.RollType == "HR")
-            {
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "HrApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "HrApproval")">
-                        <i class="material-icons">person</i>
-                        <p>HR Approval</p>
-                    </a>
-                </li>
-            }
-            @if (ViewBag.RollType == "FIN")
-            {
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "FinApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "FinApproval")">
-                        <i class="material-icons">person</i>
-                        <p>Finance Approval</p>
-                    </a>
-                </li>
-            }
-            @if (ViewBag.RollType == "MAN")
-            {
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "ManApproval")">
-                        <i class="material-icons">person</i>
-                        <p>Management Approval</p>
-                    </a>
-                </li>
-            }
+        @if (ViewBag.RollType == "HR")
+        {
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "HrApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "HrApproval")">
+                    <i class="material-icons">person</i>
+                    <p>HR Approval</p>
+                </a>
+            </li>
+        }
+        @if (ViewBag.RollType == "FIN")
+        {
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "FinApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "FinApproval")">
+                    <i class="material-icons">person</i>
+                    <p>Finance Approval</p>
+                </a>
+            </li>
+        }
+        @if (ViewBag.RollType == "MAN")
+        {
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "ManApproval")">
+                    <i class="material-icons">person</i>
+                    <p>Management Approval</p>
+                </a>
+            </li>
+        }
+        @if (ViewBag.RollType == "MANTRAVEL")
+        {
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManTravelApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "ManTravelApproval")">
+                    <i class="material-icons">person</i>
+                    <p>Management Approval</p>
+                </a>
+            </li>
+        }
+        @if (ViewBag.RollType == "GEN")
+        {
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "HrApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "HrApproval")">
+                    <i class="material-icons">person</i>
+                    <p>HR Approval</p>
+                </a>
+            </li>
 
-            @if (ViewBag.RollType == "GEN")
-            {
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "HrApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "HrApproval")">
-                        <i class="material-icons">person</i>
-                        <p>HR Approval</p>
-                    </a>
-                </li>
-
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "FinApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "FinApproval")">
-                        <i class="material-icons">person</i>
-                        <p>Finance Approval</p>
-                    </a>
-                </li>
-                <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManApproval" ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "ManApproval")">
-                        <i class="material-icons">person</i>
-                        <p>Management Approval</p>
-                    </a>
-                </li>
-            }
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "FinApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "FinApproval")">
+                    <i class="material-icons">person</i>
+                    <p>Finance Approval</p>
+                </a>
+            </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "ManApproval")">
+                    <i class="material-icons">person</i>
+                    <p>Management Approval</p>
+                </a>
+            </li>
+        }
 
 
-        </ul>
+    </ul>
     </div>
 </div>

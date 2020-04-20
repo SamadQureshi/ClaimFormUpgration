@@ -256,13 +256,13 @@ namespace Onion.WebApp.Controllers
             {
                 string buttonStatus = Request.Form["buttonName"];
 
-                // AuthenticateUser();
+                AuthenticateUser();
                 var opdInformation = GetTravelExpense(OpdExpense.ID);
                 ViewData["OPDEXPENSE_ID"] = OpdExpense.ID;
                 ViewData["OPDTYPE"] = OpdExpense.OpdType;
                 if (buttonStatus == "submit")
                 {
-                    OpdExpense.Status = ClaimStatus.SUBMITTED;
+                    OpdExpense.Status = ClaimStatus.FININPROCESS;
                 }
                 else
                 {
@@ -270,7 +270,7 @@ namespace Onion.WebApp.Controllers
                 }
 
 
-                if (OpdExpense.Status == ClaimStatus.SUBMITTED)
+                if (OpdExpense.Status == ClaimStatus.FININPROCESS)
                 {
 
                    
@@ -284,20 +284,20 @@ namespace Onion.WebApp.Controllers
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                                     _opdExpenseService.UpdateOpdExpense(OpdExpense);
-                                    return RedirectToAction(UrlIndex);
+                                    return RedirectToAction(UrlIndex, UrlOpdExpense);
                                 }
 
                             }
                             else
                             {
-                                ModelState.AddModelError("", Constants.MSG_GENERAL_OPD_EXPENSE_AMOUNT);
+                                ModelState.AddModelError("", Constants.MSG_GENERAL_TRAVEL_EXPENSE_AMOUNT);
                                 return View(opdInformation);
                             }
 
                         }
                         else
                         {
-                            ModelState.AddModelError("", Constants.MSG_GENERAL_ADD_PATIENT_RECEIPTS);
+                            ModelState.AddModelError("", Constants.MSG_GENERAL_ADD_TRAVEL_EXPENSE_RECEIPTS);
                             return View(opdInformation);
                         }
                    
@@ -310,7 +310,7 @@ namespace Onion.WebApp.Controllers
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
-                        return RedirectToAction(UrlIndex);
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
                 }

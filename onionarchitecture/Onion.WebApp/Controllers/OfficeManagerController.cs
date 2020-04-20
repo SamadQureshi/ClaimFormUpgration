@@ -251,6 +251,10 @@ namespace Onion.WebApp.Controllers
             {
                 rollType = "MAN";
             }
+            else if (MANList.Contains(emailAddress))
+            {
+                rollType = "MANTRAVEL";
+            }
             else if (GENList.Contains(emailAddress))
             {
                 rollType = "GEN";

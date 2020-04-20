@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DepartmentVM.cs" />
+    <Compile Include="ViewModels\FinTravelVM.cs" />
     <Compile Include="ViewModels\ManHOSVM.cs" />
     <Compile Include="ViewModels\ManOPDVM.cs" />
     <Compile Include="ViewModels\FinOPDVM.cs" />

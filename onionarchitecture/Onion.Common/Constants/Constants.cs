@@ -18,5 +18,9 @@
 
         public const string MSG_APPROVAL_MANAGERCOMMENTS = "Please Add MAN Comments.";
 
+        public const string MSG_GENERAL_ADD_TRAVEL_EXPENSE_RECEIPTS = "Please Add Travel Expense Receipts";
+
+        public const string MSG_GENERAL_TRAVEL_EXPENSE_AMOUNT = "Travel Expense Amount between Images and Claimed is not same";
+
     }
 }

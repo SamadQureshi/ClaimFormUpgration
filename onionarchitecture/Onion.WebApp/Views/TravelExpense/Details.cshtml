@@ -18,6 +18,13 @@
                         @Html.Partial("_TravelExpenseView", Model)
                         <div class="col-md-6">
                             <div class="form-group">
+                                @Html.LabelFor(model => model.ManagerName, "Manager Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.ManagerName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
                             </div>
