@@ -10,16 +10,26 @@ namespace Onion.Common.Constants
     {
         public const string INPROGRESS = "InProcess";
         public const string SUBMITTED = "Submitted";
-        public const string HRAPPROVED = "HRApproved";
-        public const string HRREJECTED = "HRRejected";
-        public const string HRINPROCESS = "HRInProcess";
-        public const string FINAPPROVED = "FINApproved";
-        public const string FINREJECTED = "FINRejected";
-        public const string FININPROCESS = "FINInProcess";
-        public const string MANAPPROVED = "MANApproved";
-        public const string MANREJECTED = "MANRejected";
-        public const string MANINPROCESS = "MANInProcess";
 
+        public const string HRAPPROVED = "HR-Approved";
+        public const string HRREJECTED = "HR-Rejected";
+        public const string HRINPROCESS = "HR-InProcess";
+
+
+        public const string FINAPPROVED = "FIN-Approved";
+        public const string FINREJECTED = "FIN-Rejected";
+        public const string FININPROCESS = "FIN-InProcess";
+
+
+        public const string MANAPPROVED = "MAN-Approved";
+        public const string MANREJECTED = "MAN-Rejected";
+        public const string MANINPROCESS = "MAN-InProcess";
+
+        public const string MANGINPROCESS = "MANG-InProcess";
+        public const string MANGAPPROVED = "MANG-Approved";
+        public const string MANGREJECT = "MANG-Reject";
+
+        public const string COMPLETED = "Completed";
 
     }
 }

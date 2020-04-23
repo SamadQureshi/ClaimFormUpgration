@@ -83,7 +83,7 @@
 
         event.preventDefault();
         document.getElementById("buttonName").value = ctl.value;
-        md.initShowSwal('warning-message-and-edit-HR', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl);
+        md.initShowSwal('warning-message-and-edit-HR', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
 
 
     }

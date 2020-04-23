@@ -4,9 +4,6 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="header text-center">
-    <h3 class="title">Edit</h3>
-</div>
 <div class="row">
     @using (Html.BeginForm(null, null, FormMethod.Post, new
     {
@@ -142,7 +139,7 @@
         event.preventDefault();
         document.getElementById("buttonName").value = ctl.value;
 
-        md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"], ctl);
+        md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"], ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
 
 
     }

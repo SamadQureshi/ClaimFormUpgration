@@ -57,6 +57,66 @@ namespace Onion.WebApp.Controllers
         }
 
 
+        public ActionResult Create(string opdType)
+        {
+            try
+            {
+                if (Request.IsAuthenticated)
+                {
+                    AuthenticateUser();
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction(UrlIndex, UrlOpdExpense);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error("OPD Expense : Create()" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+
+        }
+
+        // POST: OPDEXPENSEs/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(OpdExpenseVM OpdExpense)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+
+                    OpdExpense.Status = ClaimStatus.INPROGRESS;
+                    OpdExpense.CreatedDate = DateTime.Now;
+                    OpdExpense.EmployeeEmailAddress = GetEmailAddress();
+
+                    OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(OpdExpense);
+
+                    ViewData["OPDEXPENSE_ID"] = OpdExpense_Obj.ID;
+                    ViewData["OPDTYPE"] = OpdExpense_Obj.OpdType;
+
+                    if (OpdExpense.OpdType == FormType.OPDExpense)
+                        return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.OPDExpense });
+                    else if (OpdExpense.OpdType == FormType.TravelExpense)
+                        return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.TravelExpense });
+                }
+                return View(OpdExpense);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("OPD Expense : Create([Bind])" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+        }
 
 
 
@@ -271,10 +331,8 @@ namespace Onion.WebApp.Controllers
 
 
                 if (OpdExpense.Status == ClaimStatus.FININPROCESS)
-                {
-
-                   
-                        if (opdInformation.ListTravelExpense.Count > 0)
+                {                  
+                    if (opdInformation.ListTravelExpense.Count > 0)
                         {
 
                             if (GetTravelExpenseAmount(OpdExpense.ID, OpdExpense.TotalAmountClaimed))
@@ -399,6 +457,7 @@ namespace Onion.WebApp.Controllers
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
                 ClaimYear = opdExpense.ClaimYear,
+                ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
                 ManagerName = opdExpense.ManagerName
@@ -434,7 +493,14 @@ namespace Onion.WebApp.Controllers
         {
             OfficeManagerController managerController = new OfficeManagerController();
 
-            ViewBag.RollType = managerController.AuthenticateUser();
+            string emailAddress = GetEmailAddress();
+            if (ValidEmailAddress(emailAddress))
+            {
+                ViewBag.RollTypeTravel = "MANTRAVEL";
+            }
+           
+             ViewBag.RollType = managerController.AuthenticateUser();
+            
 
             ViewBag.UserName = managerController.GetName();
 
@@ -464,8 +530,21 @@ namespace Onion.WebApp.Controllers
         }
 
 
-       
-        
+        public bool ValidEmailAddress(string emailAddress)
+        {
+
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+
         #endregion
 
     }

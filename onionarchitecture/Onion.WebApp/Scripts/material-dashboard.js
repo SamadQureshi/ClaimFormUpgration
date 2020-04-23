@@ -348,7 +348,7 @@ md = {
 	var table = $('#datatable').DataTable();
   },
   
-    initShowSwal: function (type, url, id, ctl) {
+    initShowSwal: function (type, url, id, ctl,textonEdit,textonCancel) {
         if (type == 'basic') {
             swal({
                 title: "Here's a message!",
@@ -431,7 +431,7 @@ md = {
         } else if (type == 'warning-message-and-edit') {           
             swal({
                 title: "Are you sure?",
-                text: "You will not be able to make changes in this OPD Claim!",
+                text: textonEdit,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
@@ -450,7 +450,7 @@ md = {
                     ) {
                         swal({
                             title: 'Cancelled',
-                            text: 'You still can make changes to this OPD Claim',
+                            text: textonCancel,
                             type: 'error',
                             confirmButtonClass: "btn btn-info",
                             buttonsStyling: false

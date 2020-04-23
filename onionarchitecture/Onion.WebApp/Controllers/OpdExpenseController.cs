@@ -5,6 +5,7 @@ using Onion.Interfaces.Services;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 using NLog;
+using System.Collections.Generic;
 
 namespace Onion.WebApp.Controllers
 {
@@ -453,11 +454,33 @@ namespace Onion.WebApp.Controllers
         private void AuthenticateUser()
         {
             OfficeManagerController managerController = new OfficeManagerController();
+            string emailAddress = GetEmailAddress();
+            if (ValidEmailAddress(emailAddress))
+            {
+                ViewBag.RollTypeTravel = "MANTRAVEL";
+            }
+           
+              ViewBag.RollType = managerController.AuthenticateUser();
+           
 
-            ViewBag.RollType = managerController.AuthenticateUser();
+
 
             ViewBag.UserName = managerController.GetName();
 
+        }
+
+        public bool ValidEmailAddress(string emailAddress)
+        {          
+
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                result = true;
+            }
+            return result;
         }
 
         private bool AuthenticateEmailAddress(int Id)

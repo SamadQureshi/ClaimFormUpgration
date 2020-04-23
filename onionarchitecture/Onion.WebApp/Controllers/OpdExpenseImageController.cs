@@ -212,9 +212,37 @@ namespace Onion.WebApp.Controllers
         {
             OfficeManagerController managerController = new OfficeManagerController();
 
-            ViewBag.RollType = managerController.AuthenticateUser();
+            string emailAddress = GetEmailAddress();
+            if (ValidEmailAddress(emailAddress))
+            {
+                ViewBag.RollTypeTravel = "MANTRAVEL";
+            }
+           
+                ViewBag.RollType = managerController.AuthenticateUser();
+            
 
             ViewBag.UserName = managerController.GetName();
+
+        }
+        public bool ValidEmailAddress(string emailAddress)
+        {
+
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+        private string GetEmailAddress()
+        {
+            OfficeManagerController managerController = new OfficeManagerController();
+            string emailAddress = managerController.GetEmailAddress();
+
+            return emailAddress;
 
         }
 

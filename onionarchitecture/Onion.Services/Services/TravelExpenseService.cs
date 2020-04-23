@@ -44,6 +44,10 @@ namespace Onion.Services
             _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseVM));
         }
 
+        public void UpdateTravelExpense(TravelExpenseMasterDetail travelExpenseMasterDetail)
+        {
+            _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseMasterDetail));
+        }
         public void DeleteTravelExpense(object id)
         {
             _travelExpenseRepository.Delete(id);

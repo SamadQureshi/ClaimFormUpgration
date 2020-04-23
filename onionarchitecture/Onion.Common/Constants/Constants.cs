@@ -22,5 +22,8 @@
 
         public const string MSG_GENERAL_TRAVEL_EXPENSE_AMOUNT = "Travel Expense Amount between Images and Claimed is not same";
 
+
+        public const string MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT = "The total Approved Amount Should be less than or Equal to total Claimed Amount";
+
     }
 }

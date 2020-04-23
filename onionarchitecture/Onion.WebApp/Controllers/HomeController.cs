@@ -4,11 +4,19 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Mvc;
+using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly IOpdExpenseService _opdExpenseService;
+
+        public HomeController(IOpdExpenseService opdExpenseService)
+        {
+            _opdExpenseService = opdExpenseService;
+        }
 
         public ActionResult Index()
         {
@@ -59,9 +67,15 @@ namespace Onion.WebApp.Controllers
                 {
                     ViewBag.RollType = "MAN";
                 }
+               
                 else if (GENList.Contains(emailAddress))
                 {
                     ViewBag.RollType = "GEN";
+                }
+
+                if (ValidEmailAddress(emailAddress))
+                {
+                    ViewBag.RollTypeTravel = "MANTRAVEL";
                 }
 
                 ViewBag.UserName = userName;
@@ -85,7 +99,19 @@ namespace Onion.WebApp.Controllers
         }
 
 
+        public bool ValidEmailAddress(string emailAddress)
+        {
 
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
 
 
         //private readonly IUserService _userService;

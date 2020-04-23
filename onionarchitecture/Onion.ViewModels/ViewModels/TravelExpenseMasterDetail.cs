@@ -95,9 +95,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string DrugsPrescribedDescription { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Manager Email Address is required.")]
         [DataType(DataType.EmailAddress)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Please provide valid Email Address.")]
         public string ManagerName { get; set; }
 
         public string ExpenseNumber { get; set; }

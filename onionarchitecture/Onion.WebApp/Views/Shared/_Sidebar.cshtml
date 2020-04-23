@@ -45,7 +45,7 @@
                 <p>Home</p>
             </a>
         </li>
-        @if (ViewContext.RouteData.Values["controller"].ToString().Contains("OPDE"))
+        @if (ViewContext.RouteData.Values["controller"].ToString().Contains("OPDE") || ViewContext.RouteData.Values["controller"].ToString().Contains("OpdE"))
         {
             <li class="nav-item active">
                 <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
@@ -54,7 +54,7 @@
                 </a>
             </li>
         }
-        else if (ViewContext.RouteData.Values["controller"].ToString().Contains("HOS"))
+        else if (ViewContext.RouteData.Values["controller"].ToString().Contains("HOS")|| ViewContext.RouteData.Values["controller"].ToString().Contains("Hosp"))
         {
             <li class="nav-item active">
                 <a class="nav-link" href="@Url.Action("Index", "OPDExpense")">
@@ -109,12 +109,12 @@
                 </a>
             </li>
         }
-        @if (ViewBag.RollType == "MANTRAVEL")
+        @if (ViewBag.RollTypeTravel == "MANTRAVEL")
         {
-            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManTravelApproval" ? "active" : "")">
-                <a class="nav-link" href="@Url.Action("Index", "ManTravelApproval")">
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ManApproval" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("IndexManTravel", "ManApproval")">
                     <i class="material-icons">person</i>
-                    <p>Management Approval</p>
+                    <p>Employee Expense Approval</p>
                 </a>
             </li>
         }

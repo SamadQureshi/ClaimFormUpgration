@@ -7,7 +7,43 @@
                     <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
                 </button>
             </div>
-            <a class="navbar-brand" href="javascript:;">@ViewContext.RouteData.Values["controller"].ToString()</a>
+
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "OpdExpense")
+            {
+                <a class="navbar-brand" href="javascript:;">OPD Expense</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "HospitalExpense")
+            {
+                <a class="navbar-brand" href="javascript:;">Hospital Expense</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "TravelExpense")
+            {
+                <a class="navbar-brand" href="javascript:;">Employee Expense</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "FinApproval")
+            {
+                <a class="navbar-brand" href="javascript:;">Finance Approval</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "ManApproval")
+            {
+                <a class="navbar-brand" href="javascript:;">Manage Approval</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "HrApproval")
+            {
+                <a class="navbar-brand" href="javascript:;">Human Resource Approval</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "HospitalExpense")
+            {
+                <a class="navbar-brand" href="javascript:;">Expense</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "OpdExpenseImage")
+            {
+                <a class="navbar-brand" href="javascript:;">Expenses Image</a>
+            }
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "OPDExpensePatient")
+            {
+                <a class="navbar-brand" href="javascript:;">Patient List </a>
+            }
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>

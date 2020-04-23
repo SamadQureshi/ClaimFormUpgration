@@ -1,7 +1,7 @@
 ﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.FinTravelVM
 
 @{
-    ViewBag.Title = "FIN-OPDExpense";
+    ViewBag.Title = "FIN-Employee Expense";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +13,7 @@
                 <div class="card-icon">
                     <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Finance-OPDExpense</h4>
+                <h4 class="card-title">Finance-Employee Expense</h4>
             </div>
             <div class="card-body">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new
@@ -39,14 +39,6 @@
 
                     @Html.Partial("~/Views/TravelExpense/_TravelExpenseView.cshtml", Model)
 
-                    <div class="col-md-12">
-                        <div class="form-group bmd-form-group is-filled custom-form-group">
-                            @Html.LabelFor(model => model.ManagerName, "Name of Manager:", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.EditorFor(model => model.ManagerName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.ManagerName, "", new { @class = "error" })
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
@@ -54,6 +46,16 @@
                             @Html.ValidationMessageFor(model => model.TotalAmountApproved, "", new { @class = "error" })
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ManagerName, "Manager Email Address", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.ManagerName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ManagerName, "", new { @class = "error" })
+                        </div>
+                    </div>
+
+
 
                     <div class="col-md-6">
                         <div class="form-group bmd-form-group is-filled custom-form-group">
@@ -70,14 +72,25 @@
                             @Html.ValidationMessageFor(model => model.FinanceName, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ManagementComment, "Manager Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
+                        </div>
+                    </div>
 
                     <div class="col-md-12">
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary create-btn" />
-                            <button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="Validate(this, event);">Marked Final Approved</button>
+                            <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="ValidateReject(this, event);">Rejected</button>
+                            <button type="submit" class="btn btn-primary create-btn" value="managerapproval" name="button" onclick="ValidateManagerApproval(this, event);">Request For Manager Approval</button>
+                            <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="ValidateFinalApproval(this, event);">Marked Final Approved</button>
                         </div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
@@ -96,11 +109,23 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
-    function Validate(ctl, event) {
+    function ValidateReject(ctl, event) {
     event.preventDefault();
     document.getElementById("buttonName").value = ctl.value;
-    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl);
-    }
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Reject the Employee Expense Form!","You can make changes to this Employee Expense Form");
+        }
+
+        function ValidateManagerApproval(ctl, event) {
+    event.preventDefault();
+    document.getElementById("buttonName").value = ctl.value;
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to send the Employee Expense Form to Manager For Approval!","You can make changes to this Employee Expense Form");
+        }
+
+          function ValidateFinalApproval(ctl, event) {
+    event.preventDefault();
+    document.getElementById("buttonName").value = ctl.value;
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Mark the Employee Expense Form Completed!","You can make changes to this Employee Expense Form");
+        }
     </script>
 
 }

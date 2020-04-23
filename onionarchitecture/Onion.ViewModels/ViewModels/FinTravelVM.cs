@@ -9,14 +9,16 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
     public class FinTravelVM : TravelExpenseMasterDetail
     {
-        [Required(ErrorMessage = "The Finance Comments is required.")]
+        [Required(ErrorMessage = "The Finance Comment is required.")]
         public new string FinanceComment { get; set; }
 
-        [Required(ErrorMessage = "The Approved Amount is required.")]
+        [Required(ErrorMessage = "The Approved Amount is required.")]      
         public new decimal? TotalAmountApproved { get; set; }
 
-        [Required(ErrorMessage = "The Manager Name is required.")]
+        [Required(ErrorMessage = "The Manager Email Address is required.")]
         public new string ManagerName { get; set; }
+
+      
 
     }
 }

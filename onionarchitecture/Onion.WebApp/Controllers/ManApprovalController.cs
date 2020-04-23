@@ -21,18 +21,18 @@ namespace OPDCLAIMFORM.Controllers
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
-
+        private readonly ITravelExpenseService _travelExpenseService;
 
         private const string UrlIndex = "Index";
         private const string UrlHome = "Home";
         private const string UrlManApproval = "ManApproval";
-
-        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
+        private const string UrlIndexTravel = "IndexManTravel";
+        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, ITravelExpenseService travelExpenseService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpenseImageService = opdExpenseImageService;
             _opdExpensePatientService = opdExpensePatientService;
-
+            _travelExpenseService = travelExpenseService;
         }
 
 
@@ -52,6 +52,38 @@ namespace OPDCLAIMFORM.Controllers
 
                     var opdExp = _opdExpenseService.GetOpdExpensesForMAN();                  
                  
+                    return View(opdExp);
+
+                }
+                else
+                {
+                    return RedirectToAction(UrlIndex, UrlHome);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error("MANAPPROVAL : Index()" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+        }
+
+        public ActionResult IndexManTravel()
+        {
+            try
+            {
+
+                if (Request.IsAuthenticated)
+                {
+                    AuthenticateUser();
+
+                    string emailAddress = GetEmailAddress();
+
+                    var opdExp = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
                     return View(opdExp);
 
                 }
@@ -111,8 +143,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         public ActionResult DetailsForHospitalExpense(int? id)
-        {
-            //MedicalInfoEntities entities = new MedicalInfoEntities();
+        {           
             try
             {
                 if (Request.IsAuthenticated)
@@ -153,7 +184,6 @@ namespace OPDCLAIMFORM.Controllers
         {
             try
             {
-
                 if (Request.IsAuthenticated)
                 {
                     AuthenticateUser();
@@ -198,29 +228,24 @@ namespace OPDCLAIMFORM.Controllers
         {
             try
             {
-
                 string buttonStatus = Request.Form["buttonName"];
                 AuthenticateUser();
 
+                string message = Validation(oPDEXPENSE);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
+
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
-
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
-
-
+                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;                
                 }
                 else if (buttonStatus == "rejected")
                 {
                     oPDEXPENSE.Status = ClaimStatus.MANREJECTED;
-
-                    if (oPDEXPENSE.HrComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_MANAGERCOMMENTS);
-                    }
                 }
                 else
                 {
@@ -313,25 +338,21 @@ namespace OPDCLAIMFORM.Controllers
                 string buttonStatus = Request.Form["buttonName"];
                 AuthenticateUser();
 
+                string message = Validation(oPDEXPENSE);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
+
                 if (buttonStatus == "approved")
                 {
                     oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
-
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
-
-
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANREJECTED;
-
-                    if (oPDEXPENSE.HrComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_MANAGERCOMMENTS);
-                    }
+                    oPDEXPENSE.Status = ClaimStatus.MANREJECTED;                
                 }
                 else
                 {
@@ -365,6 +386,114 @@ namespace OPDCLAIMFORM.Controllers
         }
 
 
+        // GET: OPDEXPENSEs/Edit/5
+        public ActionResult ManTravelExpense(int? id)
+        {
+            try
+            {
+                if (Request.IsAuthenticated)
+                {
+                    AuthenticateUser();
+
+                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    {
+                        return RedirectToAction(UrlIndex, UrlHome);
+                    }
+
+                    if (id == null)
+                    {
+                        return RedirectToAction(UrlIndexTravel, UrlManApproval);
+                    }
+
+
+                    var result2 = GetTravelExpense(Convert.ToInt32(id));
+
+                    ViewData["OPDEXPENSE_ID"] = id;
+                    return View(result2);
+                }
+                else
+                {
+                    return RedirectToAction(UrlIndexTravel, UrlManApproval);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error("FinAPPROVAL : FINOPDExpense()" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+        }
+
+        // POST: OPDEXPENSEs/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManTravelExpense(ManOPDVM oPDEXPENSE)
+        {
+            try
+            {
+                string buttonStatus = Request.Form["buttonName"];
+
+                AuthenticateUser();
+
+                string message = Validation(oPDEXPENSE);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
+
+                if (buttonStatus == "approved")
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANGAPPROVED;
+                    oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
+                    oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
+                    oPDEXPENSE.ManagementApproval = true;
+
+                }
+                else if (buttonStatus == "rejected")
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANGREJECT;
+                    oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
+
+                }              
+                else
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANGINPROCESS;
+                }
+
+
+                if (ModelState.IsValid)
+                {
+                    oPDEXPENSE.ModifiedDate = DateTime.Now;
+                   // oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
+                   // oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
+                   //if (oPDEXPENSE.Status == ClaimStatus.MANGAPPROVED)
+                   // {
+                   //     oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
+                   //     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
+                   //     oPDEXPENSE.ManagementApproval = true;
+                   // }
+                    _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
+                    return RedirectToAction(UrlIndexTravel, UrlManApproval);
+                }
+
+                var opdExpense = GetTravelExpense(Convert.ToInt32(oPDEXPENSE.ID));
+                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
+                return View(opdExpense);
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error("FINAPPROVAL : FINOPDExpense([Bind])" + ex.Message.ToString());
+
+                return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            }
+        }
 
 
 
@@ -502,7 +631,54 @@ namespace OPDCLAIMFORM.Controllers
             return hospitalInformation;
         }
 
+        private ManTravelVM GetTravelExpense(int Id)
+        {
+            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
+            var opdInformation = new ManTravelVM()
+            {
+
+                ListTravelExpense = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Id),
+
+                ID = opdExpense.ID,
+                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
+                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
+                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
+                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
+                DateRecovery = opdExpense.DateRecovery,
+                Diagnosis = opdExpense.Diagnosis,
+                DoctorName = opdExpense.DoctorName,
+                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
+                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
+                EmployeeDepartment = opdExpense.EmployeeDepartment,
+                EmployeeName = opdExpense.EmployeeName,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                FinanceApproval = opdExpense.FinanceApproval,
+                FinanceComment = opdExpense.FinanceComment,
+                FinanceName = opdExpense.FinanceName,
+                HospitalName = opdExpense.HospitalName,
+                HrApproval = opdExpense.HrApproval,
+                HrComment = opdExpense.HrComment,
+                HrName = opdExpense.HrName,
+                ManagementApproval = opdExpense.ManagementApproval,
+                ManagementComment = opdExpense.ManagementComment,
+                ManagementName = opdExpense.ManagementName,
+                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
+                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
+                Status = opdExpense.Status,
+                OpdType = opdExpense.OpdType,
+                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                TotalAmountApproved = opdExpense.TotalAmountApproved,
+                ClaimMonth = opdExpense.ClaimMonth,
+                ClaimYear = opdExpense.ClaimYear,
+                CreatedDate = opdExpense.CreatedDate,
+                ModifiedDate = opdExpense.ModifiedDate,
+                ManagerName = opdExpense.ManagerName
+
+            };
+
+            return opdInformation;
+        }
         private bool AuthenticateEmailAddress(int Id)
         {
 
@@ -522,10 +698,30 @@ namespace OPDCLAIMFORM.Controllers
         private void AuthenticateUser()
         {
             OfficeManagerController managerController = new OfficeManagerController();
+            string emailAddress = GetEmailAddress();
+            //if (ValidEmailAddress(emailAddress))
+            //{
+                ViewBag.RollTypeTravel = "MANTRAVEL";
+            //}
+           
             ViewBag.RollType = managerController.AuthenticateUser();
-
+           
             ViewBag.UserName = managerController.GetName();
 
+        }
+
+        public bool ValidEmailAddress(string emailAddress)
+        {
+
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                result = true;
+            }
+            return result;
         }
 
         private string GetEmailAddress()
@@ -534,6 +730,41 @@ namespace OPDCLAIMFORM.Controllers
             string emailAddress = managerController.GetEmailAddress();
 
             return emailAddress;
+        }
+
+
+        private string Validation(ManOPDVM oPDEXPENSE)
+        {
+            string message = "";
+
+            if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
+            {
+                message = Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED;
+            }
+            else if (oPDEXPENSE.FinanceComment == null)
+            {
+                message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
+            }
+            else if (!ClaimAmountAndTotalAmount(oPDEXPENSE))
+            {
+                message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
+            }
+
+            return message;
+        }
+
+
+        private bool ClaimAmountAndTotalAmount(ManOPDVM oPDEXPENSE)
+
+        {
+            bool result = false;
+
+            if (oPDEXPENSE.TotalAmountClaimed <= oPDEXPENSE.TotalAmountApproved)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

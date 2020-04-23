@@ -417,6 +417,9 @@
     <Content Include="Views\Shared\_Footerbar.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\FinApproval\FinTravelExpense.cshtml" />
+    <Content Include="Views\ManApproval\IndexManTravel.cshtml" />
+    <Content Include="Views\ManApproval\ManTravelExpense.cshtml" />
+    <Content Include="Views\TravelExpense\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

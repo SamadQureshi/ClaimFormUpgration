@@ -110,11 +110,9 @@ namespace OPDCLAIMFORM.Controllers
         }
                       
         public ActionResult DetailsForHospitalExpense(int? id)
-        {
-          
+        {          
             try
             {
-
                 if (Request.IsAuthenticated)
                 {
                     AuthenticateUser();
@@ -198,25 +196,24 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+
                 AuthenticateUser();
+
+                string message = Validation(oPDEXPENSE);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
 
                 if (buttonStatus == "approved")
                 {
                     oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;
-
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
                 }
                 else if (buttonStatus == "rejected")
                 {
                     oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
-
-                    if (oPDEXPENSE.FinanceComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_FINANCECOMMENTS);
-                    }
+                  
                 }
                 else if (buttonStatus == "finalapproved")
                 {
@@ -317,24 +314,20 @@ namespace OPDCLAIMFORM.Controllers
 
                 AuthenticateUser();
 
+                string message = Validation(oPDEXPENSE);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }              
+
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;
-
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
-
+                    oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;                 
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
-
-                    if (oPDEXPENSE.FinanceComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_FINANCECOMMENTS);
-                    }
+                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;                   
                 }
                 else if (buttonStatus == "finalapproved")
                 {
@@ -430,51 +423,53 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
+
                 AuthenticateUser();
 
-                if (buttonStatus == "approved")
-                {
-                    oPDEXPENSE.Status = ClaimStatus.FINAPPROVED;
+                string message = Validation(oPDEXPENSE);
 
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
                 }
-                else if (buttonStatus == "rejected")
+
+
+                if (buttonStatus == "rejected")
                 {
                     oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
 
-                    if (oPDEXPENSE.FinanceComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_FINANCECOMMENTS);
-                    }
+                  
                 }
                 else if (buttonStatus == "finalapproved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
+                    oPDEXPENSE.Status = ClaimStatus.COMPLETED;
+                }
+                else if (buttonStatus == "managerapproval") 
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANGINPROCESS;
                 }
                 else
                 {
                     oPDEXPENSE.Status = ClaimStatus.FININPROCESS;
                 }
 
-
                 if (ModelState.IsValid)
                 {
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
                     oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
-                    if (oPDEXPENSE.Status == ClaimStatus.FINAPPROVED)
+                   
+                    if (oPDEXPENSE.Status == ClaimStatus.COMPLETED)
                     {
                        // oPDEXPENSE.HrApproval = true;
                         oPDEXPENSE.FinanceApproval = true;
                     }
-                    else if(oPDEXPENSE.Status == ClaimStatus.MANAPPROVED)
-                        {
+                    //else if(oPDEXPENSE.Status == ClaimStatus.MANAPPROVED)
+                    //    {
                             
-                            oPDEXPENSE.ManagementApproval = true;
-                        }
+                    //        oPDEXPENSE.ManagementApproval = true;
+                    //    }                 
+
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndex, UrlFinApproval);
                 }
@@ -491,13 +486,6 @@ namespace OPDCLAIMFORM.Controllers
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
         }
-
-
-
-
-
-
-
 
         #region Get file method.
 
@@ -542,12 +530,34 @@ namespace OPDCLAIMFORM.Controllers
         private void AuthenticateUser()
         {
             OfficeManagerController managerController = new OfficeManagerController();
+
+            string emailAddress = GetEmailAddress();
+            if (ValidEmailAddress(emailAddress))
+            {
+                ViewBag.RollTypeTravel = "MANTRAVEL";
+            }
+           
             ViewBag.RollType = managerController.AuthenticateUser();
+           
+
 
             ViewBag.UserName = managerController.GetName();
 
         }
+        public bool ValidEmailAddress(string emailAddress)
+        {
 
+            bool result = false;
+
+            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
+
+            if (list.Count > 0)
+            {
+                 list = null;
+                result = true;
+            }
+            return result;
+        }
 
         private FinOPDVM GetOPDExpense(int Id)
         {
@@ -649,7 +659,7 @@ namespace OPDCLAIMFORM.Controllers
             return hospitalInformation;
         }
 
-        private FinTravelVM GetTravelExpense(int Id)
+        private TravelExpenseMasterDetail GetTravelExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
@@ -712,6 +722,41 @@ namespace OPDCLAIMFORM.Controllers
             else
                 return false;
 
+        }
+
+
+        private string Validation(FinOPDVM oPDEXPENSE)
+        {
+            string message = "";
+            
+            if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
+            {
+                message = Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED;
+            }
+            else if (oPDEXPENSE.FinanceComment == null)
+            {
+                message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
+            }
+            else if (!ClaimAmountAndTotalAmount(oPDEXPENSE))
+            {
+                message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
+            }
+
+            return message;
+        }
+
+
+        private bool ClaimAmountAndTotalAmount(FinOPDVM oPDEXPENSE)
+            
+        {
+            bool result = false;
+            
+            if (oPDEXPENSE.TotalAmountClaimed <= oPDEXPENSE.TotalAmountApproved)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

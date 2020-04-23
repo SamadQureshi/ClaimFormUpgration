@@ -4,9 +4,6 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="header text-center">
-    <h3 class="title">Edit</h3>
-</div>
 <div class="row">
     @using (Html.BeginForm(null, null, FormMethod.Post, new
     {
@@ -21,7 +18,7 @@
                     <div class="card-icon">
                         <i class="material-icons">library_books</i>
                     </div>
-                    <h4 class="card-title">Travel Expense</h4>
+                    <h4 class="card-title">Employee Expense</h4>
                 </div>
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.OpdType)
@@ -32,20 +29,20 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="card-body">
                     <div class="row mt-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
                                 @Html.LabelFor(model => model.EmployeeName, "Name of Employee:", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
                                 @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "error" })
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
                                 @Html.LabelFor(model => model.EmployeeDepartment, "Employee Department:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
                                 @Html.DropDownListFor(model => model.EmployeeDepartment, new SelectList(Enumerable.Empty<SelectListItem>()))
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
                                 @Html.LabelFor(model => model.ClaimMonth, "Claim For Month", htmlAttributes: new { @class = "bmd-label-static custom-label" })
                                 @Html.DropDownListFor(model => model.ClaimMonth, new List<SelectListItem>
@@ -67,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
                                 @Html.LabelFor(model => model.ClaimYear, "Claim For Year", htmlAttributes: new { @class = "bmd-label-static custom-label" })
                                 @Html.DropDownListFor(model => model.ClaimYear, new List<SelectListItem>
@@ -88,22 +85,22 @@
                                 }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.TotalAmountClaimed, "Total Amount Claimed:", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.EditorFor(model => model.TotalAmountClaimed, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.TotalAmountClaimed, "", new { @class = "error" })
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control disabled" } })
+                                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.ManagerName, "Name of Manager:", htmlAttributes: new { @class = "bmd-label-floating" })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ManagerName, "Manager Email Address", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.EditorFor(model => model.ManagerName, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ManagerName, "", new { @class = "error" })
                             </div>
@@ -122,11 +119,14 @@
     @Html.Partial("_OPDTravelExpenseEdit", Model)
     <div class="col-md-12">
         <div>
-            @Html.ActionLink("Back to List","Index", "OpdExpense")
+            @Html.ActionLink("Back to List", "Index", "OpdExpense")
         </div>
     </div>
 </div>
-<script type="text/javascript">
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
 jQuery(function () {
     var regionsSelect = $('#EmployeeDepartment');
     $.getJSON('@Url.Action("GetDepartments", "Helper")', function (regions) {
@@ -142,13 +142,14 @@ jQuery(function () {
     });
 });
 
-    function Validate(ctl, event)  
-{  
-        event.preventDefault();  
+    function Validate(ctl, event)
+{
+        event.preventDefault();
         document.getElementById("buttonName").value = ctl.value;
 
-        md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"],ctl);    
-        
+        md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this Employee Expense Form!","You still can make changes to this Employee Expense Form");
 
-}  
-</script>
+
+}
+    </script>
+}

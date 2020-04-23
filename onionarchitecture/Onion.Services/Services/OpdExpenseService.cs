@@ -51,8 +51,13 @@ namespace Onion.Services
         public void UpdateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
 
-            _opdExpenseRepository.Update(Mapper.Map<OpdExpense>(opdExpenseVm));
-            
+            OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);
+            obj.TotalAmountApproved = opdExpenseVm.TotalAmountApproved ?? obj.TotalAmountApproved;
+            obj.FinanceComment = opdExpenseVm.FinanceComment ?? obj.FinanceComment;
+            obj.ManagementComment = opdExpenseVm.ManagementComment ?? obj.ManagementComment;
+            obj.HrComment = opdExpenseVm.HrComment ?? obj.HrComment;
+            _opdExpenseRepository.Update(obj);            
+
         }
 
         public void DeleteOpdExpense(object id)
@@ -74,7 +79,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForFIN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.FINREJECTED || e.Status == ClaimStatus.FININPROCESS)
+                .Where(e => e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.FINREJECTED || e.Status == ClaimStatus.FININPROCESS || e.Status == ClaimStatus.MANGAPPROVED || e.Status == ClaimStatus.MANGREJECT || e.Status == ClaimStatus.COMPLETED)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -84,6 +89,15 @@ namespace Onion.Services
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
                 .Where(e => e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.MANINPROCESS || e.Status == ClaimStatus.MANAPPROVED || e.Status == ClaimStatus.MANREJECTED)
+                .ToList();
+
+            return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
+        }
+
+        public List<OpdExpenseVM> GetOpdExpensesForMANTravel(string emailAddress)
+        {
+            var opdExpense = _opdExpenseRepository.GetQueryable()
+                .Where(e => e.ManagerName.Equals(emailAddress) && e.Status == ClaimStatus.MANGINPROCESS)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);

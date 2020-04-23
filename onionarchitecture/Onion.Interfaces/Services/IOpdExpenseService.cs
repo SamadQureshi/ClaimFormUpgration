@@ -22,5 +22,7 @@ namespace Onion.Interfaces.Services
         List<OpdExpenseVM> GetOpdExpensesForHR();
         List<OpdExpenseVM> GetOpdExpensesForFIN();
         List<OpdExpenseVM> GetOpdExpensesForMAN();
+
+        List<OpdExpenseVM> GetOpdExpensesForMANTravel(string emailAddress);
     }
 }

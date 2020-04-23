@@ -12,13 +12,16 @@ using Microsoft.Identity.Client;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-
+using Onion.Interfaces.Services;
+using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
 {
-    public class OfficeManagerController : Controller
-    {
 
+    public class OfficeManagerController : Controller
+    { 
+
+      
         public void SignIn()
         {
             if (!Request.IsAuthenticated)
@@ -250,11 +253,7 @@ namespace Onion.WebApp.Controllers
             else if (MANList.Contains(emailAddress))
             {
                 rollType = "MAN";
-            }
-            else if (MANList.Contains(emailAddress))
-            {
-                rollType = "MANTRAVEL";
-            }
+            }         
             else if (GENList.Contains(emailAddress))
             {
                 rollType = "GEN";
@@ -263,5 +262,7 @@ namespace Onion.WebApp.Controllers
 
         }
 
+
+      
     }
 }
