@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
-    public class HrHOSVM : HospitalExpenseVM
+    public class HospitalExpenseVM : HospitalExpenseVM
     {
         [Required(ErrorMessage = "The HR Comments is required.")]
         public new string HrComment { get; set; }

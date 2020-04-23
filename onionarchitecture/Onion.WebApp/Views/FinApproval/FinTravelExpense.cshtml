@@ -1,5 +1,4 @@
-﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.FinTravelVM
-
+﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
 @{
     ViewBag.Title = "FIN-Employee Expense";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -30,11 +29,24 @@
                     @Html.HiddenFor(model => model.ID)
                     @Html.HiddenFor(model => model.OpdType)
                     @Html.HiddenFor(model => model.EmployeeEmailAddress)
-                    @Html.HiddenFor(model => model.ManagementApprovalDate)
-                    @Html.HiddenFor(model => model.HrApprovalDate)
-                    @Html.HiddenFor(model => model.FinanceApprovalDate)
-                    @Html.HiddenFor(model => model.HrEmailAddress)
                     @Html.HiddenFor(model => model.CreatedDate)
+
+                    @Html.HiddenFor(model => model.HrEmailAddress)
+                    @Html.HiddenFor(model => model.HrApprovalDate)
+                    @Html.HiddenFor(model => model.HrName)
+                    @Html.HiddenFor(model => model.HrApproval)
+
+
+                    @Html.HiddenFor(model => model.FinanceEmailAddress)
+                    @Html.HiddenFor(model => model.FinanceApprovalDate)
+                    @Html.HiddenFor(model => model.FinanceApproval)
+
+
+                    @Html.HiddenFor(model => model.ManagementEmailAddress)
+                    @Html.HiddenFor(model => model.ManagementApprovalDate)
+                    @Html.HiddenFor(model => model.ManagementApproval)
+                    @Html.HiddenFor(model => model.ManagementName)
+
                     @Html.Hidden("buttonName")
 
                     @Html.Partial("~/Views/TravelExpense/_TravelExpenseView.cshtml", Model)

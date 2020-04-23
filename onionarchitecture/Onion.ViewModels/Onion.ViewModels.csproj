@@ -48,13 +48,7 @@
     <Compile Include="ViewModels\DepartmentVM.cs" />
     <Compile Include="ViewModels\FinTravelVM.cs" />
     <Compile Include="ViewModels\ManTravelVM.cs" />
-    <Compile Include="ViewModels\ManHOSVM.cs" />
-    <Compile Include="ViewModels\ManOPDVM.cs" />
-    <Compile Include="ViewModels\FinOPDVM.cs" />
     <Compile Include="ViewModels\HospitalExpenseVM.cs" />
-    <Compile Include="ViewModels\FinHOSVM.cs" />
-    <Compile Include="ViewModels\HrHOSVM.cs" />
-    <Compile Include="ViewModels\HrOPDVM.cs" />
     <Compile Include="ViewModels\ImgTravelModel.cs" />
     <Compile Include="ViewModels\ImgViewModel.cs" />
     <Compile Include="ViewModels\TravelExpenseMasterDetail.cs" />

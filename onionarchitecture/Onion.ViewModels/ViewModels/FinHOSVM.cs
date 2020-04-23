@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
-    public class FinHOSVM : HospitalExpenseVM
+    public class HospitalExpenseVM : HospitalExpenseVM
     {
         [Required(ErrorMessage = "The Finance Comments is required.")]
         public new string FinanceComment { get; set; }

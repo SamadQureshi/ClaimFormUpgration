@@ -191,7 +191,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FINOPDExpense(FinOPDVM oPDEXPENSE)
+        public ActionResult FINOPDExpense(OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 AuthenticateUser();
 
-                string message = Validation(oPDEXPENSE);
+                string message = Validation(oPDEXPENSE, buttonStatus);
 
                 if (message != string.Empty)
                 {
@@ -306,7 +306,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FINHospitalExpense(FinOPDVM oPDEXPENSE)
+        public ActionResult FINHospitalExpense(OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 AuthenticateUser();
 
-                string message = Validation(oPDEXPENSE);
+                string message = Validation(oPDEXPENSE, buttonStatus);
 
                 if (message != string.Empty)
                 {
@@ -418,7 +418,7 @@ namespace OPDCLAIMFORM.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FINTravelExpense(FinOPDVM oPDEXPENSE)
+        public ActionResult FINTravelExpense(OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -426,19 +426,16 @@ namespace OPDCLAIMFORM.Controllers
 
                 AuthenticateUser();
 
-                string message = Validation(oPDEXPENSE);
+                string message = Validation(oPDEXPENSE , buttonStatus);
 
                 if (message != string.Empty)
                 {
                     ModelState.AddModelError("", message);
                 }
 
-
                 if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;
-
-                  
+                    oPDEXPENSE.Status = ClaimStatus.FINREJECTED;                  
                 }
                 else if (buttonStatus == "finalapproved")
                 {
@@ -559,11 +556,11 @@ namespace OPDCLAIMFORM.Controllers
             return result;
         }
 
-        private FinOPDVM GetOPDExpense(int Id)
+        private OpdExpenseVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new FinOPDVM()
+            var opdInformation = new OpdExpenseVM()
             {
 
                 OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
@@ -582,16 +579,31 @@ namespace OPDCLAIMFORM.Controllers
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
                 EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+
+               
+
+                HospitalName = opdExpense.HospitalName,
+
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,
@@ -608,13 +620,13 @@ namespace OPDCLAIMFORM.Controllers
 
             return opdInformation;
         }
-        private FinHOSVM GetHospitalExpense(int Id)
+        private HospitalExpenseVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new FinHOSVM()
+            var hospitalInformation = new HospitalExpenseVM()
             {
 
 
@@ -635,16 +647,30 @@ namespace OPDCLAIMFORM.Controllers
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
                 EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+               
+                HospitalName = opdExpense.HospitalName,
+
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,
@@ -663,7 +689,7 @@ namespace OPDCLAIMFORM.Controllers
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new FinTravelVM()
+            var opdInformation = new TravelExpenseMasterDetail()
             {
 
                 ListTravelExpense = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Id),
@@ -681,16 +707,30 @@ namespace OPDCLAIMFORM.Controllers
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
                 EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+               
+                HospitalName = opdExpense.HospitalName,
+
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,
@@ -725,28 +765,36 @@ namespace OPDCLAIMFORM.Controllers
         }
 
 
-        private string Validation(FinOPDVM oPDEXPENSE)
+        private string Validation(OpdExpenseVM oPDEXPENSE ,string buttonStatus)
         {
             string message = "";
-            
-            if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-            {
-                message = Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED;
-            }
-            else if (oPDEXPENSE.FinanceComment == null)
-            {
-                message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
-            }
-            else if (!ClaimAmountAndTotalAmount(oPDEXPENSE))
-            {
-                message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
-            }
 
+            if (buttonStatus == "managerapproval" || buttonStatus == "finalapproved"){
+
+                if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
+                {
+                    message = Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED;
+                }
+                else if (oPDEXPENSE.FinanceComment == null)
+                {
+                    message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
+                }
+                else if (!ClaimAmountAndTotalAmount(oPDEXPENSE))
+                {
+                    message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
+                }
+            }
+            else if(buttonStatus == "rejected"){
+                if (oPDEXPENSE.FinanceComment == null)
+                {
+                    message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
+                }
+            }
             return message;
         }
 
 
-        private bool ClaimAmountAndTotalAmount(FinOPDVM oPDEXPENSE)
+        private bool ClaimAmountAndTotalAmount(OpdExpenseVM oPDEXPENSE)
             
         {
             bool result = false;

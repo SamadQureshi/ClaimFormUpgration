@@ -52,10 +52,10 @@ namespace Onion.Services
         {
 
             OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);
-            obj.TotalAmountApproved = opdExpenseVm.TotalAmountApproved ?? obj.TotalAmountApproved;
-            obj.FinanceComment = opdExpenseVm.FinanceComment ?? obj.FinanceComment;
-            obj.ManagementComment = opdExpenseVm.ManagementComment ?? obj.ManagementComment;
-            obj.HrComment = opdExpenseVm.HrComment ?? obj.HrComment;
+            //obj.TotalAmountApproved = opdExpenseVm.TotalAmountApproved ?? obj.TotalAmountApproved;
+            //obj.FinanceComment = opdExpenseVm.FinanceComment ?? obj.FinanceComment;
+            //obj.ManagementComment = opdExpenseVm.ManagementComment ?? obj.ManagementComment;
+            //obj.HrComment = opdExpenseVm.HrComment ?? obj.HrComment;
             _opdExpenseRepository.Update(obj);            
 
         }

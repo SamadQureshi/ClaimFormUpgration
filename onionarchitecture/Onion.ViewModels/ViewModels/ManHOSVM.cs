@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
-    public class ManHOSVM : HospitalExpenseVM
+    public class HospitalExpenseVM : HospitalExpenseVM
     {
         [Required(ErrorMessage = "The Management Comments is required.")]
         public new string ManagementComment { get; set; }

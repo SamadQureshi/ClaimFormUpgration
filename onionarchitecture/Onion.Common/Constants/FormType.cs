@@ -10,7 +10,7 @@ namespace Onion.Common.Constants
     {
         public const string OPDExpense = "OPD Expense";
         public const string HospitalExpense = "Hospital Expense";
-        public const string TravelExpense = "Travel Expense";
+        public const string EmployeeExpense = "Employee Expense";
 
     }
 }

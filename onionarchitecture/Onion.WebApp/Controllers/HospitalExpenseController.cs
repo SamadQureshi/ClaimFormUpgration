@@ -482,17 +482,29 @@ namespace Onion.WebApp.Controllers
                 DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,               
+                HospitalName = opdExpense.HospitalName,
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,

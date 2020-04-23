@@ -194,7 +194,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HROPDExpense(HrOPDVM oPDEXPENSE)
+        public ActionResult HROPDExpense(OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -308,7 +308,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HRHospitalExpense(HrOPDVM oPDEXPENSE)
+        public ActionResult HRHospitalExpense(OpdExpenseVM oPDEXPENSE)
         {
             try
             {
@@ -443,11 +443,11 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        private HrOPDVM GetOPDExpense(int Id)
+        private OpdExpenseVM GetOPDExpense(int Id)
         {
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
-            var opdInformation = new HrOPDVM()
+            var opdInformation = new OpdExpenseVM()
             {
 
                 OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
@@ -465,17 +465,33 @@ namespace Onion.WebApp.Controllers
                 DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,               
+                HospitalName = opdExpense.HospitalName,
+
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
+
+
+
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,
@@ -492,13 +508,13 @@ namespace Onion.WebApp.Controllers
             return opdInformation;
         }
 
-        private HrHOSVM GetHospitalExpense(int Id)
+        private HospitalExpenseVM GetHospitalExpense(int Id)
         {
 
             OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
 
 
-            var hospitalInformation = new HrHOSVM()
+            var hospitalInformation = new HospitalExpenseVM()
             {
 
 
@@ -519,17 +535,33 @@ namespace Onion.WebApp.Controllers
                 DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,             
+                HospitalName = opdExpense.HospitalName,
+
                 FinanceApproval = opdExpense.FinanceApproval,
                 FinanceComment = opdExpense.FinanceComment,
+                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
+                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
                 FinanceName = opdExpense.FinanceName,
-                HospitalName = opdExpense.HospitalName,
+
+
                 HrApproval = opdExpense.HrApproval,
                 HrComment = opdExpense.HrComment,
                 HrName = opdExpense.HrName,
+                HrApprovalDate = opdExpense.HrApprovalDate,
+                HrEmailAddress = opdExpense.HrEmailAddress,
+
+
                 ManagementApproval = opdExpense.ManagementApproval,
                 ManagementComment = opdExpense.ManagementComment,
                 ManagementName = opdExpense.ManagementName,
+                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
+                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
+
+
+
+
+
                 PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
                 PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
                 Status = opdExpense.Status,

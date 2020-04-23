@@ -42,6 +42,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                @Html.LabelFor(model => model.HrApprovalDate, "HR Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
                             </div>
@@ -60,6 +66,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                @Html.LabelFor(model => model.FinanceApprovalDate, "Finance Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.FinanceApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
                             </div>
@@ -74,6 +86,12 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ManagementApprovalDate, "Management Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.ManagementApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
                             </div>
                         </div>
                     </div>
