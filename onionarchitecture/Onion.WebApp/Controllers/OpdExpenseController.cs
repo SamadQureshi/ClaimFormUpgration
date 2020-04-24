@@ -426,7 +426,9 @@ namespace Onion.WebApp.Controllers
                 ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate
+                ModifiedDate = opdExpense.ModifiedDate,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 

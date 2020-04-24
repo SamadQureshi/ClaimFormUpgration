@@ -30,6 +30,8 @@ namespace Onion.Data
 
         public IDbSet<TravelExpense> TravelExpense { get; set; }
 
+        public IDbSet<ExpenseType> ExpenseType { get; set; }
+
         public new IDbSet<T> Set<T>() where T : class
         {
             return base.Set<T>();

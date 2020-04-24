@@ -110,6 +110,11 @@ namespace Onion.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [StringLength(4000)]
         public string ExpenseNumber { get; set; }
+        
+        public bool? PhysicalDocumentReceived { get; set; }
+
+        [StringLength(50)]
+        public string PayRollMonth { get; set; }
 
 
 

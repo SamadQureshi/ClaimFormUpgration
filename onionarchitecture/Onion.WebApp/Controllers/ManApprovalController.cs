@@ -596,7 +596,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate
+                ModifiedDate = opdExpense.ModifiedDate,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 
@@ -663,7 +665,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimYear = opdExpense.ClaimYear,
                 ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate
+                ModifiedDate = opdExpense.ModifiedDate,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
             };
 
             return hospitalInformation;
@@ -727,7 +731,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
-                ManagerName = opdExpense.ManagerName
+                ManagerName = opdExpense.ManagerName,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 

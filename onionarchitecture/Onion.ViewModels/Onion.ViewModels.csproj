@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DepartmentVM.cs" />
-    <Compile Include="ViewModels\FinTravelVM.cs" />
     <Compile Include="ViewModels\ManTravelVM.cs" />
     <Compile Include="ViewModels\HospitalExpenseVM.cs" />
     <Compile Include="ViewModels\ImgTravelModel.cs" />

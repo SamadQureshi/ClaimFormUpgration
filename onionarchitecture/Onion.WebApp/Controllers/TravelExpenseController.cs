@@ -146,6 +146,13 @@ namespace Onion.WebApp.Controllers
                     TravelExpenseVM opdExpense_Image = new TravelExpenseVM();
 
                     ViewData["OPDTYPE"] = model.OPDType;
+
+                    if (model.OPDExpenseID == 0)
+                    {
+                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                    }
+
+
                     ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Initialization.
                     opdExpense_Image.OpdExpenseId = model.OPDExpenseID;
@@ -158,7 +165,22 @@ namespace Onion.WebApp.Controllers
                     opdExpense_Image.ExpenseType = model.ExpenseType;
                     TravelExpenseVM OpdExpensePatient_Obj = _travelExpenseService.CreateTravelExpense(opdExpense_Image);
 
+                    ImgTravelModel modelUploaded = new ImgTravelModel { FileAttach = null, ImgLst = new List<TravelExpenseVM>() };
+                    ModelState.Clear();
+
                     //// Settings.
+                    modelUploaded.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
+
+                    // Info
+                    return this.View(modelUploaded);
+                }
+                else
+                {
+
+                    if (model.OPDExpenseID == 0)
+                    {
+                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                    }
                     model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
 
                     // Info
@@ -170,7 +192,7 @@ namespace Onion.WebApp.Controllers
                 return RedirectToAction(UrlIndex, UrlHome);
 
             }
-            return View();
+           
         }
 
        
@@ -472,7 +494,9 @@ namespace Onion.WebApp.Controllers
                 ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
-                ManagerName = opdExpense.ManagerName
+                ManagerName = opdExpense.ManagerName,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 

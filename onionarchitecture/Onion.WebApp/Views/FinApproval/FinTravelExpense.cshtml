@@ -96,7 +96,15 @@
                             @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group is-filled custom-form-group">
+                            @Html.LabelFor(model => model.PayRollMonth, "PayRoll For Month", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.TextAreaFor(model => model.PayRollMonth, 2, 40, new { @class = "form-control custom-textarea" })
+                            @Html.ValidationMessageFor(model => model.PayRollMonth, "", new { @class = "error" })
+                        </div>
+                    </div>
 
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="col-md-12">
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary create-btn" />
@@ -104,7 +112,7 @@
                             <button type="submit" class="btn btn-primary create-btn" value="managerapproval" name="button" onclick="ValidateManagerApproval(this, event);">Request For Manager Approval</button>
                             <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="ValidateFinalApproval(this, event);">Marked Final Approved</button>
                         </div>
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
                 }

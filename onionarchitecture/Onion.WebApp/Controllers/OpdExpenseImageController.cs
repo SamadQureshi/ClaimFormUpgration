@@ -85,6 +85,13 @@ namespace Onion.WebApp.Controllers
                     OpdExpenseImageVM opdExpense_Image = new OpdExpenseImageVM();
 
                     ViewData["OPDTYPE"] = model.OPDType;
+
+                    if (model.OPDExpenseID == 0)
+                    {
+                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                    }
+
+
                     ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Initialization.
                     opdExpense_Image.OpdExpenseId = model.OPDExpenseID;
@@ -95,20 +102,30 @@ namespace Onion.WebApp.Controllers
                     opdExpense_Image.NameExpenses = model.ExpenseName;
                     opdExpense_Image.ExpenseAmount = model.ExpenseAmount;
                     OpdExpenseImageVM OpdExpensePatient_Obj = _opdExpenseImageService.CreateOpdExpenseImage(opdExpense_Image);
-               
-                //// Settings.
-                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
 
-                // Info
-                return this.View(model);
+                    ImgViewModel modelUploaded = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpenseImageVM>() };
+                    ModelState.Clear();                  
+                    modelUploaded.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));                    
+               
+                return this.View(modelUploaded);
+                }
+                else
+                {                  
+
+                    if (model.OPDExpenseID == 0) {
+                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                            }                  
+                    model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
+
+                    // Info
+                    return this.View(model);
                 }
             }
             else
             {
                 return RedirectToAction(UrlIndex, UrlHome);
 
-            }
-            return View();
+            }            
         }
 
         #endregion

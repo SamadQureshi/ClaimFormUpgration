@@ -24,5 +24,7 @@
 
         public const string MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT = "The total Approved Amount Should be less than or Equal to total Claimed Amount";
 
+        public const string MSG_GENERAL_ADD_PAYROLL_MONTH = "Please Add PayRoll Month";
+
     }
 }

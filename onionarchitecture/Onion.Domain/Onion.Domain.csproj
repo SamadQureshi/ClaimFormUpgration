@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\ExpenseType.cs" />
     <Compile Include="Models\OpdExpense.cs" />
     <Compile Include="Models\OpdExpenseImage.cs" />
     <Compile Include="Models\OpdExpensePatient.cs" />

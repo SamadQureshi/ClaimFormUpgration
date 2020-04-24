@@ -1,6 +1,7 @@
 ﻿using Onion.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
@@ -13,7 +14,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string ImageBase64 { get; set; }
 
+      
         public string NameExpenses { get; set; }
+
 
         public decimal? ExpenseAmount { get; set; }
 

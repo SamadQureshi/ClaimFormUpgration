@@ -110,7 +110,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string ModifiedBy { get; set; }
 
+        public bool? PhysicalDocumentReceived { get; set; }
 
+        public string PayRollMonth { get; set; }
 
         public List<TravelExpenseVM> ListTravelExpense { get; set; }
 

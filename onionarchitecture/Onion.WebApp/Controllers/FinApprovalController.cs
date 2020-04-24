@@ -217,7 +217,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "finalapproved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
+                    oPDEXPENSE.Status = ClaimStatus.COMPLETED;
                 }
                 else if (buttonStatus == "managerapproval")
                 {
@@ -335,7 +335,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "finalapproved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
+                    oPDEXPENSE.Status = ClaimStatus.COMPLETED;
                 }
                 else if (buttonStatus == "managerapproval")
                 {
@@ -622,7 +622,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
-                ManagerName = opdExpense.ManagerName
+                ManagerName = opdExpense.ManagerName,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 
@@ -688,7 +690,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimYear = opdExpense.ClaimYear,
                 ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate
+                ModifiedDate = opdExpense.ModifiedDate,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
             };
 
             return hospitalInformation;
@@ -750,7 +754,9 @@ namespace OPDCLAIMFORM.Controllers
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
-                ManagerName = opdExpense.ManagerName
+                ManagerName = opdExpense.ManagerName,
+                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
+                PayRollMonth = opdExpense.PayRollMonth
 
             };
 
@@ -792,6 +798,14 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
                 }
+                else if(buttonStatus == "finalapproved")
+                {
+                    if(oPDEXPENSE.PayRollMonth == null)
+                    {
+                        message = Constants.MSG_GENERAL_ADD_PAYROLL_MONTH;
+                    }
+                }
+
             }
             else if(buttonStatus == "rejected" || buttonStatus == "approved"){
                 if (oPDEXPENSE.FinanceComment == null)

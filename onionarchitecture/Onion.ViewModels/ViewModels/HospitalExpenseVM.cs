@@ -125,7 +125,9 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string ModifiedBy { get; set; }
 
+        public bool? PhysicalDocumentReceived { get; set; }
 
+        public string PayRollMonth { get; set; }
 
     }
 }

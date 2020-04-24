@@ -58,6 +58,14 @@
     <Compile Include="Migrations\202004161047584_TravelExpenseImage.Designer.cs">
       <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004240807445_ExpenseTable.cs" />
+    <Compile Include="Migrations\202004240807445_ExpenseTable.Designer.cs">
+      <DependentUpon>202004240807445_ExpenseTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004240811473_ExpenseTable2.cs" />
+    <Compile Include="Migrations\202004240811473_ExpenseTable2.Designer.cs">
+      <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,6 +92,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004161047584_TravelExpenseImage.resx">
       <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004240807445_ExpenseTable.resx">
+      <DependentUpon>202004240807445_ExpenseTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004240811473_ExpenseTable2.resx">
+      <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
