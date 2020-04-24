@@ -24,101 +24,139 @@
                 {
                     @Html.AntiForgeryToken()
 
-                <div class="row mt-3">
+                    <div class="row mt-3">
 
 
-                    @Html.HiddenFor(model => model.ID)
-                    @Html.HiddenFor(model => model.OpdType)
-                    @Html.HiddenFor(model => model.EmployeeEmailAddress)
-                    @Html.HiddenFor(model => model.CreatedDate)
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.HiddenFor(model => model.OpdType)
+                        @Html.HiddenFor(model => model.EmployeeEmailAddress)
+                        @Html.HiddenFor(model => model.CreatedDate)
 
-                    @Html.HiddenFor(model => model.HrEmailAddress)
-                    @Html.HiddenFor(model => model.HrApprovalDate)
-                    @Html.HiddenFor(model => model.HrName)
-                    @Html.HiddenFor(model => model.HrApproval)
-
-
-                    @Html.HiddenFor(model => model.FinanceEmailAddress)
-                    @Html.HiddenFor(model => model.FinanceApprovalDate)
-                    @Html.HiddenFor(model => model.FinanceApproval)
+                        @Html.HiddenFor(model => model.HrEmailAddress)
+                        @Html.HiddenFor(model => model.HrApprovalDate)
+                        @Html.HiddenFor(model => model.HrName)
+                        @Html.HiddenFor(model => model.HrApproval)
 
 
-                    @Html.HiddenFor(model => model.ManagementEmailAddress)
-                    @Html.HiddenFor(model => model.ManagementApprovalDate)
-                    @Html.HiddenFor(model => model.ManagementApproval)
-                    @Html.HiddenFor(model => model.ManagementName)
+                        @Html.HiddenFor(model => model.FinanceEmailAddress)
+                        @Html.HiddenFor(model => model.FinanceApprovalDate)
+                        @Html.HiddenFor(model => model.FinanceApproval)
 
-                    @Html.Hidden("buttonName")
 
-                    @Html.Partial("~/Views/OpdExpense/_OPDExpenseView.cshtml", Model)
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.EditorFor(model => model.TotalAmountApproved, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TotalAmountApproved, "", new { @class = "error" })
+                        @Html.HiddenFor(model => model.ManagementEmailAddress)
+                        @Html.HiddenFor(model => model.ManagementApprovalDate)
+                        @Html.HiddenFor(model => model.ManagementApproval)
+                        @Html.HiddenFor(model => model.ManagementName)
+
+                        @Html.Hidden("buttonName")
+
+                        @Html.Partial("~/Views/OpdExpense/_OPDExpenseView.cshtml", Model)
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TotalAmountApproved, "Total Amount Approved", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.TotalAmountApproved, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TotalAmountApproved, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextAreaFor(model => model.FinanceComment, 2, 40, new { @class = "form-control custom-textarea" })
+                                @Html.ValidationMessageFor(model => model.FinanceComment, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.EditorFor(model => model.FinanceName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
+                                @Html.ValidationMessageFor(model => model.FinanceName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary create-btn" />
+
+                                <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="RejectValidate(this, event);">Rejected</button>
+                                <button type="submit" class="btn btn-primary create-btn" value="managerapproval" name="button" onclick="ValidateManagerApproval(this, event);">Request For Manager Approval</button>
+                                <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="ValidateFinalApproval(this, event);">Marked Final Approved</button>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group bmd-form-group is-filled custom-form-group">
-                            @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.TextAreaFor(model => model.FinanceComment, 2, 40, new { @class = "form-control custom-textarea" })
-                            @Html.ValidationMessageFor(model => model.FinanceComment, "", new { @class = "error" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                            @Html.EditorFor(model => model.FinanceName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.UserName) } })
-                            @Html.ValidationMessageFor(model => model.FinanceName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary create-btn" />
-                            <button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="Validate(this, event);">Marked Final Approved</button>
-                        </div>
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    </div>
-                </div>
                 }
             </div>
         </div>
     </div>
     @Html.Partial("~/Views/OpdExpense/_OPDPatientReceiptImagesView.cshtml", Model)
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
-    function Validate(ctl, event) {
+    function ApproveValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Approve the OPD Claim Form!","You can make changes to this OPD Claim Form");
+
+
+    }
+
+         function RejectValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Reject the OPD Claim Form!","You can make changes to this OPD Claim Form");
+
+
+        }
+
+            function ValidateFinalApproval(ctl, event) {
     event.preventDefault();
     document.getElementById("buttonName").value = ctl.value;
-    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
-    }
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Mark the OPD Claim Form Completed!","You can make changes to this OPD Claim Form");
+        }
+
+          function ValidateManagerApproval(ctl, event) {
+    event.preventDefault();
+    document.getElementById("buttonName").value = ctl.value;
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to send the OPD Claim Form to Manager For Approval!","You can make changes to this OPD Claim Form");
+        }
     </script>
 
 }
+
+
+@*<button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="ApproveValidate(this, event);">Approved</button>*@

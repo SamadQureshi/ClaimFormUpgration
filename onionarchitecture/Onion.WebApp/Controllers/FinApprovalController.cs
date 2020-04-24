@@ -219,6 +219,10 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
                 }
+                else if (buttonStatus == "managerapproval")
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANINPROCESS;
+                }
                 else
                 {
                     oPDEXPENSE.Status = ClaimStatus.FININPROCESS;
@@ -332,6 +336,10 @@ namespace OPDCLAIMFORM.Controllers
                 else if (buttonStatus == "finalapproved")
                 {
                     oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
+                }
+                else if (buttonStatus == "managerapproval")
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANINPROCESS;
                 }
                 else
                 {
@@ -678,6 +686,7 @@ namespace OPDCLAIMFORM.Controllers
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
                 TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
+                ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
             };
@@ -784,7 +793,7 @@ namespace OPDCLAIMFORM.Controllers
                     message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
                 }
             }
-            else if(buttonStatus == "rejected"){
+            else if(buttonStatus == "rejected" || buttonStatus == "approved"){
                 if (oPDEXPENSE.FinanceComment == null)
                 {
                     message = Constants.MSG_APPROVAL_FINANCECOMMENTS;
@@ -799,7 +808,7 @@ namespace OPDCLAIMFORM.Controllers
         {
             bool result = false;
             
-            if (oPDEXPENSE.TotalAmountClaimed <= oPDEXPENSE.TotalAmountApproved)
+            if (oPDEXPENSE.TotalAmountApproved <= oPDEXPENSE.TotalAmountClaimed)
             {
                 result = true;
             }

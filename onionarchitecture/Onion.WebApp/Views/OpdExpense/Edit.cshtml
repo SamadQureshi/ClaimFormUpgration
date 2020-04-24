@@ -23,6 +23,11 @@
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.OpdType)
                 @Html.HiddenFor(model => model.CreatedDate)
+
+                @Html.HiddenFor(model => model.HrEmailAddress)
+                @Html.HiddenFor(model => model.HrApprovalDate)
+                @Html.HiddenFor(model => model.HrApproval)
+
                 @Html.Hidden("employeeDepartment", Model.EmployeeDepartment)
                 @Html.Hidden("buttonName")
 
@@ -94,8 +99,20 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control disabled" } })
+                                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
                             </div>
                         </div>
                     </div>

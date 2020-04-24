@@ -46,7 +46,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();                   
+                    AuthenticateUser("Index");                   
 
                     string emailAddress = GetEmailAddress();                   
 
@@ -78,7 +78,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("IndexManTravel");
 
                     string emailAddress = GetEmailAddress();
 
@@ -111,7 +111,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("DetailsForOPDExpense");
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
@@ -148,7 +148,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("DetailsForHospitalExpense");
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
@@ -186,7 +186,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("MANOPDExpense");
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
@@ -229,7 +229,7 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
-                AuthenticateUser();
+                AuthenticateUser("MANOPDExpense");
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 
@@ -267,9 +267,13 @@ namespace OPDCLAIMFORM.Controllers
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
 
+                    return RedirectToAction(UrlIndex, UrlManApproval);
                 }
-                return RedirectToAction(UrlIndex, UrlManApproval);
 
+                var result2 = GetOPDExpense(Convert.ToInt32(oPDEXPENSE.ID));
+
+                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
+                return View(result2);
             }
             catch (Exception ex)
             {
@@ -292,7 +296,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("MANHospitalExpense");
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
@@ -336,7 +340,7 @@ namespace OPDCLAIMFORM.Controllers
             try
             {
                 string buttonStatus = Request.Form["buttonName"];
-                AuthenticateUser();
+                AuthenticateUser("MANHospitalExpense");
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 
@@ -372,9 +376,14 @@ namespace OPDCLAIMFORM.Controllers
                     }
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
-                }
-                return RedirectToAction(UrlIndex, UrlManApproval);
 
+                    return RedirectToAction(UrlIndex, UrlManApproval);
+                }
+               
+                var result2 = GetHospitalExpense(Convert.ToInt32(oPDEXPENSE.ID));
+
+                ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
+                return View(result2);
             }
             catch (Exception ex)
             {
@@ -393,7 +402,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser("ManTravelExpense");
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
                     {
@@ -437,7 +446,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 string buttonStatus = Request.Form["buttonName"];
 
-                AuthenticateUser();
+                AuthenticateUser("ManTravelExpense");
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 
@@ -652,6 +661,7 @@ namespace OPDCLAIMFORM.Controllers
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
                 TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
+                ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
             };
@@ -739,14 +749,14 @@ namespace OPDCLAIMFORM.Controllers
 
         }
 
-        private void AuthenticateUser()
+        private void AuthenticateUser(string IndexControllerName)
         {
             OfficeManagerController managerController = new OfficeManagerController();
             string emailAddress = GetEmailAddress();
-            //if (ValidEmailAddress(emailAddress))
-            //{
+            if (IndexControllerName == "IndexManTravel")
+            {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
-            //}
+            }
            
             ViewBag.RollType = managerController.AuthenticateUser();
            
@@ -781,7 +791,7 @@ namespace OPDCLAIMFORM.Controllers
         {
             string message = "";
 
-            if (buttonStatus == "rejected" || buttonStatus == "rejected")
+            if (buttonStatus == "approved" )
             {
                 if (oPDEXPENSE.ManagementComment == null)
                 {
@@ -798,6 +808,14 @@ namespace OPDCLAIMFORM.Controllers
                     message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
                 }
             }
+            else if(buttonStatus == "rejected")
+            {
+                if (oPDEXPENSE.ManagementComment == null)
+                {
+                    message = Constants.MSG_APPROVAL_MANAGERCOMMENTS;
+                }
+
+            }
             return message;
         }
 
@@ -807,7 +825,7 @@ namespace OPDCLAIMFORM.Controllers
         {
             bool result = false;
 
-            if (oPDEXPENSE.TotalAmountClaimed <= oPDEXPENSE.TotalAmountApproved)
+            if (oPDEXPENSE.TotalAmountApproved <= oPDEXPENSE.TotalAmountClaimed)
             {
                 result = true;
             }

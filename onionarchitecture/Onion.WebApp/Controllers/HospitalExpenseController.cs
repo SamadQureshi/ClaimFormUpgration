@@ -511,6 +511,7 @@ namespace Onion.WebApp.Controllers
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
                 ClaimYear = opdExpense.ClaimYear,
+                ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
             };

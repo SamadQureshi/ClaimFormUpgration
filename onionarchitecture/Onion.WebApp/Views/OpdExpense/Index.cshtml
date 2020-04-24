@@ -55,7 +55,7 @@
                                                     <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                                 }
-                                                else if (item.Status.Equals("HRRejected"))
+                                                else if (item.Status.Equals("HR-Rejected"))
                                                 {
                                                     <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     
@@ -73,7 +73,7 @@
                                                     <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                                 }
-                                                else if (item.Status.Equals("HRRejected"))
+                                                else if (item.Status.Equals("HR-Rejected"))
                                                 {
                                                     <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     
@@ -91,7 +91,7 @@
                                                     <a href="@Url.Action("Edit", "TravelExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                                 }
-                                                else if (item.Status.Equals("HRRejected"))
+                                                else if (item.Status.Equals("FIN-Rejected"))
                                                 {
                                                     <a href="@Url.Action("Edit", "TravelExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                                     

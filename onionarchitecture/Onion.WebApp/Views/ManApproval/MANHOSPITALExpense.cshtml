@@ -106,8 +106,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <button type="submit" value="Save" class="btn btn-primary  create-btn">Save</button>
-                            <button type="submit" class="btn btn-primary  create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                            <button type="submit" class="btn btn-primary  create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
+                            <button type="submit" class="btn btn-primary  create-btn" value="approved" name="button" onclick="ApproveValidate(this, event);">Approved</button>
+                            <button type="submit" class="btn btn-primary  create-btn" value="rejected" name="button" onclick="RejectValidate(this, event);">Rejected</button>
                         </div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
@@ -125,10 +125,22 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
-    function Validate(ctl, event) {
-    event.preventDefault();
-    document.getElementById("buttonName").value = ctl.value;
-    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
+   function ApproveValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Approve the Hospital Claim Form!","You can make changes to this Hospital Claim Form");
+
+
+    }
+
+         function RejectValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Reject the Hospital Claim Form!","You can make changes to this Hospital Claim Form");
+
+
     }
     </script>
 

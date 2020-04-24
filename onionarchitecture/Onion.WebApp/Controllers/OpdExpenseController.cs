@@ -423,6 +423,7 @@ namespace Onion.WebApp.Controllers
                 Status = opdExpense.Status,
                 OpdType = opdExpense.OpdType,
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
+                ClaimMonth = opdExpense.ClaimMonth,
                 ClaimYear = opdExpense.ClaimYear,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate

@@ -201,43 +201,37 @@ namespace Onion.WebApp.Controllers
                 string buttonStatus = Request.Form["buttonName"];
 
                 AuthenticateUser();
+
+                string message = Validation(oPDEXPENSE, buttonStatus);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (buttonStatus == "approved")
                     {
                         oPDEXPENSE.Status = ClaimStatus.HRAPPROVED;
-
-                        //if(oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                        // {
-                        //     ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                        // }                
-
-
+                        oPDEXPENSE.HrApproval = true;
                     }
                     else if (buttonStatus == "rejected")
                     {
-                        oPDEXPENSE.Status = ClaimStatus.HRREJECTED;
-
-                        //if (oPDEXPENSE.HrComment == null)
-                        //{
-                        //    ModelState.AddModelError("", Constants.MSG_APPROVAL_HRCOMMENTS);
-                        //}
+                        oPDEXPENSE.Status = ClaimStatus.HRREJECTED;                     
+                    }
+                    else if (buttonStatus == "managerapproval")
+                    {
+                        oPDEXPENSE.Status = ClaimStatus.MANINPROCESS;
                     }
                     else
                     {
                         oPDEXPENSE.Status = ClaimStatus.HRINPROCESS;
                     }
 
-
-
-
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.HrApprovalDate = DateTime.Now;
-                    oPDEXPENSE.HrEmailAddress = GetEmailAddress();
-                    if (oPDEXPENSE.Status == ClaimStatus.HRAPPROVED)
-                    {
-                        oPDEXPENSE.HrApproval = true;
-                    }
+                    oPDEXPENSE.HrEmailAddress = GetEmailAddress();                 
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndex, UrlHrApproval);
@@ -316,25 +310,27 @@ namespace Onion.WebApp.Controllers
 
                 AuthenticateUser();
 
+                string message = Validation(oPDEXPENSE, buttonStatus);
+
+                if (message != string.Empty)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
+
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.HRAPPROVED; 
-
-                    if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED);
-                    }
-
+                    oPDEXPENSE.Status = ClaimStatus.HRAPPROVED;
+                    oPDEXPENSE.HrApproval = true;
 
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.HRREJECTED;
-
-                    if (oPDEXPENSE.HrComment == null)
-                    {
-                        ModelState.AddModelError("", Constants.MSG_APPROVAL_HRCOMMENTS);
-                    }
+                    oPDEXPENSE.Status = ClaimStatus.HRREJECTED;                    
+                }
+                else if (buttonStatus == "managerapproval")
+                {
+                    oPDEXPENSE.Status = ClaimStatus.MANINPROCESS;
                 }
                 else
                 {
@@ -344,11 +340,7 @@ namespace Onion.WebApp.Controllers
                 {
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
                     oPDEXPENSE.HrApprovalDate = DateTime.Now;
-                    oPDEXPENSE.HrEmailAddress = GetEmailAddress();
-                    if (oPDEXPENSE.Status == ClaimStatus.HRAPPROVED)
-                    {
-                        oPDEXPENSE.HrApproval = true;
-                    }
+                    oPDEXPENSE.HrEmailAddress = GetEmailAddress();                   
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndex, UrlHrApproval);
@@ -407,16 +399,27 @@ namespace Onion.WebApp.Controllers
         private string GetEmailAddress()
         {
             OfficeManagerController managerController = new OfficeManagerController();
+            string emailAddress = managerController.GetEmailAddress();
+
+            return emailAddress;
+        }
+
+        private void AuthenticateUser()
+        {
+            OfficeManagerController managerController = new OfficeManagerController();
+
             string emailAddress = GetEmailAddress();
             if (ValidEmailAddress(emailAddress))
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
-          
-                ViewBag.RollType = managerController.AuthenticateUser();
-            
 
-            return emailAddress;
+            ViewBag.RollType = managerController.AuthenticateUser();
+
+
+
+            ViewBag.UserName = managerController.GetName();
+
         }
 
         public bool ValidEmailAddress(string emailAddress)
@@ -433,15 +436,7 @@ namespace Onion.WebApp.Controllers
             return result;
         }
 
-
-        private void AuthenticateUser()
-        {
-            OfficeManagerController managerController = new OfficeManagerController();
-            ViewBag.RollType = managerController.AuthenticateUser();
-
-            ViewBag.UserName = managerController.GetName();
-
-        }
+     
 
         private OpdExpenseVM GetOPDExpense(int Id)
         {
@@ -569,6 +564,7 @@ namespace Onion.WebApp.Controllers
                 TotalAmountClaimed = opdExpense.TotalAmountClaimed,
                 TotalAmountApproved = opdExpense.TotalAmountApproved,
                 ClaimYear = opdExpense.ClaimYear,
+                ClaimMonth = opdExpense.ClaimMonth,
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate
             };
@@ -594,6 +590,54 @@ namespace Onion.WebApp.Controllers
             else
                 return false;
 
+        }
+
+
+
+
+
+        private string Validation(OpdExpenseVM oPDEXPENSE, string buttonStatus)
+        {
+            string message = "";
+
+            if (buttonStatus == "approved" || buttonStatus == "managerapproval" )
+            {
+
+                if (oPDEXPENSE.TotalAmountApproved.ToString() == "")
+                {
+                    message = Constants.MSG_APPROVAL_TOTALAMOUNTAPPROVED;
+                }
+                else if (oPDEXPENSE.HrComment == null)
+                {
+                    message = Constants.MSG_APPROVAL_HRCOMMENTS;
+                }
+                else if (!ClaimAmountAndTotalAmount(oPDEXPENSE))
+                {
+                    message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
+                }
+            } 
+            else if( buttonStatus == "rejected")
+            {
+                if (oPDEXPENSE.HrComment == null)
+                {
+                    message = Constants.MSG_APPROVAL_HRCOMMENTS;
+                }
+
+            }
+            return message;
+        }
+
+        private bool ClaimAmountAndTotalAmount(OpdExpenseVM oPDEXPENSE)
+
+        {
+            bool result = false;
+
+            if (oPDEXPENSE.TotalAmountApproved <= oPDEXPENSE.TotalAmountClaimed)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

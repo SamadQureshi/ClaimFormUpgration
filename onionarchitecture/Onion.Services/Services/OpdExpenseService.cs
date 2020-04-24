@@ -51,11 +51,7 @@ namespace Onion.Services
         public void UpdateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
 
-            OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);
-            //obj.TotalAmountApproved = opdExpenseVm.TotalAmountApproved ?? obj.TotalAmountApproved;
-            //obj.FinanceComment = opdExpenseVm.FinanceComment ?? obj.FinanceComment;
-            //obj.ManagementComment = opdExpenseVm.ManagementComment ?? obj.ManagementComment;
-            //obj.HrComment = opdExpenseVm.HrComment ?? obj.HrComment;
+            OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);           
             _opdExpenseRepository.Update(obj);            
 
         }
@@ -70,7 +66,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForHR()
         {            
              var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(e => e.Status == ClaimStatus.SUBMITTED || e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.HRREJECTED || e.Status == ClaimStatus.HRINPROCESS)               
+                 .Where(e => e.Status == ClaimStatus.SUBMITTED || e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.HRREJECTED || e.Status == ClaimStatus.HRINPROCESS || e.Status == ClaimStatus.FINREJECTED)               
                  .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -79,7 +75,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesForFIN()
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                .Where(e => e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.FINREJECTED || e.Status == ClaimStatus.FININPROCESS || e.Status == ClaimStatus.MANGAPPROVED || e.Status == ClaimStatus.MANGREJECT || e.Status == ClaimStatus.COMPLETED)
+                .Where(e => e.Status == ClaimStatus.HRAPPROVED || e.Status == ClaimStatus.FINAPPROVED || e.Status == ClaimStatus.FINREJECTED || e.Status == ClaimStatus.FININPROCESS || e.Status == ClaimStatus.MANGAPPROVED || e.Status == ClaimStatus.MANGREJECT || e.Status == ClaimStatus.COMPLETED || e.Status == ClaimStatus.MANREJECTED)
                 .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);

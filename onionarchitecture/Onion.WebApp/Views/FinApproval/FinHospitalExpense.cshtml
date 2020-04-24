@@ -89,13 +89,25 @@
                             @Html.ValidationMessageFor(model => model.FinanceName, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary create-btn" />
-                            <button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="Validate(this, event);">Approved</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="Validate(this, event);">Rejected</button>
-                            <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="Validate(this, event);">Marked Final Approved</button>
+                            
+                            <button type="submit" class="btn btn-primary create-btn" value="rejected" name="button" onclick="RejectValidate(this, event);">Rejected</button>
+                            <button type="submit" class="btn btn-primary create-btn" value="managerapproval" name="button" onclick="ValidateManagerApproval(this, event);">Request For Manager Approval</button>
+                            <button type="submit" class="btn btn-primary create-btn" value="finalapproved" name="button" onclick="ValidateFinalApproval(this, event);">Marked Final Approved</button>
                         </div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
@@ -114,11 +126,37 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
-    function Validate(ctl, event) {
+ function ApproveValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Approve the Hospital Claim Form!","You can make changes to this Hospital Claim Form");
+
+
+    }
+
+         function RejectValidate(ctl, event) {
+
+        event.preventDefault();
+        document.getElementById("buttonName").value = ctl.value;
+        md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Reject the Hospital Claim Form!","You can make changes to this Hospital Claim Form");
+
+
+        }
+            function ValidateFinalApproval(ctl, event) {
     event.preventDefault();
     document.getElementById("buttonName").value = ctl.value;
-    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
-    }
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Mark the Hospital Claim Form Completed!","You can make changes to this Hospital Claim Form");
+        }
+
+          function ValidateManagerApproval(ctl, event) {
+    event.preventDefault();
+    document.getElementById("buttonName").value = ctl.value;
+    md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to send the OPD Claim Form to Manager For Approval!","You can make changes to this OPD Claim Form");
+        }
     </script>
 
 }
+
+
+@*<button type="submit" class="btn btn-primary create-btn" value="approved" name="button" onclick="ApproveValidate(this, event);">Approved</button>*@
