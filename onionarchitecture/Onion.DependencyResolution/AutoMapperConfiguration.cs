@@ -12,7 +12,7 @@ namespace Onion.DependencyResolution
             {
                 config.CreateMap(typeof(User), typeof(UserVM));
                 config.CreateMap(typeof(Department), typeof(DepartmentVM));
-
+                config.CreateMap(typeof(ExpenseType), typeof(ExpenseTypeVM));
             });
         }
     }

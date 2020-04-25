@@ -68,6 +68,13 @@
                             @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group is-filled custom-form-group">
+                            @Html.LabelFor(model => model.PhysicalDocumentReceived, "Physical Document Received:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                            @Html.EditorFor(model => model.PhysicalDocumentReceived, new { htmlAttributes = new { @class = "selectpicker", @data_style = "btn btn-primary" } })
+                            @Html.ValidationMessageFor(model => model.PhysicalDocumentReceived, "", new { @class = "error" })
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary create-btn" />

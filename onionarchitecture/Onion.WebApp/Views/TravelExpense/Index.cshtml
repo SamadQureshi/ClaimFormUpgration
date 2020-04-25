@@ -21,16 +21,7 @@
                     <div class="col-md-12">
                         <div class="form-group bmd-form-group is-filled custom-form-group">
                             @Html.LabelFor(model => model.ExpenseType, "Expense Type", htmlAttributes: new { @class = "bmd-label-static custom-label" })
-                            @Html.DropDownListFor(model => model.ExpenseType, new List<SelectListItem>
-                            {
-                               new SelectListItem {Text = "Mobile", Value = "Mobile"},
-                               new SelectListItem {Text = "Cell Phone", Value = "Cell Phone"},
-                               new SelectListItem {Text = "Internet", Value = "Internet"},
-                               new SelectListItem {Text = "Travel", Value = "Travel"},
-                               new SelectListItem {Text = "Visa Medical", Value = "Visa Medical"},
-                               new SelectListItem {Text = "Traning/Certification", Value = "Traning/Certification"},    
-                               new SelectListItem {Text = "Other", Value = "Other"},
-                            }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            @Html.DropDownListFor(model => model.ExpenseType, new SelectList(Enumerable.Empty<SelectListItem>()))
                         </div>
                     </div>
 
@@ -95,47 +86,47 @@
                             <tbody>
                                 @for (int i = 0; i < Model.ImgLst.Count; i++)
                                 {
-                                <tr>
-                                    <td>@(i + 1)</td>
+                                    <tr>
+                                        <td>@(i + 1)</td>
 
-                                    <td>
-                                        <div class="input-group">
-                                            <i class="fa fa-2x fa-paperclip text-navy pr-1"></i>
-                                            <a class="download-file1" href="@Url.Action("DownloadFile", "TravelExpense", new { fileId = @Model.ImgLst[i].ID })" target="_blank">
-                                                @Model.ImgLst[i].ImageName
-                                            </a>
-                                        </div>
-                                    </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <i class="fa fa-2x fa-paperclip text-navy pr-1"></i>
+                                                <a class="download-file1" href="@Url.Action("DownloadFile", "TravelExpense", new { fileId = @Model.ImgLst[i].ID })" target="_blank">
+                                                    @Model.ImgLst[i].ImageName
+                                                </a>
+                                            </div>
+                                        </td>
 
-                                    <td>
-                                        <div>
-                                            <img src="@Url.Action("DownloadFile", "TravelExpense", new { fileId = @Model.ImgLst[i].ID })" width="100" height="100" />
-                                        </div>
-                                    </td>
+                                        <td>
+                                            <div>
+                                                <img src="@Url.Action("DownloadFile", "TravelExpense", new { fileId = @Model.ImgLst[i].ID })" width="100" height="100" />
+                                            </div>
+                                        </td>
 
-                                    <td>
-                                        <div>
-                                            @Html.DisplayFor(model => @Model.ImgLst[i].ExpenseType)
-                                        </div>
-                                    </td>
+                                        <td>
+                                            <div>
+                                                @Html.DisplayFor(model => @Model.ImgLst[i].ExpenseType)
+                                            </div>
+                                        </td>
 
-                                    <td>
-                                        <div>
-                                            @Html.DisplayFor(model => @Model.ImgLst[i].Amount)
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            @Html.DisplayFor(model => @Model.ImgLst[i].Description)
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            @{string dumyDeleteID = @Html.DisplayFor(model => @Model.ImgLst[i].ID) + "?opdexpenseid=" + @Html.DisplayFor(model => @Model.ImgLst[i].OpdExpenseId);}
-                                            <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'TravelExpense', '@dumyDeleteID')" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <div>
+                                                @Html.DisplayFor(model => @Model.ImgLst[i].Amount)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                @Html.DisplayFor(model => @Model.ImgLst[i].Description)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                @{string dumyDeleteID = @Html.DisplayFor(model => @Model.ImgLst[i].ID) + "?opdexpenseid=" + @Html.DisplayFor(model => @Model.ImgLst[i].OpdExpenseId);}
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'TravelExpense', '@dumyDeleteID')" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -145,19 +136,32 @@
             </div>
         </div>
     }
-   
-        
-            <div class="col-md-12">
-                @Html.ActionLink("Back to Edit", "Edit", "TravelExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)
-            </div>
-       
+
+
+    <div class="col-md-12">
+        @Html.ActionLink("Back to Edit", "Edit", "TravelExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)
+    </div>
+
 </div>
 
 @section Scripts
 {
-    @*Scripts*@
     @Scripts.Render("~/bundles/bootstrap-file")
-
-    @*Styles*@
     @Styles.Render("~/Content/Bootstrap-file/css")
+
+    <script type="text/javascript">
+jQuery(function () {
+    var regionsSelect = $('#ExpenseType');
+    $.getJSON('@Url.Action("GetExpenseTypes", "Helper")', function (regions) {
+        if (regions != null && !jQuery.isEmptyObject(regions)) {
+            $.each(regions, function (index, region) {
+                regionsSelect.append($("<option></option>").val(this.Value).html(this.Text));
+            });
+        };
+        if (regionsSelect.length != 0) {
+            regionsSelect.selectpicker();
+        }
+    });
+});
+    </script>
 }

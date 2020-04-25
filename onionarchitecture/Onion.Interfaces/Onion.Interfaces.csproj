@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\IApplicationDBContext.cs" />
     <Compile Include="Interfaces\IBaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IExpenseTypeService.cs" />
     <Compile Include="Services\IDepartmentService.cs" />
     <Compile Include="Services\ITravelExpenseService.cs" />
     <Compile Include="Services\IOpdExpenseService.cs" />

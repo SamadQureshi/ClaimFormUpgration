@@ -12,12 +12,13 @@ namespace Onion.WebApp.Controllers
 
 
         private readonly IDepartmentService _departmentService;
+        private readonly IExpenseTypeService _expenseTypeService;
 
-
-        public HelperController(IDepartmentService departmentService)
+        public HelperController(IDepartmentService departmentService, IExpenseTypeService expenseTypeService)
         {
             _departmentService = departmentService;
-            
+            _expenseTypeService = expenseTypeService;
+
 
         }
 
@@ -53,7 +54,26 @@ namespace Onion.WebApp.Controllers
                 return new SelectList(regions, "Value", "Text");            
         }
 
+        [HttpGet]
+        public ActionResult GetExpenseTypes()
+        {
 
+            IEnumerable<SelectListItem> regions = GetExpenseType();
+            return Json(regions, JsonRequestBehavior.AllowGet);
+
+        }
+        public IEnumerable<SelectListItem> GetExpenseType()
+        {
+            IEnumerable<SelectListItem> regions = _expenseTypeService.GetAllExpenseTypes()
+                    .OrderBy(n => n.ExpenseName)
+                    .Select(n =>
+                       new SelectListItem
+                       {
+                           Value = n.ExpenseName,
+                           Text = n.ExpenseName
+                       }).ToList();
+            return new SelectList(regions, "Value", "Text");
+        }
     }
 
 
