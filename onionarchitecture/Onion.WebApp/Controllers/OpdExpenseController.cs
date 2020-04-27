@@ -247,7 +247,7 @@ namespace Onion.WebApp.Controllers
                                 {
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
-                                    // _opdExpenseService.UpdateOpdExpense(OpdExpense);
+                                     _opdExpenseService.UpdateOpdExpense(OpdExpense);
 
                                     var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(OpdExpense.ID);
                                     OpdExpense.OpdExpensePatients = patients;

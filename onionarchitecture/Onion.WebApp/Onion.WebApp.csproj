@@ -248,6 +248,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenStorage\SessionTokenCache.cs" />
+    <Compile Include="Utils\ConfigUtil.cs" />
     <Compile Include="Utils\EmailUtils.cs" />
   </ItemGroup>
   <ItemGroup>

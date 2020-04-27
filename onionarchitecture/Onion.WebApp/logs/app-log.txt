@@ -18,3 +18,7 @@ OpdExpenseId
 OpdExpense
 
 2020-04-21 17:59:58.7705|ERROR|OPDCLAIMFORM.Controllers.FinApprovalController|FINAPPROVAL : FINOPDExpense([Bind])Attaching an entity of type 'Onion.Domain.Models.OpdExpense' failed because another entity of the same type already has the same primary key value. This can happen when using the 'Attach' method or setting the state of an entity to 'Unchanged' or 'Modified' if any entities in the graph have conflicting key values. This may be because some entities are new and have not yet received database-generated key values. In this case use the 'Add' method or the 'Added' entity state to track the graph and then set the state of non-new entities to 'Unchanged' or 'Modified' as appropriate.
+2020-04-27 17:32:12.2411|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Value cannot be null.
+Parameter name: address
+2020-04-27 17:33:28.0876|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Value cannot be null.
+Parameter name: address

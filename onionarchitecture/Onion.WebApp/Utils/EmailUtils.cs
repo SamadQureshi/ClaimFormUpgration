@@ -11,6 +11,15 @@ namespace Onion.WebApp.Utils
 {
     public class EmailUtils
     {
+
+        private const string HR_EMAIL_SUBJECT = "Opd Claim for HR approval";
+        private const string FINANCE_EMAIL_SUBJECT = "Opd claim for Finance approval";
+        private const string MANAGEMENT_EMAIL_SUBJECT = "Opd claim for Management approval";
+
+        private const string HR_EMAIL_KEY = "HR:List";
+        private const string FINANCE_EMAIL_KEY = "FIN:List";
+        private const string MANAGEMENT_EMAIL_KEY = "MAN:List";
+
         public static string GetEmailBody(OpdExpenseVM opdExpense)
         {
             string fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath("~/EmailPages/ClaimForm.html"));
@@ -25,7 +34,6 @@ namespace Onion.WebApp.Utils
                 <td align='center'>__Name</td>
                 <td align='center'>__Age</td>
                 <td align='center'>__Relationship</td>
-                <td align='center'>__Amount</td>
             </tr>";
             int sr = 1;
             foreach (var patient in opdExpense.OpdExpensePatients)
@@ -34,8 +42,7 @@ namespace Onion.WebApp.Utils
                 PatientRows += patientRowTeplate.Replace("__sr", sr.ToString())
                                                 .Replace("__Name", patient.Name)
                                                 .Replace("__Age", patient.Age.ToString())
-                                                .Replace("__Relationship", patient.RelationshipEmployee)
-                                                .Replace("__Amount", patient.OpdExpense.TotalAmountClaimed.ToString());
+                                                .Replace("__Relationship", patient.RelationshipEmployee);
                 sr++;
             }
 
@@ -49,24 +56,26 @@ namespace Onion.WebApp.Utils
             var message = new MailMessage();
             message.Body = GetEmailBody(expense);
             message.IsBodyHtml = true;
-            //foreach (string to in emailMessage.To)
-            //{
-            //    message.To.Add(to);
-            //}
+            string toEmail = "";
+            if (expense.Status == ClaimStatus.SUBMITTED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(HR_EMAIL_KEY);
+                message.Subject = HR_EMAIL_SUBJECT;
+                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+            }
+            else if (expense.Status == ClaimStatus.HRAPPROVED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(FINANCE_EMAIL_KEY);
 
-            message.To.Add("mkhurramadeel@gmail.com");
-
-            message.Subject = "testing email messaging";
-
-            //foreach (var image in expense.OpdExpenseImages)
-            //{
-            //    message.Attachments.Add(new Attachment(image.ImageName));
-            //}
-
-            message.To.Add(new MailAddress("mkhurramadeel@gmail.com")); //replace with valid value
-            message.Subject = "Your email subject";
-            //message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
-            message.IsBodyHtml = true;
+                message.Subject = FINANCE_EMAIL_SUBJECT;
+                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+            }
+            else if (expense.Status == ClaimStatus.MANGAPPROVED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
+                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
+                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+            }
 
             return message;
         }
