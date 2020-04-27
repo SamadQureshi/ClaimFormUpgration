@@ -1,7 +1,9 @@
 ﻿using Onion.Interfaces.Services;
+using Onion.WebApp.Utils;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Web.Mvc;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
@@ -11,18 +13,20 @@ namespace Onion.WebApp.Controllers
     public class HomeController : Controller
     {
 
+        private readonly IEmailService _emailService;
         private readonly IOpdExpenseService _opdExpenseService;
 
-        public HomeController(IOpdExpenseService opdExpenseService)
+        public HomeController(IOpdExpenseService opdExpenseService, IEmailService emailService)
         {
             _opdExpenseService = opdExpenseService;
+            _emailService = emailService;
+
         }
 
-        public ActionResult Index()
+        public  ActionResult Index()
         {
             if (Request.IsAuthenticated)
             {
-
                 string userName = ClaimsPrincipal.Current.FindFirst("name").Value;
 
                 string userId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
