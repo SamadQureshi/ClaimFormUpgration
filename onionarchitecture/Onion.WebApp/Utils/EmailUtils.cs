@@ -48,6 +48,48 @@ namespace Onion.WebApp.Utils
 
             fileContent = fileContent.Replace("__PatientRows", PatientRows);
 
+            string commentsTemplate = "<h2>__department</h2><strong>__FromName</strong><p>__comments</p>";
+            if(!string.IsNullOrEmpty(opdExpense.HrComment))
+            {
+                fileContent = fileContent.Replace("__HRComments", 
+                    commentsTemplate.Replace("__department", "HR")
+                   .Replace("__FromName", opdExpense.HrName)
+                   .Replace("__comments", opdExpense.HrComment)
+                    );
+            }
+            else
+            {
+                fileContent = fileContent.Replace("__HRComments", "");
+            }
+
+            if (!string.IsNullOrEmpty(opdExpense.FinanceComment))
+            {
+                fileContent = fileContent.Replace("__FinanceComments",
+                    commentsTemplate.Replace("__department", "Finance")
+                   .Replace("__FromName", opdExpense.FinanceName)
+                   .Replace("__comments", opdExpense.FinanceComment)
+                    );
+            }
+            else
+            {
+                fileContent = fileContent.Replace("__FinanceComments", "");
+            }
+
+
+            if (!string.IsNullOrEmpty(opdExpense.ManagementComment))
+            {
+                fileContent = fileContent.Replace("__ManagerComments",
+                    commentsTemplate.Replace("__department", "Management")
+                   .Replace("__FromName", opdExpense.ManagementName)
+                   .Replace("__comments", opdExpense.ManagementComment)
+                    );
+            }
+            else
+            {
+                fileContent = fileContent.Replace("__ManagerComments", "");
+            }
+
+
             return fileContent;
         }
 
@@ -60,22 +102,39 @@ namespace Onion.WebApp.Utils
             if (expense.Status == ClaimStatus.SUBMITTED)
             {
                 toEmail = ConfigUtil.GetConfigValue(HR_EMAIL_KEY);
+                toEmail = "mkhurramadeel@gmail.com";
                 message.Subject = HR_EMAIL_SUBJECT;
                 message.To.Add(new MailAddress(toEmail)); //replace with valid value
             }
             else if (expense.Status == ClaimStatus.HRAPPROVED)
             {
                 toEmail = ConfigUtil.GetConfigValue(FINANCE_EMAIL_KEY);
+                toEmail = "mkhurramadeel@gmail.com";
 
                 message.Subject = FINANCE_EMAIL_SUBJECT;
                 message.To.Add(new MailAddress(toEmail)); //replace with valid value
             }
-            else if (expense.Status == ClaimStatus.MANGAPPROVED)
+            else if (expense.Status == ClaimStatus.FINAPPROVED )
             {
                 toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
                 message.Subject = MANAGEMENT_EMAIL_SUBJECT;
                 message.To.Add(new MailAddress(toEmail)); //replace with valid value
             }
+            else if (expense.Status == ClaimStatus.MANGAPPROVED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
+                toEmail = "mkhurramadeel@gmail.com";
+                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
+                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+            }
+            else if (expense.Status == ClaimStatus.MANAPPROVED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
+                toEmail = "mkhurramadeel@gmail.com";
+                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
+                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+            }
+
 
             return message;
         }

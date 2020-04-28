@@ -11,6 +11,7 @@ using Onion.WebApp.Controllers;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 using NLog;
+using Onion.WebApp.Utils;
 
 namespace Onion.WebApp.Controllers
 {
@@ -20,15 +21,16 @@ namespace Onion.WebApp.Controllers
 
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
-        private readonly IOpdExpensePatientService _opdExpensePatientService;      
+        private readonly IOpdExpensePatientService _opdExpensePatientService;
+        private readonly IEmailService _emailService;
 
 
-        public HrApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
+        public HrApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, IEmailService emailService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpenseImageService = opdExpenseImageService;
             _opdExpensePatientService = opdExpensePatientService;
-
+            _emailService = emailService;
         }
 
         private const string UrlIndex = "Index";
@@ -343,6 +345,15 @@ namespace Onion.WebApp.Controllers
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();                   
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
+
+                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpensePatients = patients;
+                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpenseImages = images;
+
+                    var emailMessage = EmailUtils.GetMailMessage(oPDEXPENSE);
+                    _emailService.SendEmail(emailMessage);
+
                     return RedirectToAction(UrlIndex, UrlHrApproval);
                 }
               
