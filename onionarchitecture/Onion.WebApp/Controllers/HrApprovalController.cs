@@ -236,6 +236,15 @@ namespace Onion.WebApp.Controllers
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();                 
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
+
+                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpensePatients = patients;
+                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpenseImages = images;
+
+                    var emailmessage = EmailUtils.GetMailMessage(oPDEXPENSE);
+                    _emailService.SendEmail(emailmessage);
+
                     return RedirectToAction(UrlIndex, UrlHrApproval);
 
                 }
@@ -345,14 +354,6 @@ namespace Onion.WebApp.Controllers
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();                   
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
-
-                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(oPDEXPENSE.ID);
-                    oPDEXPENSE.OpdExpensePatients = patients;
-                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(oPDEXPENSE.ID);
-                    oPDEXPENSE.OpdExpenseImages = images;
-
-                    var emailMessage = EmailUtils.GetMailMessage(oPDEXPENSE);
-                    _emailService.SendEmail(emailMessage);
 
                     return RedirectToAction(UrlIndex, UrlHrApproval);
                 }

@@ -1,1 +1,2 @@
 2020-04-28 09:52:02.8514|ERROR|OPDCLAIMFORM.Controllers.ManApprovalController|MANAPPROVAL : MANOPDExpense([Bind])A recipient must be specified.
+2020-04-28 11:19:24.6222|ERROR|Onion.WebApp.Controllers.HrApprovalController|HRAPPROVAL : HROPDExpense([Bind])A recipient must be specified.

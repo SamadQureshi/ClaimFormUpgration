@@ -1,4 +1,5 @@
 ﻿using Onion.Common.Constants;
+using Onion.WebApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,13 +13,7 @@ namespace Onion.WebApp.Utils
     public class EmailUtils
     {
 
-        private const string HR_EMAIL_SUBJECT = "Opd Claim for HR approval";
-        private const string FINANCE_EMAIL_SUBJECT = "Opd claim for Finance approval";
-        private const string MANAGEMENT_EMAIL_SUBJECT = "Opd claim for Management approval";
 
-        private const string HR_EMAIL_KEY = "HR:List";
-        private const string FINANCE_EMAIL_KEY = "FIN:List";
-        private const string MANAGEMENT_EMAIL_KEY = "MAN:List";
 
         public static string GetEmailBody(OpdExpenseVM opdExpense)
         {
@@ -49,9 +44,11 @@ namespace Onion.WebApp.Utils
             fileContent = fileContent.Replace("__PatientRows", PatientRows);
 
             string commentsTemplate = "<h2>__department</h2><strong>__FromName</strong><p>__comments</p>";
-            if(!string.IsNullOrEmpty(opdExpense.HrComment))
+            if (!string.IsNullOrEmpty(opdExpense.HrComment))
             {
-                fileContent = fileContent.Replace("__HRComments", 
+                fileContent = fileContent.Replace("__CommentsHeading", "<h3>Comments</h3>");
+
+                fileContent = fileContent.Replace("__HRComments",
                     commentsTemplate.Replace("__department", "HR")
                    .Replace("__FromName", opdExpense.HrName)
                    .Replace("__comments", opdExpense.HrComment)
@@ -64,6 +61,7 @@ namespace Onion.WebApp.Utils
 
             if (!string.IsNullOrEmpty(opdExpense.FinanceComment))
             {
+                fileContent = fileContent.Replace("__CommentsHeading", "<h3>Comments</h3>");
                 fileContent = fileContent.Replace("__FinanceComments",
                     commentsTemplate.Replace("__department", "Finance")
                    .Replace("__FromName", opdExpense.FinanceName)
@@ -78,6 +76,7 @@ namespace Onion.WebApp.Utils
 
             if (!string.IsNullOrEmpty(opdExpense.ManagementComment))
             {
+                fileContent = fileContent.Replace("__CommentsHeading", "<h3>Comments</h3>");
                 fileContent = fileContent.Replace("__ManagerComments",
                     commentsTemplate.Replace("__department", "Management")
                    .Replace("__FromName", opdExpense.ManagementName)
@@ -89,53 +88,86 @@ namespace Onion.WebApp.Utils
                 fileContent = fileContent.Replace("__ManagerComments", "");
             }
 
+            fileContent = fileContent.Replace("__CommentsHeading", "");
+
 
             return fileContent;
         }
 
         public static MailMessage GetMailMessage(OpdExpenseVM expense)
         {
+            string HrEmailSubject = "Opd Claim for HR approval";
+            string FinanceEmailSubject = "Opd claim for Finance approval";
+            string ManagementEmailSubject = "Opd claim for Management approval";
+            string FinanceRejectedSubject = "Opd claim rejected by finance";
+            string HrRejectedSubject = "Opd claim rejected by HR";
+            string EmployeeApprovedSubject = "opd claim approved";
+            string ManagementRejectedSubject = "Opd claim rejected by management";
+
+            string HrEmailKey = "HR:List";
+            string FinanceEmailKey = "FIN:List";
+            string ManagementEmailKey = "MAN:List";
+
+
+
+            OfficeManagerController managerController = new OfficeManagerController();
+            string RoleType = managerController.AuthenticateUser();
+
             var message = new MailMessage();
             message.Body = GetEmailBody(expense);
             message.IsBodyHtml = true;
             string toEmail = "";
             if (expense.Status == ClaimStatus.SUBMITTED)
             {
-                toEmail = ConfigUtil.GetConfigValue(HR_EMAIL_KEY);
-                toEmail = "mkhurramadeel@gmail.com";
-                message.Subject = HR_EMAIL_SUBJECT;
-                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+                toEmail = ConfigUtil.GetConfigValue(HrEmailKey);
+                message.Subject = HrEmailSubject;
+                message.To.Add(new MailAddress(toEmail));
             }
             else if (expense.Status == ClaimStatus.HRAPPROVED)
             {
-                toEmail = ConfigUtil.GetConfigValue(FINANCE_EMAIL_KEY);
-                toEmail = "mkhurramadeel@gmail.com";
-
-                message.Subject = FINANCE_EMAIL_SUBJECT;
-                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+                toEmail = ConfigUtil.GetConfigValue(FinanceEmailKey);
+                message.Subject = FinanceEmailSubject;
+                message.To.Add(new MailAddress(toEmail));
             }
-            else if (expense.Status == ClaimStatus.FINAPPROVED )
+            else if (expense.Status == ClaimStatus.HRREJECTED)
             {
-                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
-                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
-                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+                toEmail = expense.EmployeeEmailAddress;
+                message.Subject = HrRejectedSubject;
+                message.To.Add(new MailAddress(toEmail));
             }
-            else if (expense.Status == ClaimStatus.MANGAPPROVED)
+            else if (expense.Status == ClaimStatus.FINAPPROVED)
             {
-                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
-                toEmail = "mkhurramadeel@gmail.com";
-                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
-                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+                toEmail = ConfigUtil.GetConfigValue(ManagementEmailKey);
+                message.Subject = ManagementEmailSubject;
+                message.To.Add(new MailAddress(toEmail));
+            }
+            else if (expense.Status == ClaimStatus.FINREJECTED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(HrEmailKey);
+                message.Subject = FinanceRejectedSubject;
+                message.To.Add(new MailAddress(toEmail));
             }
             else if (expense.Status == ClaimStatus.MANAPPROVED)
             {
-                toEmail = ConfigUtil.GetConfigValue(MANAGEMENT_EMAIL_KEY);
-                toEmail = "mkhurramadeel@gmail.com";
-                message.Subject = MANAGEMENT_EMAIL_SUBJECT;
-                message.To.Add(new MailAddress(toEmail)); //replace with valid value
+                toEmail = expense.EmployeeEmailAddress;
+                message.Subject = EmployeeApprovedSubject;
+                message.To.Add(new MailAddress(toEmail));
             }
+            else if (RoleType == "HR" && expense.Status == ClaimStatus.MANINPROCESS)
+            {
+                toEmail = ConfigUtil.GetConfigValue(ManagementEmailKey);
+                message.Subject = ManagementEmailSubject;
+                message.To.Add(new MailAddress(toEmail));
+            }
+            else if (expense.Status == ClaimStatus.MANREJECTED)
+            {
+                toEmail = ConfigUtil.GetConfigValue(HrEmailKey);
+                if (expense.FinanceApproval.HasValue && expense.FinanceApproval.Value)
+                    toEmail = ConfigUtil.GetConfigValue(FinanceEmailKey);
 
-
+                message.Subject = ManagementRejectedSubject;
+                message.To.Add(new MailAddress(toEmail));
+            }
             return message;
         }
     }
