@@ -6,27 +6,31 @@ using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 using NLog;
 using System.Collections.Generic;
+using Onion.WebApp.Utils;
 
 namespace Onion.WebApp.Controllers
 {
     public class OpdExpenseController : Controller
     {
-        
+
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IOpdExpenseService _opdExpenseService;
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
+        private readonly IEmailService _emailService;
 
         private const string UrlIndex = "Index";
         private const string UrlHome = "Home";
         private const string UrlOpdExpense = "OpdExpense";
         private const string UrlTravelExpense = "TravelExpense";
 
-        public OpdExpenseController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService)
+        public OpdExpenseController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService,
+            IEmailService emailService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpenseImageService = opdExpenseImageService;
             _opdExpensePatientService = opdExpensePatientService;
+            _emailService = emailService;
 
         }
 
@@ -38,10 +42,10 @@ namespace Onion.WebApp.Controllers
                 if (Request.IsAuthenticated)
                 {
 
-                    AuthenticateUser();                  
+                    AuthenticateUser();
 
                     string emailAddress = GetEmailAddress();
-                    
+
                     var opdExp = _opdExpenseService.GetOpdExpensesAgainstEmailAddress(emailAddress);
 
                     return View(opdExp);
@@ -74,13 +78,13 @@ namespace Onion.WebApp.Controllers
                     AuthenticateUser();
 
                     if (id == null)
-                {
-                    return RedirectToAction(UrlIndex, UrlOpdExpense);
-                }
+                    {
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
+                    }
 
 
-                var result2 = GetOPDExpense(Convert.ToInt32(id));
-                return View(result2);
+                    var result2 = GetOPDExpense(Convert.ToInt32(id));
+                    return View(result2);
 
                 }
                 else
@@ -90,7 +94,7 @@ namespace Onion.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 logger.Error("OPD Expense : Details" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
@@ -134,21 +138,21 @@ namespace Onion.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                  
-               
+
+
                     OpdExpense.Status = ClaimStatus.INPROGRESS;
                     OpdExpense.CreatedDate = DateTime.Now;
                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
 
-                    OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(OpdExpense);                 
-                                       
+                    OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(OpdExpense);
+
                     ViewData["OPDEXPENSE_ID"] = OpdExpense_Obj.ID;
                     ViewData["OPDTYPE"] = OpdExpense_Obj.OpdType;
 
-                    if(OpdExpense.OpdType == FormType.OPDExpense)
-                    return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.ID , opdType = FormType.OPDExpense });
+                    if (OpdExpense.OpdType == FormType.OPDExpense)
+                        return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.OPDExpense });
                     else if (OpdExpense.OpdType == FormType.EmployeeExpense)
-                    return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.EmployeeExpense });
+                        return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.EmployeeExpense });
                 }
                 return View(OpdExpense);
             }
@@ -162,7 +166,7 @@ namespace Onion.WebApp.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult Edit(int? id , string opdType)
+        public ActionResult Edit(int? id, string opdType)
         {
             try
             {
@@ -243,7 +247,16 @@ namespace Onion.WebApp.Controllers
                                 {
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
-                                    _opdExpenseService.UpdateOpdExpense(OpdExpense);
+                                     _opdExpenseService.UpdateOpdExpense(OpdExpense);
+
+                                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(OpdExpense.ID);
+                                    OpdExpense.OpdExpensePatients = patients;
+                                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(OpdExpense.ID);
+                                    OpdExpense.OpdExpenseImages = images;
+
+                                    var message = EmailUtils.GetMailMessage(OpdExpense);
+                                    _emailService.SendEmail(message);
+
                                     return RedirectToAction(UrlIndex);
                                 }
 
@@ -275,6 +288,7 @@ namespace Onion.WebApp.Controllers
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
+                      
                         return RedirectToAction(UrlIndex);
                     }
 
@@ -311,7 +325,7 @@ namespace Onion.WebApp.Controllers
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
-                     _opdExpenseService.DeleteOpdExpense(id);
+                    _opdExpenseService.DeleteOpdExpense(id);
 
                     return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
@@ -342,15 +356,15 @@ namespace Onion.WebApp.Controllers
                 if (Request.IsAuthenticated)
                 {
                     AuthenticateUser();
-                if (id == 0)
-                {
-                    return RedirectToAction(UrlIndex, UrlOpdExpense);
-                }
+                    if (id == 0)
+                    {
+                        return RedirectToAction(UrlIndex, UrlOpdExpense);
+                    }
 
-                else
-                {
-                    _opdExpenseService.DeleteOpdExpense(id);
-                }
+                    else
+                    {
+                        _opdExpenseService.DeleteOpdExpense(id);
+                    }
 
                     return RedirectToAction(UrlIndex, UrlOpdExpense);
                 }
@@ -394,7 +408,7 @@ namespace Onion.WebApp.Controllers
                 DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,           
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
                 HospitalName = opdExpense.HospitalName,
 
                 FinanceApproval = opdExpense.FinanceApproval,
@@ -446,7 +460,7 @@ namespace Onion.WebApp.Controllers
             foreach (var item in opdInformation.OpdExpenseImages)
             {
                 totalAmount += item.ExpenseAmount;
-            }               
+            }
 
             if (totalAmount.Equals(totalAmountClaimed))
             {
@@ -464,7 +478,7 @@ namespace Onion.WebApp.Controllers
             string emailAddress = managerController.GetEmailAddress();
 
             return emailAddress;
-           
+
         }
 
         private void AuthenticateUser()
@@ -475,9 +489,9 @@ namespace Onion.WebApp.Controllers
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
-           
-              ViewBag.RollType = managerController.AuthenticateUser();
-           
+
+            ViewBag.RollType = managerController.AuthenticateUser();
+
 
 
 
@@ -486,7 +500,7 @@ namespace Onion.WebApp.Controllers
         }
 
         public bool ValidEmailAddress(string emailAddress)
-        {          
+        {
 
             bool result = false;
 
@@ -513,11 +527,11 @@ namespace Onion.WebApp.Controllers
             else
                 return false;
 
-        }    
+        }
 
 
         #region Get file method.
-        
+
         /// <summary>
         /// Get file method.
         /// </summary>
@@ -570,6 +584,6 @@ namespace Onion.WebApp.Controllers
 
 
         #endregion
-       
+
     }
 }
