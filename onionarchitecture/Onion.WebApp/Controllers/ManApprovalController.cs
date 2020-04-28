@@ -11,6 +11,7 @@ using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.WebApp.Controllers;
 using Onion.Common.Constants;
 using NLog;
+using Onion.WebApp.Utils;
 
 namespace OPDCLAIMFORM.Controllers
 {
@@ -22,17 +23,19 @@ namespace OPDCLAIMFORM.Controllers
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
         private readonly ITravelExpenseService _travelExpenseService;
+        private readonly IEmailService _emailService;
 
         private const string UrlIndex = "Index";
         private const string UrlHome = "Home";
         private const string UrlManApproval = "ManApproval";
         private const string UrlIndexTravel = "IndexManTravel";
-        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, ITravelExpenseService travelExpenseService)
+        public ManApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, ITravelExpenseService travelExpenseService, IEmailService emailService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpenseImageService = opdExpenseImageService;
             _opdExpensePatientService = opdExpensePatientService;
             _travelExpenseService = travelExpenseService;
+            _emailService = emailService;
         }
 
 
@@ -46,12 +49,12 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser("Index");                   
+                    AuthenticateUser("Index");
 
-                    string emailAddress = GetEmailAddress();                   
+                    string emailAddress = GetEmailAddress();
 
-                    var opdExp = _opdExpenseService.GetOpdExpensesForMAN();                  
-                 
+                    var opdExp = _opdExpenseService.GetOpdExpensesForMAN();
+
                     return View(opdExp);
 
                 }
@@ -143,7 +146,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         public ActionResult DetailsForHospitalExpense(int? id)
-        {           
+        {
             try
             {
                 if (Request.IsAuthenticated)
@@ -172,7 +175,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-               logger.Error("MANAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : DetailsForHospitalExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -213,7 +216,7 @@ namespace OPDCLAIMFORM.Controllers
             catch (Exception ex)
             {
 
-               logger.Error("MANAPPROVAL : MANOPDExpense()" + ex.Message.ToString());
+                logger.Error("MANAPPROVAL : MANOPDExpense()" + ex.Message.ToString());
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
@@ -241,7 +244,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (buttonStatus == "approved")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;                
+                    oPDEXPENSE.Status = ClaimStatus.MANAPPROVED;
                 }
                 else if (buttonStatus == "rejected")
                 {
@@ -266,6 +269,14 @@ namespace OPDCLAIMFORM.Controllers
 
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
+
+                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpensePatients = patients;
+                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(oPDEXPENSE.ID);
+                    oPDEXPENSE.OpdExpenseImages = images;
+
+                    var emailMessage = EmailUtils.GetMailMessage(oPDEXPENSE);
+                    _emailService.SendEmail(emailMessage);
 
                     return RedirectToAction(UrlIndex, UrlManApproval);
                 }
@@ -307,7 +318,7 @@ namespace OPDCLAIMFORM.Controllers
                     {
                         return RedirectToAction(UrlIndex, UrlManApproval);
                     }
-                   
+
                     var result2 = GetHospitalExpense(Convert.ToInt32(id));
 
                     ViewData["OPDEXPENSE_ID"] = id;
@@ -356,7 +367,7 @@ namespace OPDCLAIMFORM.Controllers
                 }
                 else if (buttonStatus == "rejected")
                 {
-                    oPDEXPENSE.Status = ClaimStatus.MANREJECTED;                
+                    oPDEXPENSE.Status = ClaimStatus.MANREJECTED;
                 }
                 else
                 {
@@ -379,7 +390,7 @@ namespace OPDCLAIMFORM.Controllers
 
                     return RedirectToAction(UrlIndex, UrlManApproval);
                 }
-               
+
                 var result2 = GetHospitalExpense(Convert.ToInt32(oPDEXPENSE.ID));
 
                 ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
@@ -461,7 +472,7 @@ namespace OPDCLAIMFORM.Controllers
                     oPDEXPENSE.Status = ClaimStatus.MANGAPPROVED;
                     oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
                     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
-                    oPDEXPENSE.ManagementApproval = true;                   
+                    oPDEXPENSE.ManagementApproval = true;
 
                 }
                 else if (buttonStatus == "rejected")
@@ -469,7 +480,7 @@ namespace OPDCLAIMFORM.Controllers
                     oPDEXPENSE.Status = ClaimStatus.MANGREJECT;
                     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
 
-                }              
+                }
                 else
                 {
                     oPDEXPENSE.Status = ClaimStatus.MANGINPROCESS;
@@ -479,14 +490,14 @@ namespace OPDCLAIMFORM.Controllers
                 if (ModelState.IsValid)
                 {
                     oPDEXPENSE.ModifiedDate = DateTime.Now;
-                   // oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
-                   // oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
-                   //if (oPDEXPENSE.Status == ClaimStatus.MANGAPPROVED)
-                   // {
-                   //     oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
-                   //     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
-                   //     oPDEXPENSE.ManagementApproval = true;
-                   // }
+                    // oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
+                    // oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
+                    //if (oPDEXPENSE.Status == ClaimStatus.MANGAPPROVED)
+                    // {
+                    //     oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
+                    //     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
+                    //     oPDEXPENSE.ManagementApproval = true;
+                    // }
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndexTravel, UrlManApproval);
                 }
@@ -563,7 +574,7 @@ namespace OPDCLAIMFORM.Controllers
                 DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
                 EmployeeDepartment = opdExpense.EmployeeDepartment,
                 EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,              
+                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
                 HospitalName = opdExpense.HospitalName,
 
 
@@ -703,7 +714,7 @@ namespace OPDCLAIMFORM.Controllers
                 FinanceComment = opdExpense.FinanceComment,
                 FinanceApprovalDate = opdExpense.FinanceApprovalDate,
                 FinanceEmailAddress = opdExpense.FinanceEmailAddress,
-                FinanceName = opdExpense.FinanceName,             
+                FinanceName = opdExpense.FinanceName,
 
 
                 HrApproval = opdExpense.HrApproval,
@@ -763,9 +774,9 @@ namespace OPDCLAIMFORM.Controllers
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
-           
+
             ViewBag.RollType = managerController.AuthenticateUser();
-           
+
             ViewBag.UserName = managerController.GetName();
 
         }
@@ -793,11 +804,11 @@ namespace OPDCLAIMFORM.Controllers
         }
 
 
-        private string Validation(OpdExpenseVM oPDEXPENSE,string buttonStatus)
+        private string Validation(OpdExpenseVM oPDEXPENSE, string buttonStatus)
         {
             string message = "";
 
-            if (buttonStatus == "approved" )
+            if (buttonStatus == "approved")
             {
                 if (oPDEXPENSE.ManagementComment == null)
                 {
@@ -814,7 +825,7 @@ namespace OPDCLAIMFORM.Controllers
                     message = Constants.MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT;
                 }
             }
-            else if(buttonStatus == "rejected")
+            else if (buttonStatus == "rejected")
             {
                 if (oPDEXPENSE.ManagementComment == null)
                 {

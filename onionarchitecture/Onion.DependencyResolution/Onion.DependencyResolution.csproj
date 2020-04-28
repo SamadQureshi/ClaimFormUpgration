@@ -60,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Onion.Infrastructure\Onion.Infrastructure.csproj">
+      <Project>{45986081-F5BF-41E3-9101-018F7CC1530C}</Project>
+      <Name>Onion.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Onion.Repository\Onion.Repository.csproj">
       <Project>{462EA0F6-D91E-46C2-8131-CD00AB9BF1E9}</Project>
       <Name>Onion.Repository</Name>

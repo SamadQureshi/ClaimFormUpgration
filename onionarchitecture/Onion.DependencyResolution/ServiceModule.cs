@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using Onion.Infrastructure;
 using Onion.Interfaces.Services;
 using Onion.Services;
 
@@ -16,6 +17,7 @@ namespace Onion.DependencyResolution
             Bind<IOpdExpensePatientService>().To<OpdExpensePatientService>();
             Bind<ITravelExpenseService>().To<TravelExpenseService>();
             Bind<IExpenseTypeService>().To<ExpenseTypeService>();
+            Bind<IEmailService>().To<EmailService>();
         }
     }
 }
