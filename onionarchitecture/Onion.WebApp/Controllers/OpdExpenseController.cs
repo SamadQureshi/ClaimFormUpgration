@@ -103,7 +103,7 @@ namespace Onion.WebApp.Controllers
 
 
 
-        public ActionResult Create(string opdType)
+        public ActionResult Create()
         {
             try
             {
@@ -442,7 +442,8 @@ namespace Onion.WebApp.Controllers
                 CreatedDate = opdExpense.CreatedDate,
                 ModifiedDate = opdExpense.ModifiedDate,
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-                PayRollMonth = opdExpense.PayRollMonth
+                PayRollMonth = opdExpense.PayRollMonth,
+                ExpenseNumber = opdExpense.ExpenseNumber
 
             };
 

@@ -91,6 +91,8 @@ $(document).ready(function() {
   
   md.initShowSwal();
 
+  md.initRedirectUrl();
+
 });
 
 $(document).on('click', '.navbar-toggler', function() {
@@ -497,7 +499,28 @@ md = {
                 })
             }).catch(swal.noop)
         }
+    },
+
+    initRedirectUrl: function (controllerName, action, itemid) {
+
+        if (controllerName !== undefined) {
+
+            var url = '/controllerName/action/itemid';
+         
+
+            url = url.replace("action", action);
+
+            url = url.replace("controllerName", controllerName);
+
+            url = url.replace("itemid", itemid);           
+
+            window.location = url;
+
+        }
+
     }
+
+
 }
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -518,6 +541,10 @@ function debounce(func, wait, immediate) {
     if (immediate && !timeout) func.apply(context, args);
   };
 };
+
+
+
+
 
 
 /* Create Form */
@@ -581,3 +608,4 @@ $(document).ready(function () {
 	});
 	
 });
+

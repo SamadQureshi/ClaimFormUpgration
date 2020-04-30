@@ -496,7 +496,8 @@ namespace Onion.WebApp.Controllers
                 ModifiedDate = opdExpense.ModifiedDate,
                 ManagerName = opdExpense.ManagerName,
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-                PayRollMonth = opdExpense.PayRollMonth
+                PayRollMonth = opdExpense.PayRollMonth,             
+                ExpenseNumber = opdExpense.ExpenseNumber
 
             };
 

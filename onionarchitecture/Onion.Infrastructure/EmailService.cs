@@ -14,17 +14,17 @@ namespace Onion.Infrastructure
 {
     public class EmailService : IEmailService
     {
-        public SmtpClient GetSmtpSettings()
-        {
-            return new SmtpClient();
-        }
+        ////public SmtpClient GetSmtpSettings()
+        ////{
+        ////    return new SmtpClient();
+        ////}
 
         public void SendEmail(MailMessage mailMessage)
         {
-            using (var smtp = new SmtpClient())
-            {
-                smtp.Send(mailMessage);
-            }
+            //using (var smtp = new SmtpClient())
+            //{
+            //    smtp.Send(mailMessage);
+            //}
         }
     }
 }

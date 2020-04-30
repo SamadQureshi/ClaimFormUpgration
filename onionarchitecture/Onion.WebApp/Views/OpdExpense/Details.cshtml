@@ -15,89 +15,110 @@
                 </div>
                 <div class="card-body">
                     <div class="row mt-3">
-                        @Html.Partial("~/Views/OpdExpense/_OPDExpenseView.cshtml", Model)
+                        @Html.Partial("~/Views/OpdExpense/_OPDExpenseView.cshtml", Model)                      
                         <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Human Resource Information</h4>                                   
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.HrApproval, "HR Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.HrApproval, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.HrApprovalDate, "HR Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.HrApprovalDate, "{0:MM/dd/yyyy h:mm tt}", new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Finance Information</h4>                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FinanceApproval, "Finance Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.FinanceApproval, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.FinanceName, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FinanceApprovalDate, "Finance Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.FinanceApprovalDate, "{0:MM/dd/yyyy h:mm tt}", new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HrApproval, "HR Approval", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.HrApproval, new { @readonly = "readonly", @class = "form-control" })
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Management Information</h4>                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ManagementApproval, "Management Approval", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.ManagementApproval, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ManagementApprovalDate, "Management Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(model => model.ManagementApprovalDate, "{0:MM/dd/yyyy h:mm tt}", new { @readonly = "readonly", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HrApprovalDate, "HR Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.HrApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.FinanceComment, "Finance Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.FinanceComment, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.FinanceApproval, "Finance Approval", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.FinanceApproval, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.FinanceName, "Finance Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.FinanceName, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.FinanceApprovalDate, "Finance Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.FinanceApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ManagementComment, "Management Comment", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.ManagementComment, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ManagementApproval, "Management Approval", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.ManagementApproval, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ManagementName, "Management Name", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.ManagementName, new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ManagementApprovalDate, "Management Approval Date", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.TextBoxFor(model => model.ManagementApprovalDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                        </div>
+                    </div>
+                    </div>
         @Html.Partial("~/Views/OpdExpense/_OPDPatientReceiptImagesView.cshtml", Model)
         <div class="col-md-12">
             @Html.ActionLink("Back to List", "Index")

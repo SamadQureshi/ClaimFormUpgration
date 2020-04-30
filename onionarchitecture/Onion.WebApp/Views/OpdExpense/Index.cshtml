@@ -6,111 +6,111 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">assignment</i>
-                    </div>
-                    <h4 class="card-title">Form List</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">assignment</i>
                 </div>
-                <div class="card-body">
-                    <div class="toolbar">
-                        <!--        Here you can write extra buttons/actions for the toolbar              -->
-                        @Html.ActionLink("Create New OPD FORM", "Create", "OpdExpense", new { opdType = "OPD Expense" }, htmlAttributes: null) <span> | </span> @Html.ActionLink("Create New Hospital FORM", "Create", "HospitalExpense") <span> | </span> @Html.ActionLink("Create Employee Expense FORM", "Create", "TravelExpense", new { opdType = "Employee Expense" }, htmlAttributes: null)
-                    </div>
-                    <div class="material-datatables">
-                        <table id="datatables" class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
-                            <thead>
+                <h4 class="card-title">Form List</h4>
+            </div>
+            <div class="card-body">
+                <div class="toolbar">
+                    <!--        Here you can write extra buttons/actions for the toolbar              -->
+                    @Html.ActionLink("Create New OPD FORM", "Create", "OpdExpense", new { opdType = "OPD Expense" }, htmlAttributes: null) <span> | </span> @Html.ActionLink("Create New Hospital FORM", "Create", "HospitalExpense") <span> | </span> @Html.ActionLink("Create Employee Expense FORM", "Create", "TravelExpense", new { opdType = "Employee Expense" }, htmlAttributes: null)
+                </div>
+                <div class="material-datatables">
+                    <table id="datatables" class="table table-striped table-no-bordered table-hover responsive" cellspacing="0" width="100%" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayName("Expense Number")</th>
+                                <th>@Html.DisplayName("Employee Name")</th>
+                                <th>@Html.DisplayName("Employee Department")</th>
+                                <th>@Html.DisplayName("Claim For Month")</th>
+                                <th>@Html.DisplayName("Claim For Year")</th>
+                                <th>@Html.DisplayName("Status")</th>
+                                <th>@Html.DisplayName("Total Amount Claimed")</th>
+                                <th>@Html.DisplayName("Expense Type")</th>
+                                <th class="disabled-sorting all text-right actions-col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th>@Html.DisplayName("Expense Number")</th>
-                                    <th>@Html.DisplayName("Employee Name")</th>
-                                    <th>@Html.DisplayName("Employee Department")</th>
-                                    <th>@Html.DisplayName("Claim For Month")</th>
-                                    <th>@Html.DisplayName("Claim For Year")</th>
-                                    <th>@Html.DisplayName("Status")</th>
-                                    <th>@Html.DisplayName("Total Amount Claimed")</th>
-                                    <th>@Html.DisplayName("Expense Type")</th>
-                                    <th class="disabled-sorting all text-right actions-col">Actions</th>
+                                    <td>@Html.DisplayFor(modelItem => item.ExpenseNumber)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EmployeeDepartment)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ClaimMonth)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ClaimYear)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                    <td class="text-right">@Html.DisplayFor(modelItem => item.TotalAmountClaimed)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.OpdType)</td>
+                                    <td class="actions-col text-right">
+                                        @if (item.OpdType.Equals("OPD Expense"))
+                                        {
+                                            if (item.Status.Equals("InProcess"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Edit',@item.ID)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                            }
+                                            else if (item.Status.Equals("HR-Rejected"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                            }
+                                        }
+
+                                        @if (item.OpdType.Equals("Hospital Expense"))
+                                        {
+                                            if (item.Status.Equals("InProcess"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                            }
+                                            else if (item.Status.Equals("HR-Rejected"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                            }
+                                        }
+
+                                        @if (item.OpdType.Equals("Employee Expense"))
+                                        {
+                                            if (item.Status.Equals("InProcess"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                            }
+                                            else if (item.Status.Equals("FIN-Rejected"))
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit',@item.ID);"  class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                            }
+                                        }
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.ExpenseNumber)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.EmployeeDepartment)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ClaimMonth)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ClaimYear)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                        <td class="text-right">@Html.DisplayFor(modelItem => item.TotalAmountClaimed)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.OpdType)</td>
-                                        <td class="actions-col text-right">
-                                            @if (item.OpdType.Equals("OPD Expense"))
-                                            {
-                                                if (item.Status.Equals("InProcess"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
-                                                }
-                                                else if (item.Status.Equals("HR-Rejected"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("Details", "OPDExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
-                                                }
-                                            }
-
-                                            @if (item.OpdType.Equals("Hospital Expense"))
-                                            {
-                                                if (item.Status.Equals("InProcess"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
-                                                }
-                                                else if (item.Status.Equals("HR-Rejected"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("Details", "HospitalExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
-                                                }
-                                            }
-
-                                            @if (item.OpdType.Equals("Employee Expense"))
-                                            {
-                                                if (item.Status.Equals("InProcess"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "TravelExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
-                                                }
-                                                else if (item.Status.Equals("FIN-Rejected"))
-                                                {
-                                                    <a href="@Url.Action("Edit", "TravelExpense", new { id = item.ID }, null)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                    
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("Details", "TravelExpense", new { id = item.ID }, null)" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
-                                                }
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 

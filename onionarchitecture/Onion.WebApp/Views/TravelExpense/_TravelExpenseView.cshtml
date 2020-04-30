@@ -1,9 +1,16 @@
 ﻿@model TCO.TFM.WDMS.ViewModels.ViewModels.TravelExpenseMasterDetail
+
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ExpenseNumber, "Expense Number:", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ExpenseNumber, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
 <div class="col-md-6">
     <div class="form-group">
         @Html.LabelFor(model => model.EmployeeName, "Employee Name", htmlAttributes: new { @class = "bmd-label-floating" })
         @Html.TextBoxFor(model => model.EmployeeName, new { @readonly = "readonly", @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
     </div>
 </div>
 
@@ -34,10 +41,10 @@
         @Html.TextBoxFor(model => model.TotalAmountClaimed, new { @readonly = "readonly", @class = "form-control" })
     </div>
 </div>
-<div class="col-md-6">
+<div class="col-md-12">
     <div class="form-group">
         @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
         @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
     </div>
-</div> 
+</div>
 

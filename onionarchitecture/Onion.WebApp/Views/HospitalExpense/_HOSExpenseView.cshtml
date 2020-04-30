@@ -1,120 +1,127 @@
 ﻿
 @model TCO.TFM.WDMS.ViewModels.ViewModels.HospitalExpenseVM
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeName, "Name of Employee", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.EmployeeName, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+
+<div class="col-md-6">
+    <div class="form-group bmd-form-group is-filled custom-form-group">
+        @Html.LabelFor(model => model.ExpenseNumber, "Expense Number:", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ExpenseNumber, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeDepartment, "Employee Department", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.EmployeeDepartment, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeName, "Name of Employee", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.EmployeeName, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClaimYear, "Claim For Year", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.ClaimYear, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeDepartment, "Employee Department", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.EmployeeDepartment, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateIllnessNoticed, "Date of illness first noticed", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.DateIllnessNoticed, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimYear, "Claim For Year", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimYear, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateRecovery, "Date of recovery", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.DateRecovery, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateIllnessNoticed, "Date of illness first noticed", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.DateIllnessNoticed, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Diagnosis, "Diagnosis", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.Diagnosis, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateRecovery, "Date of recovery", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.DateRecovery, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClaimantSufferedIllness, "Has the claimant suffered from this illness before?", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.ClaimantSufferedIllness, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.HospitalName, "Name of Hospital attended", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.HospitalName, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClaimantSufferedIllnessDate, "If yes,please give claimant suffered from this illness date", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.ClaimantSufferedIllnessDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Diagnosis, "Diagnosis", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.Diagnosis, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClaimantSufferedIllnessDetails, "If yes,please give claimant suffered from this illness details", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.ClaimantSufferedIllnessDetails, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimantSufferedIllness, "Has the claimant suffered from this illness before?", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimantSufferedIllness, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.HospitalName, "Name of Hospital attended", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.HospitalName, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimantSufferedIllnessDate, "If yes,please give claimant suffered from this illness date", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimantSufferedIllnessDate, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.DoctorName, "Name of medical practitioner consulted:", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.DoctorName, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClaimantSufferedIllnessDetails, "If yes,please give claimant suffered from this illness details", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.ClaimantSufferedIllnessDetails, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.PeriodConfinementDateFrom, "Period of confinement From", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.PeriodConfinementDateFrom, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DoctorName, "Name of medical practitioner consulted:", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.DoctorName, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.PeriodConfinementDateTo, "Period of confinement To", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.PeriodConfinementDateTo, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeriodConfinementDateFrom, "Period of confinement From", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.PeriodConfinementDateFrom, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.DrugsPrescribedBool, "Were any drugs prescribed:Yes/No", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.DrugsPrescribedBool, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeriodConfinementDateTo, "Period of confinement To", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.PeriodConfinementDateTo, "{0:MM/dd/yyyy}", new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.DrugsPrescribedDescription, "If yes,please list the drugs prescribed and administered", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.DrugsPrescribedDescription, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DrugsPrescribedBool, "Were any drugs prescribed:Yes/No", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.DrugsPrescribedBool, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalAmountClaimed, "Total Amount Claimed", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.TotalAmountClaimed, new { @readonly = "readonly", @class = "form-control" })
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DrugsPrescribedDescription, "If yes,please list the drugs prescribed and administered", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.DrugsPrescribedDescription, new { @readonly = "readonly", @class = "form-control" })
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
-            @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })           
-        </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.TotalAmountClaimed, "Total Amount Claimed", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.TotalAmountClaimed, new { @readonly = "readonly", @class = "form-control" })
     </div>
-        
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.Status, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+
