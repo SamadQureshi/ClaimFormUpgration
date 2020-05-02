@@ -22,8 +22,7 @@
                 </div>
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.OpdType)
-                @Html.HiddenFor(model => model.CreatedDate)
-                @Html.Hidden("employeeDepartment", Model.EmployeeDepartment)
+                @Html.HiddenFor(model => model.CreatedDate)                
                 @Html.Hidden("buttonName")
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -143,7 +142,7 @@ jQuery(function () {
             });
         };
         if (regionsSelect.length != 0) {
-            regionsSelect.val($('input#employeeDepartment').val());
+            $("#EmployeeDepartment").val('@ViewBag.EmployeeDepartment');
             regionsSelect.selectpicker();
         }
     });
@@ -157,6 +156,11 @@ jQuery(function () {
         md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this Employee Expense Form!","You still can make changes to this Employee Expense Form");
 
 
-}
+        }
+
+        
+       $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+         });
     </script>
 }

@@ -170,6 +170,12 @@
     document.getElementById("buttonName").value = ctl.value;
     md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Mark the Employee Expense Form Completed!","You can make changes to this Employee Expense Form");
         }
+
+       $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+         });
+
+
     </script>
 
 }

@@ -11,6 +11,7 @@ using Onion.Interfaces.Services;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 using NLog;
+using TCO.TFM.WDMS.Common.Utils;
 
 namespace Onion.WebApp.Controllers
 {
@@ -46,21 +47,23 @@ namespace Onion.WebApp.Controllers
         }
 
         // GET: OPDEXPENSEs/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
 
             try
             {
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
+                    AuthenticateUser();                   
 
                     if (id == null)
                     {
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
-                    var hospitalInformation = GetHospitalExpense(Convert.ToInt32(id));                  
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                    var hospitalInformation = GetHospitalExpense(Convert.ToInt32(idDecrypted));                  
                   
                     return View(hospitalInformation);
                 }
@@ -126,7 +129,7 @@ namespace Onion.WebApp.Controllers
                     opdExpense.EmployeeEmailAddress = GetEmailAddress();
                     OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(opdExpense);
 
-                    return RedirectToAction("Edit", "HospitalExpense", new { id = OpdExpense_Obj.ID , opdType = opdExpense.OpdType });
+                    return RedirectToAction("Edit", "HospitalExpense", new { id = Security.EncryptId(OpdExpense_Obj.ID)});
                 }
 
                 return RedirectToAction(UrlIndex, UrlOpdExpense); 
@@ -141,7 +144,7 @@ namespace Onion.WebApp.Controllers
         }
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
 
             try
@@ -154,22 +157,23 @@ namespace Onion.WebApp.Controllers
                     if (id == null)
                     {
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
-                    }  
-                    var hospitalInformation = GetHospitalExpense(Convert.ToInt32(id));                  
+                    }
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                    var hospitalInformation = GetHospitalExpense(Convert.ToInt32(idDecrypted));                  
+
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = hospitalInformation.OpdType;
+                    ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment;
 
 
-                    if (!AuthenticateEmailAddress(Convert.ToInt32(id)))
+                    if (!AuthenticateEmailAddress(Convert.ToInt32(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
-
-
                    
-                        return View(hospitalInformation);
-                       
+                        return View(hospitalInformation);                       
                 }
                 else
                 {
@@ -200,7 +204,7 @@ namespace Onion.WebApp.Controllers
                 var hospitalInformation = GetHospitalExpense(opdExpense.ID);
                 ViewData["OPDEXPENSE_ID"] = opdExpense.ID;
                 ViewData["OPDTYPE"] = opdExpense.OpdType;
-
+                ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment; 
                 string buttonStatus = Request.Form["buttonName"];
 
                 if (buttonStatus == "submit")

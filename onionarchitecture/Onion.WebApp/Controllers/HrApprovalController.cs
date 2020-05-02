@@ -12,6 +12,7 @@ using TCO.TFM.WDMS.ViewModels.ViewModels;
 using Onion.Common.Constants;
 using NLog;
 using Onion.WebApp.Utils;
+using TCO.TFM.WDMS.Common.Utils;
 
 namespace Onion.WebApp.Controllers
 {
@@ -72,7 +73,7 @@ namespace Onion.WebApp.Controllers
 }
 
         // GET: OPDEXPENSEs/Details/5
-        public ActionResult DetailsForOPDExpense(int? id)
+        public ActionResult DetailsForOPDExpense(string id)
         {         
             try
             {
@@ -80,7 +81,10 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(id);
+
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -90,7 +94,7 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }
 
-                    var result2 = GetOPDExpense(Convert.ToInt32(id));
+                    var result2 = GetOPDExpense(idDecrypted);
 
                     return View(result2);
                 }
@@ -112,7 +116,7 @@ namespace Onion.WebApp.Controllers
 
 
 
-        public ActionResult DetailsForHospitalExpense(int? id)
+        public ActionResult DetailsForHospitalExpense(string id)
         {
            try
             {
@@ -120,7 +124,11 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+
+                    int idDecrypted = Security.DecryptId(id);
+
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -130,7 +138,7 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }                 
 
-                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(idDecrypted);
 
                     return View(result2);
                 }
@@ -152,7 +160,7 @@ namespace Onion.WebApp.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult HROPDExpense(int? id)
+        public ActionResult HROPDExpense(string id)
         {
             try
             {
@@ -160,7 +168,10 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -170,9 +181,9 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }                 
 
-                    var opdExpense = GetOPDExpense(Convert.ToInt32(id));
+                    var opdExpense = GetOPDExpense(idDecrypted);
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     return View(opdExpense);
                 }
 
@@ -268,7 +279,7 @@ namespace Onion.WebApp.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult HRHospitalExpense(int? id)
+        public ActionResult HRHospitalExpense(string id)
         {
             try
             {
@@ -276,7 +287,10 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -286,9 +300,9 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }
 
-                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(idDecrypted);
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
 
                     return View(result2);
                 }

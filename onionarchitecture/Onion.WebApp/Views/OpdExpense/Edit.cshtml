@@ -28,7 +28,6 @@
                 @Html.HiddenFor(model => model.HrApprovalDate)
                 @Html.HiddenFor(model => model.HrApproval)
 
-                @Html.Hidden("employeeDepartment", Model.EmployeeDepartment)
                 @Html.Hidden("buttonName")
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -153,7 +152,7 @@
                 });
             };
             if (regionsSelect.length != 0) {
-                //regionsSelect.val($('input#employeeDepartment').val());
+                $("#EmployeeDepartment").val('@ViewBag.EmployeeDepartment');                
                 regionsSelect.selectpicker();
             }
         });
@@ -166,7 +165,13 @@
         md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"], ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
 
 
-    }
+        }
+
+        
+       $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+         });
+
     </script>
 
 }

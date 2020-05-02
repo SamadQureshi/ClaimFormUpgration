@@ -24,8 +24,7 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.OpdType)
-                @Html.HiddenFor(model => model.CreatedDate)
-                @Html.Hidden("employeeDepartment", Model.EmployeeDepartment)
+                @Html.HiddenFor(model => model.CreatedDate)              
                 @Html.Hidden("buttonName")
 
                 @Html.Hidden("dateIllnessNoticed", Model.DateIllnessNoticed)
@@ -209,7 +208,7 @@ jQuery(function () {
             });
         };
         if (regionsSelect.length != 0) {
-            regionsSelect.val($('input#employeeDepartment').val());
+            $("#EmployeeDepartment").val('@ViewBag.EmployeeDepartment');
             regionsSelect.selectpicker();
         }
     });
@@ -230,8 +229,11 @@ jQuery(function () {
         function Validate(ctl, event) {
             event.preventDefault();
             document.getElementById("buttonName").value = ctl.value;
-            md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this OPD Claim!","You still can make changes to this OPD Claim");
+            md.initShowSwal('warning-message-and-edit', 'OpdExpense',@ViewData["OPDEXPENSE_ID"],ctl,"You will not be able to make changes in this Hospital Claim!","You still can make changes to this Hospital Claim");
         }
    
+       $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+         });
     </script>
 }

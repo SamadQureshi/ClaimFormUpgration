@@ -172,6 +172,11 @@
         md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to Reject the OPD Claim Form!","You can make changes to this OPD Claim Form");
 
 
-    }
+        }
+
+          $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+         });
+
     </script>
 }

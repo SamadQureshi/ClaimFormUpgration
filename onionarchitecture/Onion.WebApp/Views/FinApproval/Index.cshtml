@@ -63,15 +63,15 @@
                                     <td class="actions-col text-right">
                                         @if (item.OpdType.Equals("OPD Expense"))
                                         {
-                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinOPDExpense',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinOPDExpense','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                         }
                                         @if (item.OpdType.Equals("Hospital Expense"))
                                         {
-                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinHOSPITALExpense',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinHOSPITALExpense','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                         }
                                         @if (item.OpdType.Equals("Employee Expense"))
                                         {
-                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinTravelExpense',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                            <a href="javascript:;" onclick="md.initRedirectUrl('FinApproval','FinTravelExpense','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
                                         }
                                     </td>
                                 </tr>

@@ -12,6 +12,7 @@ using Onion.WebApp.Controllers;
 using Onion.Common.Constants;
 using NLog;
 using Onion.WebApp.Utils;
+using TCO.TFM.WDMS.Common.Utils;
 
 namespace OPDCLAIMFORM.Controllers
 {
@@ -107,7 +108,7 @@ namespace OPDCLAIMFORM.Controllers
         }
 
         // GET: OPDEXPENSEs/Details/5
-        public ActionResult DetailsForOPDExpense(int? id)
+        public ActionResult DetailsForOPDExpense(string id)
         {
 
             try
@@ -116,7 +117,9 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     AuthenticateUser("DetailsForOPDExpense");
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -126,7 +129,7 @@ namespace OPDCLAIMFORM.Controllers
                         return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
-                    var result2 = GetOPDExpense(Convert.ToInt32(id));
+                    var result2 = GetOPDExpense(idDecrypted);
                     return View(result2);
                 }
                 else
@@ -145,7 +148,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
 
-        public ActionResult DetailsForHospitalExpense(int? id)
+        public ActionResult DetailsForHospitalExpense(string id)
         {
             try
             {
@@ -153,7 +156,10 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     AuthenticateUser("DetailsForHospitalExpense");
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+
+                    if (!(AuthenticateEmailAddress(Convert.ToInt32(idDecrypted))))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -163,7 +169,7 @@ namespace OPDCLAIMFORM.Controllers
                         return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
-                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(Convert.ToInt32(idDecrypted));
 
                     return View(result2);
                 }
@@ -183,7 +189,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult MANOPDExpense(int? id)
+        public ActionResult MANOPDExpense(string id)
         {
             try
             {
@@ -191,7 +197,10 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     AuthenticateUser("MANOPDExpense");
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+
+                    int idDecrypted = Security.DecryptId(id);
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -202,9 +211,9 @@ namespace OPDCLAIMFORM.Controllers
                     }
 
 
-                    var result2 = GetOPDExpense(Convert.ToInt32(id));
+                    var result2 = GetOPDExpense(idDecrypted);
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     return View(result2);
                 }
                 else
@@ -300,7 +309,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult MANHospitalExpense(int? id)
+        public ActionResult MANHospitalExpense(string id)
         {
             try
             {
@@ -309,7 +318,9 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     AuthenticateUser("MANHospitalExpense");
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(id);
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -319,9 +330,9 @@ namespace OPDCLAIMFORM.Controllers
                         return RedirectToAction(UrlIndex, UrlManApproval);
                     }
 
-                    var result2 = GetHospitalExpense(Convert.ToInt32(id));
+                    var result2 = GetHospitalExpense(idDecrypted);
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     return View(result2);
                 }
                 else
@@ -407,7 +418,7 @@ namespace OPDCLAIMFORM.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult ManTravelExpense(int? id)
+        public ActionResult ManTravelExpense(string id)
         {
             try
             {
@@ -415,7 +426,9 @@ namespace OPDCLAIMFORM.Controllers
                 {
                     AuthenticateUser("ManTravelExpense");
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    int idDecrypted = Security.DecryptId(id);
+
+                    if (!(AuthenticateEmailAddress(idDecrypted)))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -426,9 +439,9 @@ namespace OPDCLAIMFORM.Controllers
                     }
 
 
-                    var result2 = GetTravelExpense(Convert.ToInt32(id));
+                    var result2 = GetTravelExpense(idDecrypted);
 
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     return View(result2);
                 }
                 else
@@ -489,15 +502,7 @@ namespace OPDCLAIMFORM.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    oPDEXPENSE.ModifiedDate = DateTime.Now;
-                    // oPDEXPENSE.FinanceApprovalDate = DateTime.Now;
-                    // oPDEXPENSE.FinanceEmailAddress = GetEmailAddress();
-                    //if (oPDEXPENSE.Status == ClaimStatus.MANGAPPROVED)
-                    // {
-                    //     oPDEXPENSE.ManagementApprovalDate = DateTime.Now;
-                    //     oPDEXPENSE.ManagementEmailAddress = GetEmailAddress();
-                    //     oPDEXPENSE.ManagementApproval = true;
-                    // }
+                    oPDEXPENSE.ModifiedDate = DateTime.Now;               
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
                     return RedirectToAction(UrlIndexTravel, UrlManApproval);
                 }

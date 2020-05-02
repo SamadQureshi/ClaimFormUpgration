@@ -139,5 +139,10 @@
     document.getElementById("buttonName").value = ctl.value;
     md.initShowSwal('warning-message-and-edit', 'OPDExpenses',@ViewData["OPDEXPENSE_ID"],ctl,"You are about to send the OPD Claim Form to Manager For Approval!","You can make changes to this OPD Claim Form");
         }
+
+                $(function () {              
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+                });
+
     </script>
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TCO.TFM.WDMS.Common.Utils;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
@@ -28,24 +29,24 @@ namespace Onion.WebApp.Controllers
             _opdExpenseService = opdExpenseService;
 
         }
-        public ActionResult Index(int id)
+        public ActionResult Index(string id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
 
+                int idDecrypted = Security.DecryptId(Convert.ToString(id));
 
-
-                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(idDecrypted);
 
                 ViewData["OPDTYPE"] = opdExpenseService.OpdType;
-                ViewData["OPDEXPENSE_ID"] = id;
+                ViewData["OPDEXPENSE_ID"] = idDecrypted;
 
                 ImgTravelModel model = new ImgTravelModel { FileAttach = null, ImgLst = new List<TravelExpenseVM>() };
 
-                model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(id));
+                model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(idDecrypted);
 
-                model.OPDExpenseID = id;
+                model.OPDExpenseID = idDecrypted;
                 return this.View(model);
             }
             else
@@ -57,7 +58,7 @@ namespace Onion.WebApp.Controllers
         }
 
 
-        public ActionResult Create(string opdType)
+        public ActionResult Create()
         {
             try
             {
@@ -104,9 +105,9 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDTYPE"] = OpdExpense_Obj.OpdType;
 
                     if (OpdExpense.OpdType == FormType.OPDExpense)
-                        return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.OPDExpense });
+                        return RedirectToAction("Edit", UrlOpdExpense, new { id = Security.EncryptId(OpdExpense_Obj.ID)});
                     else if (OpdExpense.OpdType == FormType.EmployeeExpense)
-                        return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.EmployeeExpense });
+                        return RedirectToAction("Edit", UrlTravelExpense, new { id = Security.EncryptId(OpdExpense_Obj.ID) });
                 }
                 return View(OpdExpense);
             }
@@ -149,7 +150,7 @@ namespace Onion.WebApp.Controllers
 
                     if (model.OPDExpenseID == 0)
                     {
-                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                        model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
 
 
@@ -179,7 +180,7 @@ namespace Onion.WebApp.Controllers
 
                     if (model.OPDExpenseID == 0)
                     {
-                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                        model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
                     model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
 
@@ -222,7 +223,7 @@ namespace Onion.WebApp.Controllers
                 _travelExpenseService.DeleteTravelExpense(id);
 
                 // Info.
-                return RedirectToAction(UrlIndex, "TravelExpense", new { id = opdexpenseid });
+                return RedirectToAction(UrlIndex, "TravelExpense", new { id = Security.EncryptId(opdexpenseid)});
             }
             else
             {
@@ -285,7 +286,7 @@ namespace Onion.WebApp.Controllers
 
         #region Travel Expense 
 
-        public ActionResult Edit(int? id, string opdType)
+        public ActionResult Edit(string id)
         {
             try
             {
@@ -297,12 +298,14 @@ namespace Onion.WebApp.Controllers
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
-                    var opdInformation = GetTravelExpense(Convert.ToInt32(id));
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                    var opdInformation = GetTravelExpense(Convert.ToInt32(idDecrypted));
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
+                    ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
 
-
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    if (!(AuthenticateEmailAddress(Convert.ToInt32(idDecrypted))))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -342,6 +345,8 @@ namespace Onion.WebApp.Controllers
                 var opdInformation = GetTravelExpense(OpdExpense.ID);
                 ViewData["OPDEXPENSE_ID"] = OpdExpense.ID;
                 ViewData["OPDTYPE"] = OpdExpense.OpdType;
+                ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
+
                 if (buttonStatus == "submit")
                 {
                     OpdExpense.Status = ClaimStatus.FININPROCESS;
@@ -405,7 +410,7 @@ namespace Onion.WebApp.Controllers
             }
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
 
 
@@ -421,8 +426,8 @@ namespace Onion.WebApp.Controllers
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
-
-                    var result2 = GetTravelExpense(Convert.ToInt32(id));
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+                    var result2 = GetTravelExpense(idDecrypted);
                     return View(result2);
 
                 }

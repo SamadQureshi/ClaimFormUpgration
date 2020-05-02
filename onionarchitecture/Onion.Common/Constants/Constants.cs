@@ -12,6 +12,8 @@
 
         public const string MSG_GENERAL_OPD_EXPENSE_AMOUNT = "OPD Expense Amount between Images and Claimed is not same";
 
+        public const string MSG_GENERAL_HOSPITAL_EXPENSE_AMOUNT = "Hospital Expense Amount between Images and Claimed is not same";
+
         public const string MSG_GENERAL_ADD_PATIENT_RECEIPTS = "Please Add Patient Receipts";
 
         public const string MSG_GENERAL_ADD_PATIENT_INFORMATION = "Please Add Patient Information";

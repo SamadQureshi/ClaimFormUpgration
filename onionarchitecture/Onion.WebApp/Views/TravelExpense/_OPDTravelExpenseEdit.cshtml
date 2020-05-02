@@ -10,7 +10,7 @@
         <div class="card-body">
             <div class="toolbar">
                 <!--        Here you can write extra buttons/actions for the toolbar              -->
-                @Html.ActionLink("Add Expense Information", "Index", "TravelExpense", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"]  }, null)
+                @Html.ActionLink("Add Expense Information", "Index", "TravelExpense", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"]))  }, null)
             </div>
             @if (Model.ListTravelExpense != null && Model.ListTravelExpense.Count > 0)
             {

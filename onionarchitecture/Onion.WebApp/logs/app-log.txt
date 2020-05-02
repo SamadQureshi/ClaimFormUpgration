@@ -11,3 +11,6 @@
 2020-05-02 03:47:09.6361|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
 2020-05-02 03:49:42.0398|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
 2020-05-02 03:53:23.3373|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 14:02:48.3975|ERROR|Onion.WebApp.Controllers.HrApprovalController|HRAPPROVAL : HROPDExpense()Object reference not set to an instance of an object.
+2020-05-02 16:37:36.8180|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 16:42:35.3566|ERROR|Onion.WebApp.Controllers.HrApprovalController|HRAPPROVAL : HRHospitalExpense([Bind])Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.

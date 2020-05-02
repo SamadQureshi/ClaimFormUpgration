@@ -77,9 +77,7 @@ namespace Onion.WebApp.Controllers
 
                 if (Request.IsAuthenticated)
                 {
-                    AuthenticateUser();
-
-                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+                    AuthenticateUser();                
 
 
                     if (id == null)
@@ -87,6 +85,7 @@ namespace Onion.WebApp.Controllers
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
 
                     var result2 = GetOPDExpense(Convert.ToInt32(idDecrypted));
                     return View(result2);
@@ -153,7 +152,7 @@ namespace Onion.WebApp.Controllers
 
                     ViewData["OPDEXPENSE_ID"] = OpdExpense_Obj.ID;
                     ViewData["OPDTYPE"] = OpdExpense_Obj.OpdType;
-
+                   
                     if (OpdExpense.OpdType == FormType.OPDExpense)
                         return RedirectToAction("Edit", UrlOpdExpense, new { id = Security.EncryptId(OpdExpense_Obj.ID)});
                     else if (OpdExpense.OpdType == FormType.EmployeeExpense)
@@ -188,7 +187,7 @@ namespace Onion.WebApp.Controllers
                     var opdInformation = GetOPDExpense(idDecrypted);
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
-
+                    ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(idDecrypted))))
                     {
@@ -226,13 +225,14 @@ namespace Onion.WebApp.Controllers
             {
                 string buttonStatus = Request.Form["buttonName"];   
                 
-                int idDecrypted = Security.DecryptId(Convert.ToString(Request.Form["ID"]));
-                OpdExpense.ID = idDecrypted;
+              
 
                 AuthenticateUser();
                 var opdInformation = GetOPDExpense(OpdExpense.ID);
                 ViewData["OPDEXPENSE_ID"] = OpdExpense.ID;
                 ViewData["OPDTYPE"] = OpdExpense.OpdType;
+                ViewBag.EmployeeDepartment = OpdExpense.EmployeeDepartment;
+
                 if (buttonStatus == "submit")
                 {
                     OpdExpense.Status = ClaimStatus.SUBMITTED;
@@ -253,8 +253,8 @@ namespace Onion.WebApp.Controllers
 
                             if (GetOPDExpenseAmount(OpdExpense.ID, OpdExpense.TotalAmountClaimed))
                             {
-                                //if (ModelState.IsValid)
-                                //{
+                                if (ModelState.IsValid)
+                                {
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                                      _opdExpenseService.UpdateOpdExpense(OpdExpense);
@@ -268,7 +268,7 @@ namespace Onion.WebApp.Controllers
                                     _emailService.SendEmail(message);
 
                                     return RedirectToAction(UrlIndex);
-                                //}
+                                }
 
                             }
                             else
@@ -292,15 +292,15 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    //if (ModelState.IsValid)
-                    //{
+                    if (ModelState.IsValid)
+                    {
                         OpdExpense.CreatedDate = DateTime.Now;
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
                       
                         return RedirectToAction(UrlIndex);
-                    //}
+                    }
 
                 }
 
