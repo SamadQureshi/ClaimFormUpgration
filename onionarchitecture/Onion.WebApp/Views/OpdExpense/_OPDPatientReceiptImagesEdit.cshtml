@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="toolbar">
                     <!--        Here you can write extra buttons/actions for the toolbar              -->
-                    @Html.ActionLink("Add Patient Information", "Index", "OPDExpensePatient", new { id = @ViewData["OPDEXPENSE_ID"]}, null)
+                    @Html.ActionLink("Add Patient Information", "Index", "OPDExpensePatient", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"]))}, null)
                 </div>
                 @if (Model.OpdExpensePatients != null && Model.OpdExpensePatients.Count > 0)
                 {
@@ -78,7 +78,7 @@
         <div class="card-body">
             <div class="toolbar">
                 <!--        Here you can write extra buttons/actions for the toolbar              -->
-                @Html.ActionLink("Add Receipt Information", "Index", "OPDExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"]}, null)
+                @Html.ActionLink("Add Receipt Information", "Index", "OPDExpenseImage", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"]))}, null)
             </div>
             @if (Model.OpdExpenseImages != null && Model.OpdExpenseImages.Count > 0)
             {

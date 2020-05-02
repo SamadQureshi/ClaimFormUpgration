@@ -128,13 +128,13 @@
             if (@ViewData["OPDTYPE"].Equals("Hospital Expense"))
             {
         <div class="col-md-12">
-            @Html.ActionLink("Back to Edit", "Edit", "HospitalExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)
+            @Html.ActionLink("Back to Edit", "Edit", "HospitalExpense", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])) }, null)
         </div>
             }
             else
             {
         <div class="col-md-12">
-            @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)
+            @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])) }, null)
         </div>
             }
         }

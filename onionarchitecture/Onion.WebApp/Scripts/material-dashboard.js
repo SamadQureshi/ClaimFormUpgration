@@ -512,7 +512,7 @@ md = {
 
             url = url.replace("controllerName", controllerName);
 
-            url = url.replace("itemid", itemid);           
+            url = url.replace("itemid", itemid.replace(/'/g, ''));           
 
             window.location = url;
 

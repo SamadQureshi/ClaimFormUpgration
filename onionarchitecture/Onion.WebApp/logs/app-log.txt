@@ -1,2 +1,13 @@
-2020-04-28 09:52:02.8514|ERROR|OPDCLAIMFORM.Controllers.ManApprovalController|MANAPPROVAL : MANOPDExpense([Bind])A recipient must be specified.
-2020-04-28 11:19:24.6222|ERROR|Onion.WebApp.Controllers.HrApprovalController|HRAPPROVAL : HROPDExpense([Bind])A recipient must be specified.
+2020-05-02 01:12:22.0920|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit()Input string was not in a correct format.
+2020-05-02 01:37:20.7767|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : UrlIndex()LINQ to Entities does not recognize the method 'System.String Encrypt(System.String)' method, and this method cannot be translated into a store expression.
+2020-05-02 01:37:41.0890|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : UrlIndex()LINQ to Entities does not recognize the method 'System.String Encrypt(System.String)' method, and this method cannot be translated into a store expression.
+2020-05-02 02:15:32.7459|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit()Object reference not set to an instance of an object.
+2020-05-02 02:24:47.8701|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit()Object reference not set to an instance of an object.
+2020-05-02 02:25:36.8014|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit()Input string was not in a correct format.
+2020-05-02 03:23:33.8313|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:24:40.2050|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:27:17.8302|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:43:02.9396|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:47:09.6361|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:49:42.0398|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.
+2020-05-02 03:53:23.3373|ERROR|Onion.WebApp.Controllers.OpdExpenseController|OPD Expense : Edit([Bind])Object reference not set to an instance of an object.

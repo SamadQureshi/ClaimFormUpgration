@@ -116,6 +116,9 @@ namespace Onion.Domain.Models
         [StringLength(50)]
         public string PayRollMonth { get; set; }
 
+        [StringLength(500)]
+        public string OpdEncrypted { get; set; }
+
 
 
 

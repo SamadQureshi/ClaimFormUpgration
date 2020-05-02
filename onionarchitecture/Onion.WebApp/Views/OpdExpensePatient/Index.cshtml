@@ -103,14 +103,14 @@
             if (@ViewData["OPDTYPE"].Equals("Hospital Expense"))
             {
                 <div class="col-md-12">
-                    @Html.ActionLink("Back to Edit", "Edit", "HOSPITALExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null) <span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
+                    @Html.ActionLink("Back to Edit", "Edit", "HOSPITALExpense", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])) }, null) <span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])), opdType = @ViewData["OPDTYPE"] }, null)
 
                 </div>
             }
             else
             {
                 <div class="col-md-12">
-                    @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @ViewData["OPDEXPENSE_ID"] }, null)<span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @ViewData["OPDEXPENSE_ID"], opdType = @ViewData["OPDTYPE"] }, null)
+                    @Html.ActionLink("Back to Edit", "Edit", "OPDExpense", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])) }, null)<span>|</span> @Html.ActionLink("Add Image", "Index", "OpdExpenseImage", new { id = @TCO.TFM.WDMS.Common.Utils.Security.EncryptId(Convert.ToInt32(ViewData["OPDEXPENSE_ID"])), opdType = @ViewData["OPDTYPE"] }, null)
                 </div>
             }
         }

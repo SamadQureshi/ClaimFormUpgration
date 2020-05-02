@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TCO.TFM.WDMS.Common.Utils;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
@@ -29,23 +30,24 @@ namespace Onion.WebApp.Controllers
 
 
 
-        public ActionResult Index(int id)
+        public ActionResult Index(string id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
 
+                int idDecrypted = Security.DecryptId(Convert.ToString(id));
 
-                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(idDecrypted));
 
                 ViewData["OPDTYPE"] = opdExpenseService.OpdType;
-                ViewData["OPDEXPENSE_ID"] = id;
+                ViewData["OPDEXPENSE_ID"] = idDecrypted;
 
                 ImgViewModel model = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpenseImageVM>() };
 
-                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(id));
+                model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(idDecrypted));
 
-                model.OPDExpenseID = id;
+                model.OPDExpenseID = idDecrypted;
                 return this.View(model);
             }
             else
@@ -84,11 +86,11 @@ namespace Onion.WebApp.Controllers
 
                     OpdExpenseImageVM opdExpense_Image = new OpdExpenseImageVM();
 
-                    ViewData["OPDTYPE"] = model.OPDType;
+                    ViewData["OPDTYPE"] = model.OPDType;      
 
                     if (model.OPDExpenseID == 0)
                     {
-                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                        model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
 
 
@@ -113,7 +115,7 @@ namespace Onion.WebApp.Controllers
                 {                  
 
                     if (model.OPDExpenseID == 0) {
-                        model.OPDExpenseID = Convert.ToInt32(Request.Url.Segments[3].ToString());
+                        model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                             }                  
                     model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
 
@@ -161,7 +163,7 @@ namespace Onion.WebApp.Controllers
                 _opdExpenseImageService.DeleteOpdExpenseImage(id);
             
                 // Info.
-                return RedirectToAction(UrlIndex, "OPDEXPENSEIMAGE", new { id = opdexpenseid});
+                return RedirectToAction(UrlIndex, "OPDEXPENSEIMAGE", new { id = Security.EncryptId(opdexpenseid)});
             }
             else
             {

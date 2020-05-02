@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Onion.Common.Constants;
 using Onion.Domain.Models;
 using Onion.Interfaces;
 using Onion.Interfaces.Services;
+using TCO.TFM.WDMS.Common.Utils;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.Services
@@ -33,8 +35,7 @@ namespace Onion.Services
         public List<OpdExpenseVM> GetOpdExpensesAgainstEmailAddress(string EmailAddress)
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(y => y.EmployeeEmailAddress == EmailAddress)
-                 //.Select(t => new { t.EMPLOYEE_NAME, t.EMPLOYEE_EMAILADDRESS, t.EMPLOYEE_DEPARTMENT, t.CLAIM_MONTH, t.CLAIM_YEAR, t.TOTAL_AMOUNT_CLAIMED, t.Status, t.OPDTYPE, t.OPDEXPENSE_ID , t.EXPENSE_NUMBER })
+                 .Where(y => y.EmployeeEmailAddress == EmailAddress)   
                  .ToList();
 
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
@@ -50,17 +51,14 @@ namespace Onion.Services
 
         public void UpdateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
-
             OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);           
-            _opdExpenseRepository.Update(obj);            
+            _opdExpenseRepository.Update(obj);         
 
         }
 
         public void DeleteOpdExpense(object id)
         {
-
             _opdExpenseRepository.Delete(id);
-
         }
 
         public List<OpdExpenseVM> GetOpdExpensesForHR()

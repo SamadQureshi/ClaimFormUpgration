@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TCO.TFM.WDMS.Common.Utils;
 using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
@@ -21,17 +22,20 @@ namespace Onion.WebApp.Controllers
            _opdExpenseService = opdExpenseService;
 
         }
-        public ActionResult Index(int? id)
+        public ActionResult Index(string id)
         {
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
-                ViewData["OPDEXPENSE_ID"] = id;          
+
+                int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                ViewData["OPDEXPENSE_ID"] = idDecrypted;          
                                 
 
-                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(id));
+                var opdExpenseService = _opdExpenseService.GetOpdExpensesAgainstId(Convert.ToInt32(idDecrypted));
 
-                var opdExpense_Patient = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Convert.ToInt32(id));
+                var opdExpense_Patient = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Convert.ToInt32(idDecrypted));
 
                 var objOpdExpensePatient = new OpdExpensePatientVM();
 

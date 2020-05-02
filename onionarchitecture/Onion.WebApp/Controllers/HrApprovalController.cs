@@ -511,7 +511,8 @@ namespace Onion.WebApp.Controllers
                 ModifiedDate = opdExpense.ModifiedDate,
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
-                ExpenseNumber = opdExpense.ExpenseNumber
+                ExpenseNumber = opdExpense.ExpenseNumber,
+                OpdEncrypted = opdExpense.OpdEncrypted
 
             };
 
@@ -584,7 +585,8 @@ namespace Onion.WebApp.Controllers
                 ModifiedDate = opdExpense.ModifiedDate,
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
-                ExpenseNumber = opdExpense.ExpenseNumber
+                ExpenseNumber = opdExpense.ExpenseNumber,
+                OpdEncrypted = opdExpense.OpdEncrypted
             };
 
             return hospitalInformation;

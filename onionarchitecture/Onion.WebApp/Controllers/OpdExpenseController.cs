@@ -7,6 +7,7 @@ using Onion.Common.Constants;
 using NLog;
 using System.Collections.Generic;
 using Onion.WebApp.Utils;
+using TCO.TFM.WDMS.Common.Utils;
 
 namespace Onion.WebApp.Controllers
 {
@@ -46,7 +47,8 @@ namespace Onion.WebApp.Controllers
 
                     string emailAddress = GetEmailAddress();
 
-                    var opdExp = _opdExpenseService.GetOpdExpensesAgainstEmailAddress(emailAddress);
+                    List<OpdExpenseVM> opdExp = _opdExpenseService.GetOpdExpensesAgainstEmailAddress(emailAddress);                   
+
 
                     return View(opdExp);
                 }
@@ -66,7 +68,7 @@ namespace Onion.WebApp.Controllers
         }
 
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
 
 
@@ -77,13 +79,16 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();
 
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+
                     if (id == null)
                     {
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
 
-                    var result2 = GetOPDExpense(Convert.ToInt32(id));
+                    var result2 = GetOPDExpense(Convert.ToInt32(idDecrypted));
                     return View(result2);
 
                 }
@@ -142,7 +147,7 @@ namespace Onion.WebApp.Controllers
 
                     OpdExpense.Status = ClaimStatus.INPROGRESS;
                     OpdExpense.CreatedDate = DateTime.Now;
-                    OpdExpense.EmployeeEmailAddress = GetEmailAddress();
+                    OpdExpense.EmployeeEmailAddress = GetEmailAddress();                  
 
                     OpdExpenseVM OpdExpense_Obj = _opdExpenseService.CreateOpdExpense(OpdExpense);
 
@@ -150,9 +155,9 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDTYPE"] = OpdExpense_Obj.OpdType;
 
                     if (OpdExpense.OpdType == FormType.OPDExpense)
-                        return RedirectToAction("Edit", UrlOpdExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.OPDExpense });
+                        return RedirectToAction("Edit", UrlOpdExpense, new { id = Security.EncryptId(OpdExpense_Obj.ID)});
                     else if (OpdExpense.OpdType == FormType.EmployeeExpense)
-                        return RedirectToAction("Edit", UrlTravelExpense, new { id = OpdExpense_Obj.ID, opdType = FormType.EmployeeExpense });
+                        return RedirectToAction("Edit", UrlTravelExpense, new { id = Security.EncryptId(OpdExpense_Obj.ID)});
                 }
                 return View(OpdExpense);
             }
@@ -166,7 +171,7 @@ namespace Onion.WebApp.Controllers
 
 
         // GET: OPDEXPENSEs/Edit/5
-        public ActionResult Edit(int? id, string opdType)
+        public ActionResult Edit(string id)
         {
             try
             {
@@ -178,12 +183,14 @@ namespace Onion.WebApp.Controllers
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
 
-                    var opdInformation = GetOPDExpense(Convert.ToInt32(id));
-                    ViewData["OPDEXPENSE_ID"] = id;
+                    int idDecrypted = Security.DecryptId(Convert.ToString(id));
+
+                    var opdInformation = GetOPDExpense(idDecrypted);
+                    ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
 
 
-                    if (!(AuthenticateEmailAddress(Convert.ToInt32(id))))
+                    if (!(AuthenticateEmailAddress(Convert.ToInt32(idDecrypted))))
                     {
                         return RedirectToAction(UrlIndex, UrlHome);
                     }
@@ -217,7 +224,10 @@ namespace Onion.WebApp.Controllers
         {
             try
             {
-                string buttonStatus = Request.Form["buttonName"];
+                string buttonStatus = Request.Form["buttonName"];   
+                
+                int idDecrypted = Security.DecryptId(Convert.ToString(Request.Form["ID"]));
+                OpdExpense.ID = idDecrypted;
 
                 AuthenticateUser();
                 var opdInformation = GetOPDExpense(OpdExpense.ID);
@@ -243,8 +253,8 @@ namespace Onion.WebApp.Controllers
 
                             if (GetOPDExpenseAmount(OpdExpense.ID, OpdExpense.TotalAmountClaimed))
                             {
-                                if (ModelState.IsValid)
-                                {
+                                //if (ModelState.IsValid)
+                                //{
                                     OpdExpense.ModifiedDate = DateTime.Now;
                                     OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                                      _opdExpenseService.UpdateOpdExpense(OpdExpense);
@@ -258,7 +268,7 @@ namespace Onion.WebApp.Controllers
                                     _emailService.SendEmail(message);
 
                                     return RedirectToAction(UrlIndex);
-                                }
+                                //}
 
                             }
                             else
@@ -282,15 +292,15 @@ namespace Onion.WebApp.Controllers
                 }
                 else
                 {
-                    if (ModelState.IsValid)
-                    {
+                    //if (ModelState.IsValid)
+                    //{
                         OpdExpense.CreatedDate = DateTime.Now;
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
                       
                         return RedirectToAction(UrlIndex);
-                    }
+                    //}
 
                 }
 
@@ -443,7 +453,8 @@ namespace Onion.WebApp.Controllers
                 ModifiedDate = opdExpense.ModifiedDate,
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
-                ExpenseNumber = opdExpense.ExpenseNumber
+                ExpenseNumber = opdExpense.ExpenseNumber,
+                OpdEncrypted = opdExpense.OpdEncrypted
 
             };
 

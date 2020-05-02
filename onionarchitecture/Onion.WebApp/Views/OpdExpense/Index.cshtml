@@ -52,17 +52,17 @@
                                         {
                                             if (item.Status.Equals("InProcess"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Edit',@item.ID)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OpdExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'')" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @item.ID)" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                             }
                                             else if (item.Status.Equals("HR-Rejected"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OpdExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
 
                                             }
                                             else
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('OPDExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('OpdExpense','Details','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                             }
                                         }
 
@@ -70,17 +70,17 @@
                                         {
                                             if (item.Status.Equals("InProcess"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'HospitalExpense', @item.ID)" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                             }
                                             else if (item.Status.Equals("HR-Rejected"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
 
                                             }
                                             else
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('HospitalExpense','Details','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                             }
                                         }
 
@@ -88,17 +88,17 @@
                                         {
                                             if (item.Status.Equals("InProcess"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit',@item.ID);" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
-                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @Html.DisplayFor(modelItem => item.ID))" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initShowSwal('warning-message-and-cancel', 'OpdExpense', @item.ID)" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
                                             }
                                             else if (item.Status.Equals("FIN-Rejected"))
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit',@item.ID);"  class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Edit','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');"  class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">edit</i></a>
 
                                             }
                                             else
                                             {
-                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Details',@item.ID);" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
+                                                <a href="javascript:;" onclick="md.initRedirectUrl('TravelExpense','Details','\'@TCO.TFM.WDMS.Common.Utils.Security.EncryptId(item.ID)\'');" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">dvr</i></a>
                                             }
                                         }
                                     </td>

@@ -129,5 +129,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string PayRollMonth { get; set; }
 
+        public string OpdEncrypted { get; set; }
+
     }
 }

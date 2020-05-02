@@ -70,6 +70,18 @@
     <Compile Include="Migrations\202004240811473_ExpenseTable2.Designer.cs">
       <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004301109531_encryptField.cs" />
+    <Compile Include="Migrations\202004301109531_encryptField.Designer.cs">
+      <DependentUpon>202004301109531_encryptField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004301142393_encryptField1.cs" />
+    <Compile Include="Migrations\202004301142393_encryptField1.Designer.cs">
+      <DependentUpon>202004301142393_encryptField1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004301146135_encryptField2.cs" />
+    <Compile Include="Migrations\202004301146135_encryptField2.Designer.cs">
+      <DependentUpon>202004301146135_encryptField2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +111,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004240811473_ExpenseTable2.resx">
       <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004301109531_encryptField.resx">
+      <DependentUpon>202004301109531_encryptField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004301142393_encryptField1.resx">
+      <DependentUpon>202004301142393_encryptField1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004301146135_encryptField2.resx">
+      <DependentUpon>202004301146135_encryptField2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
