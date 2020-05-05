@@ -8,10 +8,10 @@ namespace Onion.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        object Add(T obj);
-        void Update(T obj);
-        void Delete(object id);
-        void Delete(T entity);
+        object Add(T obj,string userName);
+        void Update(T obj, string userName);
+        void Delete(object id, string userName);
+        void Delete(T entity, string userName);
         void RemoveRange(List<T> entities);
 
 

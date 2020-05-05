@@ -11,14 +11,14 @@ namespace Onion.Interfaces.Services
 
         List<TravelExpenseVM> GetTravelExpensesAgainstOpdExpenseId(int id);
 
-        TravelExpenseVM CreateTravelExpense(TravelExpenseVM travelExpenseVM);
+        TravelExpenseVM CreateTravelExpense(TravelExpenseVM travelExpenseVM, string emailAddress);
 
-        void UpdateTravelExpense(TravelExpenseVM travelExpenseVM);
+        void UpdateTravelExpense(TravelExpenseVM travelExpenseVM, string emailAddress);
 
-        void DeleteTravelExpense(object id);
+        void DeleteTravelExpense(object id, string emailAddress);
         TravelExpenseVM GetTravelExpenseAgainstId(int Id);
 
-        void UpdateTravelExpense(TravelExpenseMasterDetail travelExpenseMasterDetail);
+        void UpdateTravelExpense(TravelExpenseMasterDetail travelExpenseMasterDetail, string emailAddress);
 
     }
 }

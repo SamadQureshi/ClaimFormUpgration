@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using TrackerEnabledDbContext.Common.Configuration;
 
 namespace Onion.WebApp
 {
@@ -27,7 +28,7 @@ namespace Onion.WebApp
 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
-
+            GlobalTrackingConfig.DisconnectedContext = true;
         }
 
     }

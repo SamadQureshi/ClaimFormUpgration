@@ -32,24 +32,25 @@ namespace Onion.Services
             return Mapper.Map<List<OpdExpensePatientVM>>(opdExpense);
         }
 
-        public OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM)
+        public OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM,string emailAddress)
         {
-            var ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
+           
+            
+            var ObjOpdExpensePatient = _opdExpensePatientRepository.Add(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM), emailAddress);
             return Mapper.Map<OpdExpensePatientVM>(ObjOpdExpensePatient);
         }
 
 
-        public void UpdateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM)
+        public void UpdateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM, string emailAddress)
         {
 
-            _opdExpensePatientRepository.Update(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM));
+            _opdExpensePatientRepository.Update(Mapper.Map<OpdExpensePatient>(opdExpensePatientVM), emailAddress);
 
         }
 
-        public void DeleteOpdExpensePatient(object id)
+        public void DeleteOpdExpensePatient(object id, string emailAddress)
         {
-
-            _opdExpensePatientRepository.Delete(id);
+           _opdExpensePatientRepository.Delete(id, emailAddress);
 
         }
 

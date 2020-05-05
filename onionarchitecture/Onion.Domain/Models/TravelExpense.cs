@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Onion.Domain.Models
 {
+[TrackChanges]
     public class TravelExpense : BaseEntity
     {
+        [SkipTracking]
         public string ImageName { get; set; }
-
+        [SkipTracking]
         public string ImageExt { get; set; }
-
+        [SkipTracking]
         public string ImageBase64 { get; set; }
 
         [StringLength(100)]

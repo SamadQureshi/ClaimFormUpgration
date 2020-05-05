@@ -32,6 +32,7 @@ namespace Onion.Services
            
         }
 
+
         public List<OpdExpenseVM> GetOpdExpensesAgainstEmailAddress(string EmailAddress)
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
@@ -44,7 +45,7 @@ namespace Onion.Services
         public OpdExpenseVM CreateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
            
-            var OpdExpense  =_opdExpenseRepository.Add(Mapper.Map<OpdExpense>(opdExpenseVm));
+            var OpdExpense  =_opdExpenseRepository.Add(Mapper.Map<OpdExpense>(opdExpenseVm), opdExpenseVm.EmployeeEmailAddress);
             return Mapper.Map<OpdExpenseVM>(OpdExpense);
         }
 
@@ -52,13 +53,14 @@ namespace Onion.Services
         public void UpdateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
             OpdExpense obj = Mapper.Map<OpdExpense>(opdExpenseVm);           
-            _opdExpenseRepository.Update(obj);         
+            _opdExpenseRepository.Update(obj, opdExpenseVm.EmployeeEmailAddress);         
 
         }
 
         public void DeleteOpdExpense(object id)
         {
-            _opdExpenseRepository.Delete(id);
+            var opdExpense = _opdExpenseRepository.GetById(id);
+            _opdExpenseRepository.Delete(id, opdExpense.EmployeeEmailAddress);
         }
 
         public List<OpdExpenseVM> GetOpdExpensesForHR()

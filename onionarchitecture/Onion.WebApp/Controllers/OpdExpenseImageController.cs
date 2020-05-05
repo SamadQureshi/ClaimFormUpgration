@@ -93,7 +93,7 @@ namespace Onion.WebApp.Controllers
                         model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
 
-
+                    string emailAddress = GetEmailAddress();
                     ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Initialization.
                     opdExpense_Image.OpdExpenseId = model.OPDExpenseID;
@@ -103,7 +103,7 @@ namespace Onion.WebApp.Controllers
                     opdExpense_Image.ImageName = model.FileAttach.FileName;
                     opdExpense_Image.NameExpenses = model.ExpenseName;
                     opdExpense_Image.ExpenseAmount = model.ExpenseAmount;
-                    OpdExpenseImageVM OpdExpensePatient_Obj = _opdExpenseImageService.CreateOpdExpenseImage(opdExpense_Image);
+                    OpdExpenseImageVM OpdExpensePatient_Obj = _opdExpenseImageService.CreateOpdExpenseImage(opdExpense_Image, emailAddress);
 
                     ImgViewModel modelUploaded = new ImgViewModel { FileAttach = null, ImgLst = new List<OpdExpenseImageVM>() };
                     ModelState.Clear();                  
@@ -159,8 +159,9 @@ namespace Onion.WebApp.Controllers
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
+                string emailAddress = GetEmailAddress();
 
-                _opdExpenseImageService.DeleteOpdExpenseImage(id);
+                _opdExpenseImageService.DeleteOpdExpenseImage(id, emailAddress);
             
                 // Info.
                 return RedirectToAction(UrlIndex, "OPDEXPENSEIMAGE", new { id = Security.EncryptId(opdexpenseid)});
@@ -178,8 +179,9 @@ namespace Onion.WebApp.Controllers
             try
             {
 
+                string emailAddress = GetEmailAddress();
                 // Loading dile info.
-                _opdExpenseImageService.DeleteOpdExpenseImage(id);
+                _opdExpenseImageService.DeleteOpdExpenseImage(id, emailAddress);
             }
             catch (Exception ex)
             {

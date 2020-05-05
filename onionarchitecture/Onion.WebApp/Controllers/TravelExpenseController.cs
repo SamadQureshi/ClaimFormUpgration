@@ -152,7 +152,7 @@ namespace Onion.WebApp.Controllers
                     {
                         model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
-
+                    string emailAddress = GetEmailAddress();
 
                     ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Initialization.
@@ -164,7 +164,7 @@ namespace Onion.WebApp.Controllers
                     opdExpense_Image.Description = model.Description;
                     opdExpense_Image.Amount = model.Amount;
                     opdExpense_Image.ExpenseType = model.ExpenseType;
-                    TravelExpenseVM OpdExpensePatient_Obj = _travelExpenseService.CreateTravelExpense(opdExpense_Image);
+                    TravelExpenseVM OpdExpensePatient_Obj = _travelExpenseService.CreateTravelExpense(opdExpense_Image, emailAddress);
 
                     ImgTravelModel modelUploaded = new ImgTravelModel { FileAttach = null, ImgLst = new List<TravelExpenseVM>() };
                     ModelState.Clear();
@@ -219,8 +219,8 @@ namespace Onion.WebApp.Controllers
             if (Request.IsAuthenticated)
             {
                 AuthenticateUser();
-
-                _travelExpenseService.DeleteTravelExpense(id);
+                string emailAddress = GetEmailAddress();
+                _travelExpenseService.DeleteTravelExpense(id, emailAddress);
 
                 // Info.
                 return RedirectToAction(UrlIndex, "TravelExpense", new { id = Security.EncryptId(opdexpenseid)});
@@ -263,9 +263,9 @@ namespace Onion.WebApp.Controllers
         {
             try
             {
-
+                string emailAddress = GetEmailAddress();
                 // Loading dile info.
-                _travelExpenseService.DeleteTravelExpense(id);
+                _travelExpenseService.DeleteTravelExpense(id, emailAddress);
             }
             catch (Exception ex)
             {

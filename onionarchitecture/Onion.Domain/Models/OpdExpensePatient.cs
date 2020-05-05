@@ -4,7 +4,7 @@ namespace Onion.Domain.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-
+[TrackChanges]
     public class OpdExpensePatient : BaseEntity
     {
 

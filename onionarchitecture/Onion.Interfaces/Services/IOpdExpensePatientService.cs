@@ -11,11 +11,13 @@ namespace Onion.Interfaces.Services
 
         List<OpdExpensePatientVM> GetOpdExpensesPatientAgainstOpdExpenseId(int Id);
 
-        OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpense);
+        OpdExpensePatientVM CreateOpdExpensePatient(OpdExpensePatientVM opdExpense, string emailAddress);
 
-        void UpdateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM);
+        void UpdateOpdExpensePatient(OpdExpensePatientVM opdExpensePatientVM, string emailAddress);
 
-        void DeleteOpdExpensePatient(object id);
+        void DeleteOpdExpensePatient(object id, string emailAddress);
+
+
 
     }
 }

@@ -57,15 +57,18 @@ namespace Onion.WebApp.Controllers
         public JsonResult InsertOPDExpensePatient(OpdExpensePatientVM opdExpense_Patient)
         {
             opdExpense_Patient.CreatedDate = DateTime.Now;
-            OpdExpensePatientVM OpdExpensePatientObj = _opdExpensePatientService.CreateOpdExpensePatient(opdExpense_Patient);            
+
+            string emailAddress = GetEmailAddress();
+
+            OpdExpensePatientVM OpdExpensePatientObj = _opdExpensePatientService.CreateOpdExpensePatient(opdExpense_Patient, emailAddress);            
            return Json(OpdExpensePatientObj);
         }
 
         [HttpPost]
         public ActionResult UpdateOPDExpensePatient(OpdExpensePatientVM opdExpensePatient)
         {
-
-            _opdExpensePatientService.UpdateOpdExpensePatient(opdExpensePatient);
+            string emailAddress = GetEmailAddress();
+            _opdExpensePatientService.UpdateOpdExpensePatient(opdExpensePatient, emailAddress);
 
             return new EmptyResult();
         }
@@ -73,8 +76,9 @@ namespace Onion.WebApp.Controllers
         [HttpPost]
         public ActionResult DeleteOPDExpensePatient(int id)
         {
+            string emailAddress = GetEmailAddress();
 
-            _opdExpensePatientService.DeleteOpdExpensePatient(id);           
+            _opdExpensePatientService.DeleteOpdExpensePatient(id, emailAddress);           
             
 
             return new EmptyResult();
@@ -116,7 +120,7 @@ namespace Onion.WebApp.Controllers
                 result = true;
             }
             return result;
-        }
+        }       
 
     }
 }

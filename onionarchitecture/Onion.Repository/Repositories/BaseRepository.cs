@@ -29,32 +29,31 @@ namespace Onion.Repository.Repositories
             return entity;
         }
 
-        public object Add(T obj)
+        public object Add(T obj , string userName)
         {
            
            table.Add(obj);
-          _context.SaveChanges();
-            
+           _context.SaveChanges(userName);             
             return obj;
         }
-        public void Update(T obj)
+        public void Update(T obj, string userName)
         {
             table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
-            _context.SaveChanges();
+            _context.SaveChanges(userName);
         }
 
-        public void Delete(object id)
+        public void Delete(object id, string userName)
         {
             T existing = table.Find(id);
             table.Remove(existing);
-            _context.SaveChanges();
+            _context.SaveChanges(userName);
         }
 
-        public void Delete(T existing)
+        public void Delete(T existing, string userName)
         {
             table.Remove(existing);
-            _context.SaveChanges();
+            _context.SaveChanges(userName);
         }
 
         public void RemoveRange(List<T> entities)

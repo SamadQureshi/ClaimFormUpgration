@@ -1,26 +1,30 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
+using System.Threading;
+using System.Threading.Tasks;
 using Onion.Domain.Models;
 using Onion.Interfaces;
+using TrackerEnabledDbContext.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
 
 namespace Onion.Data
 {
-    public class ApplicationDBContext : DbContext, IApplicationDBContext
+    
+    public class ApplicationDBContext : TrackerIdentityContext<IdentityUser>, IApplicationDBContext
     {
-       public ApplicationDBContext() : base("name=ApplicationConnectionString") { }
-        //public ApplicationDBContext(string connectionString = "ApplicationConnectionString")
-        //    : base("name=ApplicationConnectionString")
-        //{
+       public ApplicationDBContext() : base("name=ApplicationConnectionString") {        
 
-        //}
+
+        }
+       
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
         }
-
-        public IDbSet<User> Users { get; set; }
 
         public IDbSet<Department> Department { get; set; }
         public  IDbSet<OpdExpense> OpdExpense { get; set; }
@@ -32,9 +36,29 @@ namespace Onion.Data
 
         public IDbSet<ExpenseType> ExpenseType { get; set; }
 
+      
+
         public new IDbSet<T> Set<T>() where T : class
         {
             return base.Set<T>();
         }
+
+        public void SaveChanges(string username)
+        {    
+          
+            base.ConfigureMetadata(metadata =>
+            {
+                metadata.IpAddress = HttpContext.Current.Request.UserHostAddress;  
+                
+                //metadata.RequestDevice = "AndroidPhone";
+                //metadata.Country = Request.Cookies["country"];
+            });
+
+
+            base.SaveChanges(username);
+
+        }
+
+       
     }
 }

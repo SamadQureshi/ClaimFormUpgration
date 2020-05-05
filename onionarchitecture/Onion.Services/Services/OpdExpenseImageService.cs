@@ -31,24 +31,24 @@ namespace Onion.Services
         }
 
        
-        public OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM)
+        public OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM, string emailAddress)
         {
-            var ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
+            var ObjOpdExpenseImage = _opdExpenseImageRepository.Add(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM), emailAddress);
             return Mapper.Map<OpdExpenseImageVM>(ObjOpdExpenseImage);
         }
 
 
-        public void UpdateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM)
+        public void UpdateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM, string emailAddress)
         {
 
-            _opdExpenseImageRepository.Update(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM));
+            _opdExpenseImageRepository.Update(Mapper.Map<OpdExpenseImage>(opdExpenseImageVM), emailAddress);
 
         }
 
-        public void DeleteOpdExpenseImage(object id)
+        public void DeleteOpdExpenseImage(object id, string emailAddress)
         {
-
-            _opdExpenseImageRepository.Delete(id);
+            
+            _opdExpenseImageRepository.Delete(id, emailAddress);
 
         }
 

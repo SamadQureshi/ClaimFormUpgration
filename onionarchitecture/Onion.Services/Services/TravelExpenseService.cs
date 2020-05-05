@@ -32,25 +32,26 @@ namespace Onion.Services
             return Mapper.Map<List<TravelExpenseVM>>(travelExpense);
         }
 
-        public TravelExpenseVM CreateTravelExpense(TravelExpenseVM travelExpenseVM)
+        public TravelExpenseVM CreateTravelExpense(TravelExpenseVM travelExpenseVM, string emailAddress)
         {
-            var ObjOpdExpensePatient = _travelExpenseRepository.Add(Mapper.Map<TravelExpense>(travelExpenseVM));
+            var ObjOpdExpensePatient = _travelExpenseRepository.Add(Mapper.Map<TravelExpense>(travelExpenseVM), emailAddress);
             return Mapper.Map<TravelExpenseVM>(ObjOpdExpensePatient);
         }
 
 
-        public void UpdateTravelExpense(TravelExpenseVM travelExpenseVM)
+        public void UpdateTravelExpense(TravelExpenseVM travelExpenseVM, string emailAddress)
         {
-            _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseVM));
+            _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseVM), emailAddress);
         }
 
-        public void UpdateTravelExpense(TravelExpenseMasterDetail travelExpenseMasterDetail)
+        public void UpdateTravelExpense(TravelExpenseMasterDetail travelExpenseMasterDetail, string emailAddress)
         {
-            _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseMasterDetail));
+            _travelExpenseRepository.Update(Mapper.Map<TravelExpense>(travelExpenseMasterDetail), emailAddress);
         }
-        public void DeleteTravelExpense(object id)
+        public void DeleteTravelExpense(object id, string emailAddress)
         {
-            _travelExpenseRepository.Delete(id);
+          
+            _travelExpenseRepository.Delete(id, emailAddress);
         }
 
         public TravelExpenseVM GetTravelExpenseAgainstId(int Id)

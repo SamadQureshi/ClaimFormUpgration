@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Onion.Domain.Models
 {
+    [TrackChanges]
     public  class OpdExpense : BaseEntity
     {
      

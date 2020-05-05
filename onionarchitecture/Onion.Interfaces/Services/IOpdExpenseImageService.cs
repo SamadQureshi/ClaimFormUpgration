@@ -10,11 +10,11 @@ namespace Onion.Interfaces.Services
         List<OpdExpenseImage> GetAllOpdExpenseImages();
        List<OpdExpenseImageVM> GetOpdExpensesImageAgainstOpdExpenseId(int Id);
 
-        OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpense);
+        OpdExpenseImageVM CreateOpdExpenseImage(OpdExpenseImageVM opdExpense, string emailAddress);
 
-        void UpdateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM);
+        void UpdateOpdExpenseImage(OpdExpenseImageVM opdExpenseImageVM, string emailAddress);
 
-        void DeleteOpdExpenseImage(object id);
+        void DeleteOpdExpenseImage(object id, string emailAddress);
 
         OpdExpenseImageVM GetOpdExpensesImagesAgainstId(int Id);
     }
