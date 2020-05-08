@@ -125,3 +125,16 @@
     </div>
 </div>
 
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.HospitalizationType, "Hospitalization Type", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.HospitalizationType, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaternityType, "Maternity Type", htmlAttributes: new { @class = "bmd-label-floating" })
+        @Html.TextBoxFor(model => model.MaternityType, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+</div>

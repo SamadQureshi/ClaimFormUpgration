@@ -42,20 +42,42 @@ namespace Onion.Services
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
         }
 
-        public decimal? GetClaimAmountAgainstEmailAddress(string EmailAddress, string OpdType)
+        public decimal? GetClaimAmountAgainstEmailAddress(string EmailAddress, string OpdType , string HospitalType, string MaternityType)
         {
-            var opdExpense = _opdExpenseRepository.GetQueryable()
-                 .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status == ClaimStatus.SUBMITTED || y.Status == ClaimStatus.HRREJECTED))
-                 .Sum(y => y.TotalAmountClaimed);           
+            decimal? opdExpense = 0;
+            if (OpdType == FormType.OPDExpense)
+            {
+                opdExpense = _opdExpenseRepository.GetQueryable()
+                .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status == ClaimStatus.SUBMITTED || y.Status == ClaimStatus.HRREJECTED))
+                .Sum(y => y.TotalAmountClaimed).GetValueOrDefault();
+
+            }
+            else if(HospitalType == HospitalizationType.InPatient)
+            {
+                opdExpense = _opdExpenseRepository.GetQueryable()
+               .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status == ClaimStatus.SUBMITTED || y.Status == ClaimStatus.HRREJECTED))
+               .Where(y => y.HospitalizationType == HospitalizationType.InPatient)
+               .Sum(y => y.TotalAmountClaimed).GetValueOrDefault();
+
+            }
+            else if (HospitalType == HospitalizationType.Maternity)
+            {
+                opdExpense = _opdExpenseRepository.GetQueryable()
+               .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status == ClaimStatus.SUBMITTED || y.Status == ClaimStatus.HRREJECTED))
+               .Where(y => y.MaternityType == MaternityType)
+               .Sum(y => y.TotalAmountClaimed).GetValueOrDefault();
+
+            }
+
             return opdExpense;
         }
 
 
-        public decimal? GetApprovedAmountAgainstEmailAddress(string EmailAddress, string OpdType)
+        public decimal? GetApprovedAmountAgainstEmailAddress(string EmailAddress, string OpdType, string HospitalizationType, string MaternityType)
         {
             var opdExpense = _opdExpenseRepository.GetQueryable()
                  .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status != ClaimStatus.SUBMITTED || y.Status != ClaimStatus.HRREJECTED || y.Status != ClaimStatus.INPROGRESS))
-                 .Sum(y => y.TotalAmountApproved);
+                 .Sum(y => y.TotalAmountApproved).GetValueOrDefault();
             return opdExpense;
         }
 

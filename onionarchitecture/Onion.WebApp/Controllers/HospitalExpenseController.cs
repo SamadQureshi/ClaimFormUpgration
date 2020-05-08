@@ -170,8 +170,8 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = hospitalInformation.OpdType;
                     ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment;
-
-                    string remainingAmount = GeneralController.CalculateRemainingAmount(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, _opdExpenseService,_setupExpenseAmountService);
+                    ViewBag.EmailAddress = hospitalInformation.EmployeeEmailAddress;
+                    string remainingAmount = GeneralController.CalculateRemainingAmountForHospital(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService,_setupExpenseAmountService);
                     ViewBag.RemainingAmount = remainingAmount;
 
                     if (!AuthenticateEmailAddress(Convert.ToInt32(idDecrypted)))
@@ -425,8 +425,7 @@ namespace Onion.WebApp.Controllers
         private string GetEmailAddress()
         {
             OfficeManagerController managerController = new OfficeManagerController();
-            string emailAddress = managerController.GetEmailAddress();
-
+            string emailAddress = managerController.GetEmailAddress();           
             return emailAddress;
 
         }

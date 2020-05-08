@@ -179,10 +179,33 @@
                             </div>
                         </div>
 
+
                         <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.EmployeeName, "Remaining Amount", htmlAttributes: new { @class = "bmd-label-floating" })
-                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.RemainingAmount) } })
+                                @Html.LabelFor(model => model.HospitalizationType, "Hospitalization Type", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.HospitalizationType, new List<SelectListItem>
+                                {
+                                    new SelectListItem {Text = "InPatient", Value = "InPatient"},
+                                    new SelectListItem {Text = "Maternity", Value = "Maternity"},
+
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.LabelFor(model => model.MaternityType, "Maternity Type", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.DropDownListFor(model => model.MaternityType, new List<SelectListItem>
+                                {
+                                    new SelectListItem {Text = "Normal", Value = "Normal"},
+                                    new SelectListItem {Text = "C-Section", Value = "C-Section"},
+
+                                }, new { @class = "selectpicker", @data_style = "btn btn-primary" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group bmd-form-group is-filled custom-form-group">
+                                @Html.Label("Remaining Amount", "Remaining Amount", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.Editor("Remaining Amount", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.RemainingAmount) } })
 
                             </div>
                         </div>
@@ -220,7 +243,35 @@ jQuery(function () {
             regionsSelect.selectpicker();
         }
     });
-      
+
+    $("#HospitalizationType").on("change", function()  
+        {  
+              $.getJSON('@Url.Action("GetRemainingAmountForHospital", "Helper")', { userName: '@ViewBag.EmailAddress',hospitalizationType: $("#HospitalizationType option:selected").text(),maternityType: $("#MaternityType option:selected").text() },
+                    function (result) {
+                        if (result != null && !jQuery.isEmptyObject(result)) {
+                             $("#Remaining_Amount").val(result);
+                            };
+                    });
+
+
+    }); 
+
+    $("#MaternityType").on("change", function()  
+        {  
+              $.getJSON('@Url.Action("GetRemainingAmountForHospital", "Helper")', { userName: '@ViewBag.EmailAddress',hospitalizationType: $("#HospitalizationType option:selected").text(),maternityType: $("#MaternityType option:selected").text() },
+                    function (result) {
+                        if (result != null && !jQuery.isEmptyObject(result)) {
+                             $("#Remaining_Amount").val(result);
+                            };
+                    });
+
+
+        }); 
+  
+    
+  
+
+
     
     $('#PeriodConfinementDateFrom').data("DateTimePicker").date(new Date($('input#periodConfinementDateFrom').val()));
 
@@ -241,7 +292,7 @@ jQuery(function () {
         }
    
        $(function () {              
-                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+          $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
          });
     </script>
 }

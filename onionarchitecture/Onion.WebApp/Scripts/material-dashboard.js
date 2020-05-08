@@ -552,9 +552,17 @@ $(document).ready(function () {
 
 
 
-	//$("#CLAIMANT_SUFFERED_ILLNESS_DATE").attr("disabled", "disabled");
-	//$("#CLAIMANT_SUFFERED_ILLNESS_DETAILS").attr("disabled", "disabled");
-	//$("#DRUGS_PRESCRIBED_DESCRIPTION").attr("disabled", "disabled");
+	$("#ClaimantSufferedIllnessDate").attr("disabled", "disabled");
+	$("#ClaimantSufferedIllnessDetails").attr("disabled", "disabled");
+    $("#DrugsPrescribedDescription").attr("disabled", "disabled");
+
+    if ($("#HospitalizationType option:selected").text() !== "Maternity") {
+        $("#MaternityType").attr("disabled", "disabled");
+    }
+
+
+   
+
 
     if ($("#ClaimantSufferedIllness option:selected").text() == "True") {
         $("#ClaimantSufferedIllnessDate").removeAttr("disabled");
@@ -586,6 +594,19 @@ $(document).ready(function () {
             $("#DrugsPrescribedDescription").attr("disabled", "disabled");
 		}
 	});
+
+    $("#HospitalizationType").on("changed.bs.select", function (e, clickedIndex, newValue, oldValue) {
+        if ($("#HospitalizationType option:selected").text() == "Maternity") {
+            $("#MaternityType").removeAttr("disabled");
+        }
+        else {
+            $("#MaternityType").attr("disabled", "disabled");
+        }
+    });
+
+
+
+
 
 	$('.form-control').on("click blur", function() {
 		if ($(this).hasClass('input-validation-error')) {

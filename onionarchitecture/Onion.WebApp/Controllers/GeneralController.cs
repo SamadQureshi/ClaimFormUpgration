@@ -1,4 +1,5 @@
-﻿using Onion.Interfaces.Services;
+﻿using Onion.Common.Constants;
+using Onion.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +79,9 @@ namespace Onion.WebApp.Controllers
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
                 ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
+                OpdEncrypted = opdExpense.OpdEncrypted,
+                HospitalizationType = opdExpense.HospitalizationType,
+                MaternityType = opdExpense.MaternityType
 
             };
 
@@ -146,7 +149,9 @@ namespace Onion.WebApp.Controllers
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
                 ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
+                OpdEncrypted = opdExpense.OpdEncrypted,
+                HospitalizationType = opdExpense.HospitalizationType,
+                MaternityType = opdExpense.MaternityType
             };
 
             return hospitalInformation;
@@ -212,7 +217,9 @@ namespace Onion.WebApp.Controllers
                 PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
                 PayRollMonth = opdExpense.PayRollMonth,
                 ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
+                OpdEncrypted = opdExpense.OpdEncrypted,
+                HospitalizationType = opdExpense.HospitalizationType,
+                MaternityType = opdExpense.MaternityType
 
             };
 
@@ -225,9 +232,9 @@ namespace Onion.WebApp.Controllers
         public static  string CalculateRemainingAmount(string EmailAddress, string OpdExpense, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
         {
 
-            decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense);
+            decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense,string.Empty, string.Empty);
 
-            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense);
+            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, string.Empty, string.Empty);
 
             string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
 
@@ -244,7 +251,7 @@ namespace Onion.WebApp.Controllers
         {
            
 
-            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense);
+            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, string.Empty, string.Empty);
 
             string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
 
@@ -256,7 +263,40 @@ namespace Onion.WebApp.Controllers
 
         }
 
+        public static string CalculateRemainingAmountForHospital(string EmailAddress, string OpdExpense, string hospitalizationType, string maternityType, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
+        {
 
+            decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
+
+            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
+
+            if (hospitalizationType == HospitalizationType.InPatient)
+            {
+                hospitalizationType = HospitalizationType.InPatient;
+            }
+            else if (hospitalizationType == HospitalizationType.Maternity)
+            {
+
+                if (maternityType == HospitalizationType.Normal)
+                {
+                    hospitalizationType = "Maternity_Normal";
+                }
+                else if(maternityType == HospitalizationType.CSection)
+                {
+                    hospitalizationType = "Maternity_CSection";
+                }
+
+            }
+
+            string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(hospitalizationType);
+
+            decimal? totalUsedAmount = claimAmount + approvedAmount;
+
+            string totalAmount = Convert.ToString(Convert.ToDecimal(defaultAmount) - Convert.ToDecimal(totalUsedAmount));
+
+            return totalAmount;
+
+        }
 
     }
 
