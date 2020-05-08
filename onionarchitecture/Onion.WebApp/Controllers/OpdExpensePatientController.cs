@@ -1,4 +1,5 @@
 ﻿using Onion.Interfaces.Services;
+using Onion.WebApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,16 +88,17 @@ namespace Onion.WebApp.Controllers
         private void AuthenticateUser()
         {
             OfficeManagerController managerController = new OfficeManagerController();
+        
+            UserAuthorization user = new UserAuthorization(_opdExpenseService);
 
-            string emailAddress = GetEmailAddress();
-            if (ValidEmailAddress(emailAddress))
+            string userRoll = user.AuthenticateUser();
+
+            if (user.ValidateEmailAddressManagerTravelApproval())
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
+               ViewBag.RollType = userRoll;
            
-                ViewBag.RollType = managerController.AuthenticateUser();
-           
-
             ViewBag.UserName = managerController.GetName();
 
         }
@@ -108,19 +110,7 @@ namespace Onion.WebApp.Controllers
             return emailAddress;
 
         }
-        public bool ValidEmailAddress(string emailAddress)
-        {
-
-            bool result = false;
-
-            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
-
-            if (list.Count > 0)
-            {
-                result = true;
-            }
-            return result;
-        }       
+      
 
     }
 }

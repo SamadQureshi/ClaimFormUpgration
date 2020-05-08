@@ -111,7 +111,7 @@ namespace Onion.WebApp.Utils
 
 
             OfficeManagerController managerController = new OfficeManagerController();
-            string RoleType = managerController.AuthenticateUser();
+            string RoleType = managerController.AuthenticateUserForEmail();
 
             var message = new MailMessage();
             message.Body = GetEmailBody(expense);
@@ -119,13 +119,13 @@ namespace Onion.WebApp.Utils
             string toEmail = "";
             if (expense.Status == ClaimStatus.SUBMITTED)
             {
-                toEmail = ConfigUtil.GetConfigValue(HrEmailKey);
+                toEmail = ConfigUtil.GetConfigValue(HrEmailKey).Replace(",","; ");
                 message.Subject = HrEmailSubject;
                 message.To.Add(new MailAddress(toEmail));
             }
             else if (expense.Status == ClaimStatus.HRAPPROVED)
             {
-                toEmail = ConfigUtil.GetConfigValue(FinanceEmailKey);
+                toEmail = ConfigUtil.GetConfigValue(FinanceEmailKey).Replace(",", "; ");
                 message.Subject = FinanceEmailSubject;
                 message.To.Add(new MailAddress(toEmail));
             }
@@ -137,13 +137,13 @@ namespace Onion.WebApp.Utils
             }
             else if (expense.Status == ClaimStatus.FINAPPROVED)
             {
-                toEmail = ConfigUtil.GetConfigValue(ManagementEmailKey);
+                toEmail = ConfigUtil.GetConfigValue(ManagementEmailKey).Replace(",", "; "); 
                 message.Subject = ManagementEmailSubject;
                 message.To.Add(new MailAddress(toEmail));
             }
             else if (expense.Status == ClaimStatus.FINREJECTED)
             {
-                toEmail = ConfigUtil.GetConfigValue(HrEmailKey);
+                toEmail = ConfigUtil.GetConfigValue(HrEmailKey).Replace(",", "; "); 
                 message.Subject = FinanceRejectedSubject;
                 message.To.Add(new MailAddress(toEmail));
             }

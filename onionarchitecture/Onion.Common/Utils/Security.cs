@@ -17,7 +17,7 @@ namespace TCO.TFM.WDMS.Common.Utils
             try
             {
                 string clearText = Convert.ToString(IdInt);
-                string EncryptionKey = "JHK@!$RTYEWQRGH";
+                string EncryptionKey = ConfigurationManager.AppSettings["SecurityKey"]; 
                 byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
                 using (Aes encryptor = Aes.Create())
                 {
@@ -54,7 +54,7 @@ namespace TCO.TFM.WDMS.Common.Utils
             }
             try
             {
-                string EncryptionKey = "JHK@!$RTYEWQRGH";
+                string EncryptionKey = ConfigurationManager.AppSettings["SecurityKey"];
                 byte[] cipherBytes = Convert.FromBase64String(incoming);
                 using (Aes encryptor = Aes.Create())
                 {

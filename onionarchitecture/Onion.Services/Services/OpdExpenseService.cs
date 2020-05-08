@@ -42,6 +42,24 @@ namespace Onion.Services
             return Mapper.Map<List<OpdExpenseVM>>(opdExpense);
         }
 
+        public decimal? GetClaimAmountAgainstEmailAddress(string EmailAddress, string OpdType)
+        {
+            var opdExpense = _opdExpenseRepository.GetQueryable()
+                 .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status == ClaimStatus.SUBMITTED || y.Status == ClaimStatus.HRREJECTED))
+                 .Sum(y => y.TotalAmountClaimed);           
+            return opdExpense;
+        }
+
+
+        public decimal? GetApprovedAmountAgainstEmailAddress(string EmailAddress, string OpdType)
+        {
+            var opdExpense = _opdExpenseRepository.GetQueryable()
+                 .Where(y => y.EmployeeEmailAddress == EmailAddress && y.OpdType == OpdType && (y.Status != ClaimStatus.SUBMITTED || y.Status != ClaimStatus.HRREJECTED || y.Status != ClaimStatus.INPROGRESS))
+                 .Sum(y => y.TotalAmountApproved);
+            return opdExpense;
+        }
+
+
         public OpdExpenseVM CreateOpdExpense(OpdExpenseVM opdExpenseVm)
         {
            

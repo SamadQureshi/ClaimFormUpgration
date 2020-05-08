@@ -48,101 +48,29 @@ namespace Onion.WebApp.Controllers
                     return RedirectToAction("SignOut", "OfficeManager", null);
                 }
 
+                UserAuthorization user = new UserAuthorization(_opdExpenseService);
 
-                string emailAddress = GetEmailAddress();
+                string userRoll = user.AuthenticateUser();
 
-                List<string> HRList = ConfigurationManager.AppSettings["HR:List"].Split(',').ToList<string>();
-
-                List<string> FINList = ConfigurationManager.AppSettings["FIN:List"].Split(',').ToList<string>();
-
-                List<string> MANList = ConfigurationManager.AppSettings["MAN:List"].Split(',').ToList<string>();
-
-                List<string> GENList = ConfigurationManager.AppSettings["GEN:List"].Split(',').ToList<string>();
-
-                if (HRList.Contains(emailAddress))
-                {
-                    ViewBag.RollType = "HR";
-                }
-                else if (FINList.Contains(emailAddress))
-                {
-                    ViewBag.RollType = "FIN";
-                }
-                else if (MANList.Contains(emailAddress))
-                {
-                    ViewBag.RollType = "MAN";
-                }
-               
-                else if (GENList.Contains(emailAddress))
-                {
-                    ViewBag.RollType = "GEN";
-                }
-
-                if (ValidEmailAddress(emailAddress))
+                if (user.ValidateEmailAddressManagerTravelApproval())
                 {
                     ViewBag.RollTypeTravel = "MANTRAVEL";
                 }
+              
+                ViewBag.RollType = userRoll;
+                              
 
                 ViewBag.UserName = userName;
             }
 
             return View();
-        }
-
-        private string GetEmailAddress()
-        {
-            OfficeManagerController managerController = new OfficeManagerController();
-            string emailAddress = managerController.GetEmailAddress();
-
-            return emailAddress;
-        }
+        }  
 
 
         public ActionResult About()
         {
             return View();
-        }
+        }      
 
-
-        public bool ValidEmailAddress(string emailAddress)
-        {
-
-            bool result = false;
-
-            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
-
-            if (list.Count > 0)
-            {
-                result = true;
-            }
-            return result;
-        }
-
-
-        //private readonly IUserService _userService;
-
-        //public HomeController(IUserService userService)
-        //{
-        //    _userService = userService;
-        //}
-
-        //public ActionResult Index()
-        //{
-        //    var users = _userService.GetAllUsers();
-        //    return View(users);
-        //}
-
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
     }
 }

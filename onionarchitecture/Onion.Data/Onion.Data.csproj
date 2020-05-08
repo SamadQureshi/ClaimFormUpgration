@@ -68,45 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDBContext.cs" />
-    <Compile Include="Migrations\202004150555385_TravelExpense.cs" />
-    <Compile Include="Migrations\202004150555385_TravelExpense.Designer.cs">
-      <DependentUpon>202004150555385_TravelExpense.cs</DependentUpon>
+    <Compile Include="Migrations\202005061103439_ExpenseAmount.cs" />
+    <Compile Include="Migrations\202005061103439_ExpenseAmount.Designer.cs">
+      <DependentUpon>202005061103439_ExpenseAmount.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004161047584_TravelExpenseImage.cs" />
-    <Compile Include="Migrations\202004161047584_TravelExpenseImage.Designer.cs">
-      <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004240807445_ExpenseTable.cs" />
-    <Compile Include="Migrations\202004240807445_ExpenseTable.Designer.cs">
-      <DependentUpon>202004240807445_ExpenseTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004240811473_ExpenseTable2.cs" />
-    <Compile Include="Migrations\202004240811473_ExpenseTable2.Designer.cs">
-      <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004301109531_encryptField.cs" />
-    <Compile Include="Migrations\202004301109531_encryptField.Designer.cs">
-      <DependentUpon>202004301109531_encryptField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004301142393_encryptField1.cs" />
-    <Compile Include="Migrations\202004301142393_encryptField1.Designer.cs">
-      <DependentUpon>202004301142393_encryptField1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004301146135_encryptField2.cs" />
-    <Compile Include="Migrations\202004301146135_encryptField2.Designer.cs">
-      <DependentUpon>202004301146135_encryptField2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005040832596_logtablesAdd.cs" />
-    <Compile Include="Migrations\202005040832596_logtablesAdd.Designer.cs">
-      <DependentUpon>202005040832596_logtablesAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005041013072_logtablesAdd2.cs" />
-    <Compile Include="Migrations\202005041013072_logtablesAdd2.Designer.cs">
-      <DependentUpon>202005041013072_logtablesAdd2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005041019171_test.cs" />
-    <Compile Include="Migrations\202005041019171_test.Designer.cs">
-      <DependentUpon>202005041019171_test.cs</DependentUpon>
+    <Compile Include="Migrations\202005080443211_HospitalFields.cs" />
+    <Compile Include="Migrations\202005080443211_HospitalFields.Designer.cs">
+      <DependentUpon>202005080443211_HospitalFields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,35 +94,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004150555385_TravelExpense.resx">
-      <DependentUpon>202004150555385_TravelExpense.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005061103439_ExpenseAmount.resx">
+      <DependentUpon>202005061103439_ExpenseAmount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004161047584_TravelExpenseImage.resx">
-      <DependentUpon>202004161047584_TravelExpenseImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004240807445_ExpenseTable.resx">
-      <DependentUpon>202004240807445_ExpenseTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004240811473_ExpenseTable2.resx">
-      <DependentUpon>202004240811473_ExpenseTable2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004301109531_encryptField.resx">
-      <DependentUpon>202004301109531_encryptField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004301142393_encryptField1.resx">
-      <DependentUpon>202004301142393_encryptField1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004301146135_encryptField2.resx">
-      <DependentUpon>202004301146135_encryptField2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005040832596_logtablesAdd.resx">
-      <DependentUpon>202005040832596_logtablesAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005041013072_logtablesAdd2.resx">
-      <DependentUpon>202005041013072_logtablesAdd2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005041019171_test.resx">
-      <DependentUpon>202005041019171_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005080443211_HospitalFields.resx">
+      <DependentUpon>202005080443211_HospitalFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

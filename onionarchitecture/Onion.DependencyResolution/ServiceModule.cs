@@ -18,6 +18,7 @@ namespace Onion.DependencyResolution
             Bind<ITravelExpenseService>().To<TravelExpenseService>();
             Bind<IExpenseTypeService>().To<ExpenseTypeService>();
             Bind<IEmailService>().To<EmailService>();
+            Bind<ISetupExpenseAmountService>().To<SetupExpenseAmountService>();
         }
     }
 }

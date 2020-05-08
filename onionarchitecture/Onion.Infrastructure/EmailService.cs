@@ -3,6 +3,7 @@ using Onion.Domain.Models;
 using Onion.Interfaces.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -14,17 +15,24 @@ namespace Onion.Infrastructure
 {
     public class EmailService : IEmailService
     {
-        ////public SmtpClient GetSmtpSettings()
-        ////{
-        ////    return new SmtpClient();
-        ////}
+        public SmtpClient GetSmtpSettings()
+        {
+            return new SmtpClient();
+        }
 
         public void SendEmail(MailMessage mailMessage)
         {
-            //using (var smtp = new SmtpClient())
-            //{
-            //    smtp.Send(mailMessage);
-            //}
+            string result = ConfigurationManager.AppSettings["EmailModuleEnabled"];
+
+            if (result == "true")
+            {
+                using (var smtp = new SmtpClient())
+                {
+                    smtp.Send(mailMessage);
+                }
+            }
+
+
         }
     }
 }

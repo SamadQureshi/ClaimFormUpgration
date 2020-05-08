@@ -54,6 +54,7 @@
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IExpenseTypeService.cs" />
     <Compile Include="Services\IDepartmentService.cs" />
+    <Compile Include="Services\ISetupExpenseAmountService.cs" />
     <Compile Include="Services\ITravelExpenseService.cs" />
     <Compile Include="Services\IOpdExpenseService.cs" />
     <Compile Include="Services\IOpdExpenseImageService.cs" />

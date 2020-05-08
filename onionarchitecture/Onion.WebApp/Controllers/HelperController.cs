@@ -4,32 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TCO.TFM.WDMS.ViewModels.ViewModels;
 
 namespace Onion.WebApp.Controllers
 {
     public class HelperController : Controller
     {
 
-
         private readonly IDepartmentService _departmentService;
         private readonly IExpenseTypeService _expenseTypeService;
-
+        
         public HelperController(IDepartmentService departmentService, IExpenseTypeService expenseTypeService)
         {
             _departmentService = departmentService;
-            _expenseTypeService = expenseTypeService;
-
+            _expenseTypeService = expenseTypeService;     
 
         }
-
-
-
+               
         // GET: Helper
         public ActionResult Index()
         {
             return View();
         }
-
 
 
         [HttpGet]
@@ -74,6 +70,9 @@ namespace Onion.WebApp.Controllers
                        }).ToList();
             return new SelectList(regions, "Value", "Text");
         }
+
+
+
     }
 
 

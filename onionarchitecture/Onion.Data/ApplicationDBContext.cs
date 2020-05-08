@@ -36,7 +36,7 @@ namespace Onion.Data
 
         public IDbSet<ExpenseType> ExpenseType { get; set; }
 
-      
+        public IDbSet<SetupExpenseAmount> SetupExpenseAmount { get; set; }
 
         public new IDbSet<T> Set<T>() where T : class
         {

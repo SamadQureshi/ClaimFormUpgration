@@ -52,6 +52,7 @@
     <Compile Include="Models\OpdExpenseImage.cs" />
     <Compile Include="Models\OpdExpensePatient.cs" />
     <Compile Include="Models\RelationShipEmployee.cs" />
+    <Compile Include="Models\SetupExpenseAmount.cs" />
     <Compile Include="Models\TravelExpense.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

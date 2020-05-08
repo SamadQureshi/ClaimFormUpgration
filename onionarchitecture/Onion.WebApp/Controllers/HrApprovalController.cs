@@ -24,14 +24,15 @@ namespace Onion.WebApp.Controllers
         private readonly IOpdExpenseImageService _opdExpenseImageService;
         private readonly IOpdExpensePatientService _opdExpensePatientService;
         private readonly IEmailService _emailService;
+        private readonly ISetupExpenseAmountService _setupExpenseAmountService;
 
-
-        public HrApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, IEmailService emailService)
+        public HrApprovalController(IOpdExpenseService opdExpenseService, IOpdExpenseImageService opdExpenseImageService, IOpdExpensePatientService opdExpensePatientService, IEmailService emailService, ISetupExpenseAmountService setupExpenseAmountService)
         {
             _opdExpenseService = opdExpenseService;
             _opdExpenseImageService = opdExpenseImageService;
             _opdExpensePatientService = opdExpensePatientService;
             _emailService = emailService;
+            _setupExpenseAmountService = setupExpenseAmountService;
         }
 
         private const string UrlIndex = "Index";
@@ -48,7 +49,10 @@ namespace Onion.WebApp.Controllers
                 {
                     AuthenticateUser();            
 
-                    string emailAddress = GetEmailAddress();                  
+                    string emailAddress = GetEmailAddress();
+
+                    if (RollTypeStatus() == false)
+                        return RedirectToAction(UrlIndex, UrlHome);
 
                     var opdExp = _opdExpenseService.GetOpdExpensesForHR();               
                               
@@ -94,7 +98,7 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }
 
-                    var result2 = GetOPDExpense(idDecrypted);
+                    var result2 = GeneralController.GetOPDExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
 
                     return View(result2);
                 }
@@ -138,7 +142,10 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }                 
 
-                    var result2 = GetHospitalExpense(idDecrypted);
+                    var result2 = GeneralController.GetHospitalExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
+
+                    
+
 
                     return View(result2);
                 }
@@ -181,8 +188,11 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }                 
 
-                    var opdExpense = GetOPDExpense(idDecrypted);
-
+                    var opdExpense = GeneralController.GetOPDExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
+                    
+                    string remainingAmount = GeneralController.DisplayRemainingAmount(opdExpense.EmployeeEmailAddress, opdExpense.OpdType, _opdExpenseService, _setupExpenseAmountService);
+                    ViewBag.RemainingAmount = remainingAmount;
+                   
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     return View(opdExpense);
                 }
@@ -247,20 +257,14 @@ namespace Onion.WebApp.Controllers
                     oPDEXPENSE.HrEmailAddress = GetEmailAddress();                 
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
-
-                    var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(oPDEXPENSE.ID);
-                    oPDEXPENSE.OpdExpensePatients = patients;
-                    var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(oPDEXPENSE.ID);
-                    oPDEXPENSE.OpdExpenseImages = images;
-
-                    var emailmessage = EmailUtils.GetMailMessage(oPDEXPENSE);
-                    _emailService.SendEmail(emailmessage);
+         
+                    EmailSend(oPDEXPENSE);
 
                     return RedirectToAction(UrlIndex, UrlHrApproval);
 
                 }
 
-                var opdExpense = GetOPDExpense(Convert.ToInt32(oPDEXPENSE.ID));
+                var opdExpense = GeneralController.GetOPDExpense(Convert.ToInt32(oPDEXPENSE.ID), _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
                 ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
                 return View(opdExpense);
 
@@ -300,7 +304,11 @@ namespace Onion.WebApp.Controllers
                         RedirectToAction(UrlIndex, UrlHrApproval);
                     }
 
-                    var result2 = GetHospitalExpense(idDecrypted);
+                    var result2 = GeneralController.GetHospitalExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
+
+                    string remainingAmount = GeneralController.DisplayRemainingAmount(result2.EmployeeEmailAddress, result2.OpdType, _opdExpenseService, _setupExpenseAmountService);
+                    ViewBag.RemainingAmount = remainingAmount;
+
 
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
 
@@ -369,10 +377,12 @@ namespace Onion.WebApp.Controllers
 
                     _opdExpenseService.UpdateOpdExpense(oPDEXPENSE);
 
+                    EmailSend(oPDEXPENSE);
+
                     return RedirectToAction(UrlIndex, UrlHrApproval);
                 }
               
-                var opdExpense = GetHospitalExpense(Convert.ToInt32(oPDEXPENSE.ID));
+                var opdExpense = GeneralController.GetHospitalExpense(Convert.ToInt32(oPDEXPENSE.ID), _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
                 ViewData["OPDEXPENSE_ID"] = oPDEXPENSE.ID;
                 return View(opdExpense);
 
@@ -434,186 +444,26 @@ namespace Onion.WebApp.Controllers
         {
             OfficeManagerController managerController = new OfficeManagerController();
 
-            string emailAddress = GetEmailAddress();
-            if (ValidEmailAddress(emailAddress))
+            UserAuthorization user = new UserAuthorization(_opdExpenseService);
+
+            string userRoll = user.AuthenticateUser();
+
+            if (user.ValidateEmailAddressManagerTravelApproval())
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
-
-            ViewBag.RollType = managerController.AuthenticateUser();
-
-
-
-            ViewBag.UserName = managerController.GetName();
+            
+             ViewBag.RollType = userRoll;          
+             ViewBag.UserName = managerController.GetName();
 
         }
-
-        public bool ValidEmailAddress(string emailAddress)
-        {
-
-            bool result = false;
-
-            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
-
-            if (list.Count > 0)
-            {
-                result = true;
-            }
-            return result;
-        }
-
-     
-
-        private OpdExpenseVM GetOPDExpense(int Id)
-        {
-            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
-
-            var opdInformation = new OpdExpenseVM()
-            {
-
-                OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-                OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
-
-                ID = opdExpense.ID,
-                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
-                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
-                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
-                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
-                DateRecovery = opdExpense.DateRecovery,
-                Diagnosis = opdExpense.Diagnosis,
-                DoctorName = opdExpense.DoctorName,
-                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
-                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
-                EmployeeDepartment = opdExpense.EmployeeDepartment,
-                EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,               
-                HospitalName = opdExpense.HospitalName,
-
-                FinanceApproval = opdExpense.FinanceApproval,
-                FinanceComment = opdExpense.FinanceComment,
-                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
-                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
-                FinanceName = opdExpense.FinanceName,
-
-
-                HrApproval = opdExpense.HrApproval,
-                HrComment = opdExpense.HrComment,
-                HrName = opdExpense.HrName,
-                HrApprovalDate = opdExpense.HrApprovalDate,
-                HrEmailAddress = opdExpense.HrEmailAddress,
-
-
-                ManagementApproval = opdExpense.ManagementApproval,
-                ManagementComment = opdExpense.ManagementComment,
-                ManagementName = opdExpense.ManagementName,
-                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
-                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
-
-
-
-
-
-                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
-                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
-                Status = opdExpense.Status,
-                OpdType = opdExpense.OpdType,
-                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
-                TotalAmountApproved = opdExpense.TotalAmountApproved,
-                ClaimMonth = opdExpense.ClaimMonth,
-                ClaimYear = opdExpense.ClaimYear,
-                CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate,
-                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-                PayRollMonth = opdExpense.PayRollMonth,
-                ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
-
-            };
-
-            return opdInformation;
-        }
-
-        private HospitalExpenseVM GetHospitalExpense(int Id)
-        {
-
-            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
-
-
-            var hospitalInformation = new HospitalExpenseVM()
-            {
-
-
-
-                OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-                OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
-
-
-                ID = opdExpense.ID,
-                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
-                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
-                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
-                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
-                DateRecovery = opdExpense.DateRecovery,
-                Diagnosis = opdExpense.Diagnosis,
-                DoctorName = opdExpense.DoctorName,
-                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
-                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
-                EmployeeDepartment = opdExpense.EmployeeDepartment,
-                EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,             
-                HospitalName = opdExpense.HospitalName,
-
-                FinanceApproval = opdExpense.FinanceApproval,
-                FinanceComment = opdExpense.FinanceComment,
-                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
-                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
-                FinanceName = opdExpense.FinanceName,
-
-
-                HrApproval = opdExpense.HrApproval,
-                HrComment = opdExpense.HrComment,
-                HrName = opdExpense.HrName,
-                HrApprovalDate = opdExpense.HrApprovalDate,
-                HrEmailAddress = opdExpense.HrEmailAddress,
-
-
-                ManagementApproval = opdExpense.ManagementApproval,
-                ManagementComment = opdExpense.ManagementComment,
-                ManagementName = opdExpense.ManagementName,
-                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
-                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
-
-
-
-
-
-                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
-                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
-                Status = opdExpense.Status,
-                OpdType = opdExpense.OpdType,
-                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
-                TotalAmountApproved = opdExpense.TotalAmountApproved,
-                ClaimYear = opdExpense.ClaimYear,
-                ClaimMonth = opdExpense.ClaimMonth,
-                CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate,
-                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-                PayRollMonth = opdExpense.PayRollMonth,
-                ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
-            };
-
-            return hospitalInformation;
-        }
-
-
-
+       
         #endregion
 
         private bool AuthenticateEmailAddress(int Id)
         {
 
-            var opdInformation = GetOPDExpense(Convert.ToInt32(Id));
+            var opdInformation = GeneralController.GetOPDExpense(Convert.ToInt32(Id), _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
             OfficeManagerController managerController = new OfficeManagerController();
 
             string currentEmailAddress = managerController.GetEmailAddress();
@@ -624,10 +474,7 @@ namespace Onion.WebApp.Controllers
             else
                 return false;
 
-        }
-
-
-
+        }     
 
 
         private string Validation(OpdExpenseVM oPDEXPENSE, string buttonStatus)
@@ -673,5 +520,35 @@ namespace Onion.WebApp.Controllers
 
             return result;
         }
+
+        public void EmailSend(OpdExpenseVM OpdExpense)
+        {
+            var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(OpdExpense.ID);
+            OpdExpense.OpdExpensePatients = patients;
+            var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(OpdExpense.ID);
+            OpdExpense.OpdExpenseImages = images;
+            var message = EmailUtils.GetMailMessage(OpdExpense);
+            _emailService.SendEmail(message);
+        }
+
+        public bool RollTypeStatus()
+        {
+            bool result = false;
+
+            if (ViewBag.RollType != string.Empty)
+            {
+                if (ViewBag.RollType == "HR")
+                {
+                    result = true;
+                }
+                else if (ViewBag.RollType == "GEN")
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
     }
 }

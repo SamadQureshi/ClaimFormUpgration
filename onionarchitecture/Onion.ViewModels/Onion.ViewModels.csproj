@@ -51,6 +51,7 @@
     <Compile Include="ViewModels\HospitalExpenseVM.cs" />
     <Compile Include="ViewModels\ImgTravelModel.cs" />
     <Compile Include="ViewModels\ImgViewModel.cs" />
+    <Compile Include="ViewModels\SetupExpenseAmountVM.cs" />
     <Compile Include="ViewModels\TravelExpenseMasterDetail.cs" />
     <Compile Include="ViewModels\OpdExpenseVM.cs" />
     <Compile Include="ViewModels\OpdExpenseImageVM.cs" />

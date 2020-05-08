@@ -120,7 +120,11 @@ namespace Onion.Domain.Models
         [StringLength(500)]
         public string OpdEncrypted { get; set; }
 
+        [StringLength(50)]
+        public string HospitalizationType { get; set; }
 
+        [StringLength(50)]
+        public string MaternityType { get; set; }
 
 
     }

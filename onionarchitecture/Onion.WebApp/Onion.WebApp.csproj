@@ -245,6 +245,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FinApprovalController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalExpenseController.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="TokenStorage\SessionTokenCache.cs" />
     <Compile Include="Utils\ConfigUtil.cs" />
     <Compile Include="Utils\EmailUtils.cs" />
+    <Compile Include="Utils\UserAuthorization.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

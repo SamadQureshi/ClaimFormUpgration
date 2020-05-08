@@ -1,5 +1,6 @@
 ﻿using NLog;
 using Onion.Interfaces.Services;
+using Onion.WebApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -231,33 +232,23 @@ namespace Onion.WebApp.Controllers
         #endregion
         private void AuthenticateUser()
         {
-            OfficeManagerController managerController = new OfficeManagerController();
+            OfficeManagerController managerController = new OfficeManagerController();        
 
-            string emailAddress = GetEmailAddress();
-            if (ValidEmailAddress(emailAddress))
+            UserAuthorization user = new UserAuthorization(_opdExpenseService);
+
+            string userRoll = user.AuthenticateUser();
+
+            if (user.ValidateEmailAddressManagerTravelApproval())
             {
                 ViewBag.RollTypeTravel = "MANTRAVEL";
             }
+          
+            ViewBag.RollType = userRoll;
            
-                ViewBag.RollType = managerController.AuthenticateUser();
-            
 
             ViewBag.UserName = managerController.GetName();
 
-        }
-        public bool ValidEmailAddress(string emailAddress)
-        {
-
-            bool result = false;
-
-            List<OpdExpenseVM> list = _opdExpenseService.GetOpdExpensesForMANTravel(emailAddress);
-
-            if (list.Count > 0)
-            {
-                result = true;
-            }
-            return result;
-        }
+        }     
         private string GetEmailAddress()
         {
             OfficeManagerController managerController = new OfficeManagerController();

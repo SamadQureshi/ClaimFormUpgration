@@ -25,5 +25,10 @@ namespace Onion.Interfaces.Services
 
         List<OpdExpenseVM> GetOpdExpensesForMANTravel(string emailAddress);
 
+
+        decimal? GetClaimAmountAgainstEmailAddress(string EmailAddress, string OpdType);
+
+        decimal? GetApprovedAmountAgainstEmailAddress(string EmailAddress, string OpdType);
+
     }
 }

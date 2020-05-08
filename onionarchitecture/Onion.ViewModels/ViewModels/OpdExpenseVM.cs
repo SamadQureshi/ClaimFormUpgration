@@ -111,5 +111,10 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         public string OpdEncrypted { get; set; }
 
+        public string HospitalizationType { get; set; }
+
+        public string MaternityType { get; set; }
+
+
     }
 }

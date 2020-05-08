@@ -19,9 +19,8 @@ namespace Onion.WebApp.Controllers
 {
 
     public class OfficeManagerController : Controller
-    { 
+    {       
 
-      
         public void SignIn()
         {
             if (!Request.IsAuthenticated)
@@ -225,10 +224,10 @@ namespace Onion.WebApp.Controllers
 
             return userName;
         }
-     
 
 
-        public string AuthenticateUser()
+
+        public string AuthenticateUserForEmail()
         {
 
             string emailAddress = GetEmailAddress();
@@ -253,16 +252,15 @@ namespace Onion.WebApp.Controllers
             else if (MANList.Contains(emailAddress))
             {
                 rollType = "MAN";
-            }         
+            }
             else if (GENList.Contains(emailAddress))
             {
                 rollType = "GEN";
             }
+      
             return rollType;
 
         }
 
-
-      
     }
 }
