@@ -30,7 +30,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         [Required(ErrorMessage = "The Amount is required.")]
         [Display(Name = "Amount")]
-        [Range(1, 10000000000000, ErrorMessage = "The Amount Must be between 1 and 10000.")]
+        [Range(1, 1000000, ErrorMessage = "The Amount Must be between 1 and 1000000.")]
         public int Amount { get; set; }
 
         [Required(ErrorMessage = "The Description is required.")]

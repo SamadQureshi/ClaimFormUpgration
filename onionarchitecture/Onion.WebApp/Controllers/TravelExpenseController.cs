@@ -301,7 +301,7 @@ namespace Onion.WebApp.Controllers
 
                     int idDecrypted = Security.DecryptId(Convert.ToString(id));
 
-                    var opdInformation = GetTravelExpense(Convert.ToInt32(idDecrypted));
+                    var opdInformation = GeneralController.GetTravelExpense(Convert.ToInt32(idDecrypted), _opdExpenseService, _travelExpenseService);
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
                     ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
@@ -343,7 +343,7 @@ namespace Onion.WebApp.Controllers
                 string buttonStatus = Request.Form["buttonName"];
 
                 AuthenticateUser();
-                var opdInformation = GetTravelExpense(OpdExpense.ID);
+                var opdInformation = GeneralController.GetTravelExpense(OpdExpense.ID, _opdExpenseService, _travelExpenseService);
                 ViewData["OPDEXPENSE_ID"] = OpdExpense.ID;
                 ViewData["OPDTYPE"] = OpdExpense.OpdType;
                 ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
@@ -428,7 +428,7 @@ namespace Onion.WebApp.Controllers
                     }
 
                     int idDecrypted = Security.DecryptId(Convert.ToString(id));
-                    var result2 = GetTravelExpense(idDecrypted);
+                    var result2 = GeneralController.GetTravelExpense(idDecrypted, _opdExpenseService, _travelExpenseService);
                     return View(result2);
 
                 }
@@ -444,72 +444,7 @@ namespace Onion.WebApp.Controllers
 
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
-        }
-
-        private TravelExpenseMasterDetail GetTravelExpense(int Id)
-        {
-            OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
-
-            var opdInformation = new TravelExpenseMasterDetail()
-            {
-
-                ListTravelExpense = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Id),
-
-
-                ID = opdExpense.ID,
-                ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
-                ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
-                ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
-                DateIllnessNoticed = opdExpense.DateIllnessNoticed,
-                DateRecovery = opdExpense.DateRecovery,
-                Diagnosis = opdExpense.Diagnosis,
-                DoctorName = opdExpense.DoctorName,
-                DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
-                DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
-                EmployeeDepartment = opdExpense.EmployeeDepartment,
-                EmployeeName = opdExpense.EmployeeName,
-                EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,               
-                HospitalName = opdExpense.HospitalName,
-                FinanceApproval = opdExpense.FinanceApproval,
-                FinanceComment = opdExpense.FinanceComment,
-                FinanceApprovalDate = opdExpense.FinanceApprovalDate,
-                FinanceEmailAddress = opdExpense.FinanceEmailAddress,
-                FinanceName = opdExpense.FinanceName,
-
-
-                HrApproval = opdExpense.HrApproval,
-                HrComment = opdExpense.HrComment,
-                HrName = opdExpense.HrName,
-                HrApprovalDate = opdExpense.HrApprovalDate,
-                HrEmailAddress = opdExpense.HrEmailAddress,
-
-
-                ManagementApproval = opdExpense.ManagementApproval,
-                ManagementComment = opdExpense.ManagementComment,
-                ManagementName = opdExpense.ManagementName,
-                ManagementApprovalDate = opdExpense.ManagementApprovalDate,
-                ManagementEmailAddress = opdExpense.ManagementEmailAddress,
-
-
-                PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
-                PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
-                Status = opdExpense.Status,
-                OpdType = opdExpense.OpdType,
-                TotalAmountClaimed = opdExpense.TotalAmountClaimed,
-                ClaimYear = opdExpense.ClaimYear,
-                ClaimMonth = opdExpense.ClaimMonth,
-                CreatedDate = opdExpense.CreatedDate,
-                ModifiedDate = opdExpense.ModifiedDate,
-                ManagerName = opdExpense.ManagerName,
-                PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-                PayRollMonth = opdExpense.PayRollMonth,             
-                ExpenseNumber = opdExpense.ExpenseNumber,
-                OpdEncrypted = opdExpense.OpdEncrypted
-
-            };
-
-            return opdInformation;
-        }
+        }        
         private string GetEmailAddress()
         {
             OfficeManagerController managerController = new OfficeManagerController();
@@ -521,7 +456,7 @@ namespace Onion.WebApp.Controllers
         private bool AuthenticateEmailAddress(int Id)
         {
 
-            var opdInformation = GetTravelExpense(Convert.ToInt32(Id));
+            var opdInformation = GeneralController.GetTravelExpense(Convert.ToInt32(Id), _opdExpenseService, _travelExpenseService);
             OfficeManagerController managerController = new OfficeManagerController();
 
             string currentEmailAddress = managerController.GetEmailAddress();
@@ -554,7 +489,7 @@ namespace Onion.WebApp.Controllers
         {
             bool result = false;
 
-            var opdInformation = GetTravelExpense(Id);
+            var opdInformation = GeneralController.GetTravelExpense(Id, _opdExpenseService, _travelExpenseService);
 
             decimal? totalAmount = 0;
 

@@ -20,9 +20,9 @@
 
         public const string MSG_APPROVAL_MANAGERCOMMENTS = "Please Add Manager Comments.";
 
-        public const string MSG_GENERAL_ADD_TRAVEL_EXPENSE_RECEIPTS = "Please Add Travel Expense Receipts";
+        public const string MSG_GENERAL_ADD_TRAVEL_EXPENSE_RECEIPTS = "Please Add Employee Expense Receipts";
 
-        public const string MSG_GENERAL_TRAVEL_EXPENSE_AMOUNT = "Travel Expense Amount between Images and Claimed is not same";
+        public const string MSG_GENERAL_TRAVEL_EXPENSE_AMOUNT = "Employee Expense Amount between Images and Claimed is not same";
 
         public const string MSG_GENERAL_TOTALCLAIMEDAMOUNT_TOTALAPPROVEDAMOUNT = "The total Approved Amount Should be less than or Equal to total Claimed Amount";
 
