@@ -339,6 +339,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\ExcelLogo.png" />
+    <Content Include="Images\PdfLogo.png" />
+    <Content Include="Images\WordLogo.png" />
     <Content Include="Scripts\ajax\jquery.min.js" />
     <Content Include="Scripts\ajax\json2.js" />
     <Content Include="Scripts\bootstrap.js" />

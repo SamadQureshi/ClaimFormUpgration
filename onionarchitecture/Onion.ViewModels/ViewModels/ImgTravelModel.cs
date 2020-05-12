@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
+using Onion.Common.Utils;
 
 namespace TCO.TFM.WDMS.ViewModels.ViewModels
 {
@@ -15,7 +15,8 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         /// Gets or sets Image file.
         /// </summary>
         [Required(ErrorMessage = "The File Upload is required.")]
-        [Display(Name = "Upload File")]
+        [Display(Name = "Supported Files .png | .jpg | .xlsx | .docs | .pdf | .gif")]
+        [AllowExtensions(Extensions = "png,jpg,xlsx,docs,pdf,gif", ErrorMessage = "Please select only Supported Files .png | .jpg | .xlsx | .docs | .pdf | .gif ")]
         public HttpPostedFileBase FileAttach { get; set; }
 
         /// <summary>

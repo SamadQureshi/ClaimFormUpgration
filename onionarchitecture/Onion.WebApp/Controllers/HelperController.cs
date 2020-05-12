@@ -88,7 +88,7 @@ namespace Onion.WebApp.Controllers
         {
                       
             
-            string result = GeneralController.CalculateRemainingAmountForHospital(userName, FormType.HospitalExpense, hospitalizationType,maternityType ,_opdExpenseService, _setupExpenseAmountService);
+            string result = GeneralController.CalculateRemainingAmount(userName, FormType.HospitalExpense, hospitalizationType,maternityType ,_opdExpenseService, _setupExpenseAmountService, true);
                   
              return Json(result, JsonRequestBehavior.AllowGet);
 

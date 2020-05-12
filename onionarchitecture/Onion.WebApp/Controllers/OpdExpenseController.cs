@@ -192,7 +192,7 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
                     ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
-                    string  remainingAmount = GeneralController.CalculateRemainingAmount(opdInformation.EmployeeEmailAddress, opdInformation.OpdType, _opdExpenseService, _setupExpenseAmountService);
+                    string  remainingAmount = GeneralController.CalculateRemainingAmount(opdInformation.EmployeeEmailAddress, opdInformation.OpdType,string.Empty , string.Empty, _opdExpenseService, _setupExpenseAmountService,true);
 
                     ViewBag.RemainingAmount = remainingAmount;
 

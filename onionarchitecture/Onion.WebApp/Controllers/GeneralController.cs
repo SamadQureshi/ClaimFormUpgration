@@ -225,52 +225,42 @@ namespace Onion.WebApp.Controllers
 
             return opdInformation;
         }
+     
 
 
-
-
-        public static  string CalculateRemainingAmount(string EmailAddress, string OpdExpense, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
-        {
-
-            decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense,string.Empty, string.Empty);
-
-            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, string.Empty, string.Empty);
-
-            string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
-
-            decimal? totalUsedAmount = claimAmount + approvedAmount;
-
-            string totalAmount = Convert.ToString(Convert.ToDecimal(defaultAmount) - Convert.ToDecimal(totalUsedAmount));
-
-            return totalAmount;
-
-        }
-
-
-        public static string DisplayRemainingAmount(string EmailAddress, string OpdExpense, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
-        {
+        //public static string DisplayRemainingAmount(string EmailAddress, string OpdExpense, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
+        //{
            
 
-            decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, string.Empty, string.Empty);
+        //    decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, string.Empty, string.Empty);
 
-            string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
+        //    string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
 
-            decimal? totalUsedAmount = approvedAmount;
+        //    decimal? totalUsedAmount = approvedAmount;
 
-            string totalAmount = Convert.ToString(Convert.ToDecimal(defaultAmount) - Convert.ToDecimal(totalUsedAmount));
+        //    string totalAmount = Convert.ToString(Convert.ToDecimal(defaultAmount) - Convert.ToDecimal(totalUsedAmount));
 
-            return totalAmount;
+        //    return totalAmount;
 
-        }
+        //}
 
-        public static string CalculateRemainingAmountForHospital(string EmailAddress, string OpdExpense, string hospitalizationType, string maternityType, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService)
+        public static string CalculateRemainingAmount(string EmailAddress, string OpdExpense, string hospitalizationType, string maternityType, IOpdExpenseService _opdExpenseService, ISetupExpenseAmountService _setupExpenseAmountService , bool forEmployee)
         {
+            decimal? claimAmount = 0;
 
-            decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
+            if (forEmployee == true)
+            {
+                claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
+            } 
 
             decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
 
-            if (hospitalizationType == HospitalizationType.InPatient)
+            if(hospitalizationType == string.Empty)
+            {
+                hospitalizationType = HospitalizationType.OpdExpense;
+            }
+
+            else if (hospitalizationType == HospitalizationType.InPatient)
             {
                 hospitalizationType = HospitalizationType.InPatient;
             }

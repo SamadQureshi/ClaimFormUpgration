@@ -171,7 +171,7 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDTYPE"] = hospitalInformation.OpdType;
                     ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment;
                     ViewBag.EmailAddress = hospitalInformation.EmployeeEmailAddress;
-                    string remainingAmount = GeneralController.CalculateRemainingAmountForHospital(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService,_setupExpenseAmountService);
+                    string remainingAmount = GeneralController.CalculateRemainingAmount(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService,_setupExpenseAmountService , true);
                     ViewBag.RemainingAmount = remainingAmount;
 
                     if (!AuthenticateEmailAddress(Convert.ToInt32(idDecrypted)))

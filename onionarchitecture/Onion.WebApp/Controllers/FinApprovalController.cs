@@ -182,7 +182,7 @@ namespace OPDCLAIMFORM.Controllers
                     var result2 = GeneralController.GetOPDExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
 
 
-                    string remainingAmount = GeneralController.DisplayRemainingAmount(result2.EmployeeEmailAddress, result2.OpdType, _opdExpenseService, _setupExpenseAmountService);
+                    string remainingAmount = GeneralController.CalculateRemainingAmount(result2.EmployeeEmailAddress, result2.OpdType, result2.HospitalizationType , result2.MaternityType, _opdExpenseService, _setupExpenseAmountService, false);
                     ViewBag.RemainingAmount = remainingAmount;
 
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
@@ -306,7 +306,7 @@ namespace OPDCLAIMFORM.Controllers
                   
                     var result2 = GeneralController.GetHospitalExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
 
-                    string remainingAmount = GeneralController.DisplayRemainingAmount(result2.EmployeeEmailAddress, result2.OpdType, _opdExpenseService, _setupExpenseAmountService);
+                    string remainingAmount = GeneralController.CalculateRemainingAmount(result2.EmployeeEmailAddress, result2.OpdType, result2.HospitalizationType, result2.MaternityType, _opdExpenseService, _setupExpenseAmountService, false);
                     ViewBag.RemainingAmount = remainingAmount;
 
 
