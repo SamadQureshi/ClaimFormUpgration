@@ -120,6 +120,7 @@ namespace Onion.WebApp.Controllers
                             }                  
                     model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
                     ViewData["OPDTYPE"] = model.OPDType;
+                    ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Info
                     return this.View(model);
                 }

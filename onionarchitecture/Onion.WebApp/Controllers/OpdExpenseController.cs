@@ -227,7 +227,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(OpdExpenseVM OpdExpense)
+        public ActionResult Edit(OpdExpenseVM OpdExpense)
         {
             try
             {
@@ -271,7 +271,7 @@ namespace Onion.WebApp.Controllers
                                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
                                         _opdExpenseService.UpdateOpdExpense(OpdExpense);
 
-                                        await EmailSend(OpdExpense);
+                                        EmailSend(OpdExpense);
 
                                         return RedirectToAction(UrlIndex);
                                     }
@@ -468,7 +468,7 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        public async Task EmailSend(OpdExpenseVM OpdExpense)
+        public void EmailSend(OpdExpenseVM OpdExpense)
         {
             var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(OpdExpense.ID);
             OpdExpense.OpdExpensePatients = patients;
@@ -477,7 +477,7 @@ namespace Onion.WebApp.Controllers
             var message = EmailUtils.GetMailMessage(OpdExpense);
             if (message.To.Count > 0)
             {
-                await _emailService.SendEmail(message);
+                _emailService.SendEmail(message);
             }
             
         }

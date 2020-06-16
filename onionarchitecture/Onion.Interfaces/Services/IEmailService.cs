@@ -12,6 +12,6 @@ namespace Onion.Interfaces.Services
 {
     public interface IEmailService
     {
-        Task SendEmail(MailMessage mailMessage);
+        void SendEmail(MailMessage mailMessage);
     }
 }

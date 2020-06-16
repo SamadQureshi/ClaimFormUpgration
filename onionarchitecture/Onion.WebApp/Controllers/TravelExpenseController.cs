@@ -184,7 +184,8 @@ namespace Onion.WebApp.Controllers
                         model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                     }
                     model.ImgLst = _travelExpenseService.GetTravelExpensesAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
-
+                    ViewData["OPDTYPE"] = model.OPDType;
+                    ViewData["OPDEXPENSE_ID"] = model.OPDExpenseID;
                     // Info
                     return this.View(model);
                 }
