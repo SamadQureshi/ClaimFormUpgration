@@ -171,8 +171,10 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDTYPE"] = hospitalInformation.OpdType;
                     ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment;
                     ViewBag.EmailAddress = hospitalInformation.EmployeeEmailAddress;
-                    string remainingAmount = GeneralController.CalculateRemainingAmount(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService,_setupExpenseAmountService , true);
-                    ViewBag.RemainingAmount = remainingAmount;
+                    //string remainingAmount = GeneralController.CalculateRemainingAmount(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService,_setupExpenseAmountService , true);
+                    //ViewBag.RemainingAmount = remainingAmount;
+
+                    CalculateRemainingAmount(hospitalInformation);
 
                     if (!AuthenticateEmailAddress(Convert.ToInt32(idDecrypted)))
                     {
@@ -213,6 +215,8 @@ namespace Onion.WebApp.Controllers
                 ViewBag.EmployeeDepartment = hospitalInformation.EmployeeDepartment; 
                 string buttonStatus = Request.Form["buttonName"];
 
+                CalculateRemainingAmount(hospitalInformation);
+
                 if (buttonStatus == "submit")
                 {
                     opdExpense.Status = ClaimStatus.SUBMITTED;
@@ -231,13 +235,24 @@ namespace Onion.WebApp.Controllers
                         {
                             if (GetHOSExpenseAmount(opdExpense, opdExpense.TotalAmountClaimed))
                             {
-                                if (ModelState.IsValid)
+                                decimal? remainingAmount = Convert.ToDecimal(ViewBag.RemainingAmount);
+
+                                if (opdExpense.TotalAmountClaimed <= remainingAmount)
                                 {
-                                    opdExpense.ModifiedDate = DateTime.Now;
-                                    opdExpense.EmployeeEmailAddress = GetEmailAddress();
-                                    _opdExpenseService.UpdateOpdExpense(opdExpense);
-                                    EmailSend(opdExpense);
-                                    return RedirectToAction(UrlIndex, UrlOpdExpense);
+
+                                    if (ModelState.IsValid)
+                                    {
+                                        opdExpense.ModifiedDate = DateTime.Now;
+                                        opdExpense.EmployeeEmailAddress = GetEmailAddress();
+                                        _opdExpenseService.UpdateOpdExpense(opdExpense);
+                                        EmailSend(opdExpense);
+                                        return RedirectToAction(UrlIndex, UrlOpdExpense);
+                                    }
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("", Constants.MSG_GENERAL_CLAIM_AMOUNT_REMAINING_AMOUNT);
+                                    return View(hospitalInformation);
                                 }
 
                             }
@@ -269,7 +284,7 @@ namespace Onion.WebApp.Controllers
                         opdExpense.ModifiedDate = DateTime.Now;
                         opdExpense.EmployeeEmailAddress = GetEmailAddress();
                         _opdExpenseService.UpdateOpdExpense(opdExpense);
-                        EmailSend(opdExpense);
+                        //EmailSend(opdExpense);
                         return RedirectToAction(UrlIndex, UrlOpdExpense);
                     }
                 }
@@ -481,6 +496,14 @@ namespace Onion.WebApp.Controllers
 
 
         }
+
+        public void CalculateRemainingAmount(HospitalExpenseVM hospitalInformation)
+        {
+            string remainingAmount = GeneralController.CalculateRemainingAmount(hospitalInformation.EmployeeEmailAddress, hospitalInformation.OpdType, hospitalInformation.HospitalizationType, hospitalInformation.MaternityType, _opdExpenseService, _setupExpenseAmountService, true);
+            ViewBag.RemainingAmount = remainingAmount;
+
+        }
+
 
 
         private bool AuthenticateEmailAddress(int id)

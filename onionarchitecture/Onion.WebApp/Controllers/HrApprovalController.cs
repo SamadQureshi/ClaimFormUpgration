@@ -189,7 +189,7 @@ namespace Onion.WebApp.Controllers
                     }                 
 
                     var opdExpense = GeneralController.GetOPDExpense(idDecrypted, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
-
+                                        
                     string remainingAmount = GeneralController.CalculateRemainingAmount(opdExpense.EmployeeEmailAddress, opdExpense.OpdType, opdExpense.HospitalizationType, opdExpense.MaternityType, _opdExpenseService, _setupExpenseAmountService, false);
                     ViewBag.RemainingAmount = remainingAmount;
                    
@@ -224,6 +224,9 @@ namespace Onion.WebApp.Controllers
                 string buttonStatus = Request.Form["buttonName"];
 
                 AuthenticateUser();
+
+                string remainingAmount = GeneralController.CalculateRemainingAmount(oPDEXPENSE.EmployeeEmailAddress, oPDEXPENSE.OpdType, oPDEXPENSE.HospitalizationType, oPDEXPENSE.MaternityType, _opdExpenseService, _setupExpenseAmountService, false);
+                ViewBag.RemainingAmount = remainingAmount;
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 
@@ -342,6 +345,10 @@ namespace Onion.WebApp.Controllers
                 string buttonStatus = Request.Form["buttonName"];
 
                 AuthenticateUser();
+
+                string remainingAmount = GeneralController.CalculateRemainingAmount(oPDEXPENSE.EmployeeEmailAddress, oPDEXPENSE.OpdType, oPDEXPENSE.HospitalizationType, oPDEXPENSE.MaternityType, _opdExpenseService, _setupExpenseAmountService, false);
+                ViewBag.RemainingAmount = remainingAmount;
+
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 

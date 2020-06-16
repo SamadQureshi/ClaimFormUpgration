@@ -10,28 +10,29 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/ajax")
-
+   
 </head>
 <body>
-    <div class="wrapper">         
-         @Html.Partial("_Sidebar")
-       
-        <div class="main-panel">
-            @Html.Partial("_Navbar")
-            <div class="content">
-                <div class="container-fluid">
-                    @RenderBody()
+   
+        <div class="wrapper">
+            @Html.Partial("_Sidebar")
+
+            <div class="main-panel">
+                @Html.Partial("_Navbar")
+                <div class="content">
+                    <div class="container-fluid">
+                        @RenderBody()
+                    </div>
                 </div>
+
+                @Html.Partial("_Footerbar")
             </div>
-
-            @Html.Partial("_Footerbar")
         </div>
-    </div>
-
+   
     @Scripts.Render("~/bundles/core")
     @Scripts.Render("~/bundles/plugins")
 
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
-

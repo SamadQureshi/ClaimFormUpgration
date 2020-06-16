@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group bmd-form-group is-filled custom-form-group">
-                                @Html.LabelFor(model => model.Diagnosis, "Diagnosis:", htmlAttributes: new { @class = "bmd-label-static custom-label" })
+                                @Html.LabelFor(model => model.Diagnosis, "Diagnosis:", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.TextAreaFor(model => model.Diagnosis, 2, 40, new { @class = "form-control custom-textarea" })
                                 @Html.ValidationMessageFor(model => model.Diagnosis, "", new { @class = "error" })
                             </div>

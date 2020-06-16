@@ -8,6 +8,7 @@ using NLog;
 using System.Collections.Generic;
 using Onion.WebApp.Utils;
 using TCO.TFM.WDMS.Common.Utils;
+using System.Threading.Tasks;
 
 namespace Onion.WebApp.Controllers
 {
@@ -192,9 +193,12 @@ namespace Onion.WebApp.Controllers
                     ViewData["OPDEXPENSE_ID"] = idDecrypted;
                     ViewData["OPDTYPE"] = opdInformation.OpdType;
                     ViewBag.EmployeeDepartment = opdInformation.EmployeeDepartment;
-                    string  remainingAmount = GeneralController.CalculateRemainingAmount(opdInformation.EmployeeEmailAddress, opdInformation.OpdType,string.Empty , string.Empty, _opdExpenseService, _setupExpenseAmountService,true);
 
-                    ViewBag.RemainingAmount = remainingAmount;
+                    CalculateRemainingAmount(opdInformation);
+
+                    //string  remainingAmount = GeneralController.CalculateRemainingAmount(opdInformation.EmployeeEmailAddress, opdInformation.OpdType,string.Empty , string.Empty, _opdExpenseService, _setupExpenseAmountService,true);
+
+                    //ViewBag.RemainingAmount = remainingAmount;
 
                     if (!(AuthenticateEmailAddress(Convert.ToInt32(idDecrypted))))
                     {
@@ -223,7 +227,7 @@ namespace Onion.WebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(OpdExpenseVM OpdExpense)
+        public async Task<ActionResult> Edit(OpdExpenseVM OpdExpense)
         {
             try
             {
@@ -231,6 +235,9 @@ namespace Onion.WebApp.Controllers
               
                 AuthenticateUser();
                 var opdInformation = GeneralController.GetOPDExpense(OpdExpense.ID, _opdExpenseService, _opdExpensePatientService, _opdExpenseImageService);
+
+                CalculateRemainingAmount(opdInformation);
+
                 ViewData["OPDEXPENSE_ID"] = OpdExpense.ID;
                 ViewData["OPDTYPE"] = OpdExpense.OpdType;
                 ViewBag.EmployeeDepartment = OpdExpense.EmployeeDepartment;
@@ -253,15 +260,26 @@ namespace Onion.WebApp.Controllers
 
                             if (GetOPDExpenseAmount(OpdExpense.ID, OpdExpense.TotalAmountClaimed))
                             {
-                                if (ModelState.IsValid)
+
+                                decimal? remainingAmount = Convert.ToDecimal(ViewBag.RemainingAmount);
+
+                                if (OpdExpense.TotalAmountClaimed <= remainingAmount)
                                 {
-                                    OpdExpense.ModifiedDate = DateTime.Now;
-                                    OpdExpense.EmployeeEmailAddress = GetEmailAddress();
-                                     _opdExpenseService.UpdateOpdExpense(OpdExpense);
+                                    if (ModelState.IsValid)
+                                    {
+                                        OpdExpense.ModifiedDate = DateTime.Now;
+                                        OpdExpense.EmployeeEmailAddress = GetEmailAddress();
+                                        _opdExpenseService.UpdateOpdExpense(OpdExpense);
 
-                                    EmailSend(OpdExpense);
+                                        await EmailSend(OpdExpense);
 
-                                    return RedirectToAction(UrlIndex);
+                                        return RedirectToAction(UrlIndex);
+                                    }
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("", Constants.MSG_GENERAL_CLAIM_AMOUNT_REMAINING_AMOUNT);
+                                    return View(opdInformation);
                                 }
 
                             }
@@ -291,9 +309,7 @@ namespace Onion.WebApp.Controllers
                         OpdExpense.CreatedDate = DateTime.Now;
                         OpdExpense.ModifiedDate = DateTime.Now;
                         OpdExpense.EmployeeEmailAddress = GetEmailAddress();
-                        _opdExpenseService.UpdateOpdExpense(OpdExpense);
-
-                        EmailSend(OpdExpense);
+                        _opdExpenseService.UpdateOpdExpense(OpdExpense);                      
 
                         return RedirectToAction(UrlIndex);
                     }
@@ -386,72 +402,7 @@ namespace Onion.WebApp.Controllers
                 return View(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
             }
         }
-         
-        //private OpdExpenseVM GetOPDExpense(int Id)
-        //{
-        //    OpdExpenseVM opdExpense = _opdExpenseService.GetOpdExpensesAgainstId(Id);
-
-        //    var opdInformation = new OpdExpenseVM()
-        //    {
-
-        //        OpdExpensePatients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(Id),
-        //        OpdExpenseImages = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Id),
-
-        //        ID = opdExpense.ID,
-        //        ClaimantSufferedIllness = opdExpense.ClaimantSufferedIllness,
-        //        ClaimantSufferedIllnessDetails = opdExpense.ClaimantSufferedIllnessDetails,
-        //        ClaimantSufferedIllnessDate = opdExpense.ClaimantSufferedIllnessDate,
-        //        DateIllnessNoticed = opdExpense.DateIllnessNoticed,
-        //        DateRecovery = opdExpense.DateRecovery,
-        //        Diagnosis = opdExpense.Diagnosis,
-        //        DoctorName = opdExpense.DoctorName,
-        //        DrugsPrescribedBool = opdExpense.DrugsPrescribedBool,
-        //        DrugsPrescribedDescription = opdExpense.DrugsPrescribedDescription,
-        //        EmployeeDepartment = opdExpense.EmployeeDepartment,
-        //        EmployeeName = opdExpense.EmployeeName,
-        //        EmployeeEmailAddress = opdExpense.EmployeeEmailAddress,
-        //        HospitalName = opdExpense.HospitalName,
-
-        //        FinanceApproval = opdExpense.FinanceApproval,
-        //        FinanceComment = opdExpense.FinanceComment,
-        //        FinanceApprovalDate = opdExpense.FinanceApprovalDate,
-        //        FinanceEmailAddress = opdExpense.FinanceEmailAddress,
-        //        FinanceName = opdExpense.FinanceName,
-
-
-        //        HrApproval = opdExpense.HrApproval,
-        //        HrComment = opdExpense.HrComment,
-        //        HrName = opdExpense.HrName,
-        //        HrApprovalDate = opdExpense.HrApprovalDate,
-        //        HrEmailAddress = opdExpense.HrEmailAddress,
-
-
-        //        ManagementApproval = opdExpense.ManagementApproval,
-        //        ManagementComment = opdExpense.ManagementComment,
-        //        ManagementName = opdExpense.ManagementName,
-        //        ManagementApprovalDate = opdExpense.ManagementApprovalDate,
-        //        ManagementEmailAddress = opdExpense.ManagementEmailAddress,
-
-
-        //        PeriodConfinementDateFrom = opdExpense.PeriodConfinementDateFrom,
-        //        PeriodConfinementDateTo = opdExpense.PeriodConfinementDateTo,
-        //        Status = opdExpense.Status,
-        //        OpdType = opdExpense.OpdType,
-        //        TotalAmountClaimed = opdExpense.TotalAmountClaimed,
-        //        ClaimMonth = opdExpense.ClaimMonth,
-        //        ClaimYear = opdExpense.ClaimYear,
-        //        CreatedDate = opdExpense.CreatedDate,
-        //        ModifiedDate = opdExpense.ModifiedDate,
-        //        PhysicalDocumentReceived = opdExpense.PhysicalDocumentReceived,
-        //        PayRollMonth = opdExpense.PayRollMonth,
-        //        ExpenseNumber = opdExpense.ExpenseNumber,
-        //        OpdEncrypted = opdExpense.OpdEncrypted
-
-        //    };
-
-        //    return opdInformation;
-        //}
-
+                
         private bool GetOPDExpenseAmount(int Id, decimal? totalAmountClaimed)
         {
             bool result = false;
@@ -517,33 +468,28 @@ namespace Onion.WebApp.Controllers
 
         }
 
-        public void EmailSend(OpdExpenseVM OpdExpense)
+        public async Task EmailSend(OpdExpenseVM OpdExpense)
         {
             var patients = _opdExpensePatientService.GetOpdExpensesPatientAgainstOpdExpenseId(OpdExpense.ID);
             OpdExpense.OpdExpensePatients = patients;
             var images = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(OpdExpense.ID);
             OpdExpense.OpdExpenseImages = images;
             var message = EmailUtils.GetMailMessage(OpdExpense);
-            _emailService.SendEmail(message);
-        }
-
-        //public string CalculateRemainingAmount(string EmailAddress , string OpdExpense)
-        //{
+            if (message.To.Count > 0)
+            {
+                await _emailService.SendEmail(message);
+            }
             
-        //    decimal? claimAmount = _opdExpenseService.GetClaimAmountAgainstEmailAddress(EmailAddress, OpdExpense);
+        }
+       
 
-        //    decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense);
 
-        //    string defaultAmount = _setupExpenseAmountService.GetDefaultExpenseAmountAgainstExpenseType(OpdExpense);
+        public void CalculateRemainingAmount(OpdExpenseVM opdInformation)
+        {
+            string remainingAmount = GeneralController.CalculateRemainingAmount(opdInformation.EmployeeEmailAddress, opdInformation.OpdType, string.Empty, string.Empty, _opdExpenseService, _setupExpenseAmountService, true);
 
-        //    decimal? totalUsedAmount = claimAmount + approvedAmount;
-
-        //    string totalAmount = Convert.ToString(Convert.ToDecimal(defaultAmount) - Convert.ToDecimal(totalUsedAmount));
-
-        //    return totalAmount;
-
-        //}
-
+            ViewBag.RemainingAmount = remainingAmount;
+        }
         #region Get file method.
 
         /// <summary>

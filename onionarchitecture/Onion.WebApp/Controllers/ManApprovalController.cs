@@ -482,7 +482,7 @@ namespace OPDCLAIMFORM.Controllers
             {
                 string buttonStatus = Request.Form["buttonName"];
 
-                AuthenticateUser("ManTravelExpense");
+               // AuthenticateUser("ManTravelExpense");
 
                 string message = Validation(oPDEXPENSE, buttonStatus);
 

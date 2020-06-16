@@ -116,6 +116,7 @@ namespace Onion.WebApp.Utils
             var message = new MailMessage();
             message.Body = GetEmailBody(expense);
             message.IsBodyHtml = true;
+            message.From = new MailAddress("samad.qureshi@qordata.com");           
             string toEmail = "";
             if (expense.Status == ClaimStatus.SUBMITTED)
             {

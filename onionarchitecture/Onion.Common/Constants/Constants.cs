@@ -28,5 +28,7 @@
 
         public const string MSG_GENERAL_ADD_PAYROLL_MONTH = "Please Add PayRoll Month";
 
+        public const string MSG_GENERAL_CLAIM_AMOUNT_REMAINING_AMOUNT = "The Claim Amount should be less than the Remaining Amount";
+
     }
 }

@@ -255,7 +255,11 @@ namespace Onion.WebApp.Controllers
 
             decimal? approvedAmount = _opdExpenseService.GetApprovedAmountAgainstEmailAddress(EmailAddress, OpdExpense, hospitalizationType, maternityType);
 
-            if(hospitalizationType == string.Empty)
+            if(hospitalizationType == null) 
+            {
+                hospitalizationType = HospitalizationType.OpdExpense;
+            }
+            else if(hospitalizationType == string.Empty)
             {
                 hospitalizationType = HospitalizationType.OpdExpense;
             }

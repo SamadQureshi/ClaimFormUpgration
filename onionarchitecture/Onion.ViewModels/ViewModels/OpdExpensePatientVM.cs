@@ -1,6 +1,7 @@
 ﻿using Onion.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
     {
         public int ID { get; set; }     
         public string Name { get; set; }
+
+        [Range(1, 100, ErrorMessage = "The Age must be between 1 and 100.")]
         public int? Age { get; set; }
         public string RelationshipEmployee { get; set; }
         public int OpdExpenseId { get; set; }

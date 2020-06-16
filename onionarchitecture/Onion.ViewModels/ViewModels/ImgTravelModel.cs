@@ -15,8 +15,8 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
         /// Gets or sets Image file.
         /// </summary>
         [Required(ErrorMessage = "The File Upload is required.")]
-        [Display(Name = "Supported Files .png | .jpg | .xlsx | .docs | .pdf | .gif")]
-        [AllowExtensions(Extensions = "png,jpg,xlsx,docs,pdf,gif", ErrorMessage = "Please select only Supported Files .png | .jpg | .xlsx | .docs | .pdf | .gif ")]
+        [Display(Name = "Supported Files .png | .jpg | .xlsx | .docx | .pdf | .gif")]
+        [AllowExtensions(Extensions = "png,jpg,xlsx,docx,pdf,gif,JPG,PNG", ErrorMessage = "Please select only Supported Files .png | .jpg | .xlsx | .docx | .pdf | .gif ")]
         public HttpPostedFileBase FileAttach { get; set; }
 
         /// <summary>

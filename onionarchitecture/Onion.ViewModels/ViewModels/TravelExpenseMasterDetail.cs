@@ -19,7 +19,6 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         [DisplayName("Employee Name")]
         [Required(ErrorMessage = "The Employee Name is required.")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Incorrect Employee Name")]
         public string EmployeeName { get; set; }
 
         public string EmployeeDepartment { get; set; }
@@ -36,7 +35,7 @@ namespace TCO.TFM.WDMS.ViewModels.ViewModels
 
         [DisplayName("Total Amount")]
         [Required(ErrorMessage = "The Total Amount is required.")]
-        [Range(0, Int32.MaxValue, ErrorMessage = "Invalid Number")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Invalid Number")]
         public decimal? TotalAmountClaimed { get; set; }
 
         public decimal? TotalAmountApproved { get; set; }

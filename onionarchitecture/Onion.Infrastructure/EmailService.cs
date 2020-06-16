@@ -20,19 +20,30 @@ namespace Onion.Infrastructure
             return new SmtpClient();
         }
 
-        public void SendEmail(MailMessage mailMessage)
+        public async Task SendEmail(MailMessage mailMessage)
         {
-            string result = ConfigurationManager.AppSettings["EmailModuleEnabled"];
-
-            if (result == "true")
+            try
             {
-                using (var smtp = new SmtpClient())
+
+                string result = ConfigurationManager.AppSettings["EmailModuleEnabled"];
+                //String token = "test1";
+                if (result == "true")
                 {
-                    smtp.Send(mailMessage);
+                    using (var smtpClient = new SmtpClient())
+                    {
+                        await smtpClient.SendMailAsync(mailMessage);
+                    }
+
                 }
             }
-
+          
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
         }
+
+       
     }
 }

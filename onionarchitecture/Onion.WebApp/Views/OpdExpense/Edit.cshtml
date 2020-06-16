@@ -4,6 +4,8 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 <div class="row">
     @using (Html.BeginForm(null, null, FormMethod.Post, new
     {
@@ -19,7 +21,7 @@
                         <i class="material-icons">library_books</i>
                     </div>
                     <h4 class="card-title">OPD Expense</h4>
-                </div>               
+                </div>
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.OpdType)
                 @Html.HiddenFor(model => model.CreatedDate)
@@ -113,18 +115,18 @@
                             <div class="form-group bmd-form-group is-filled custom-form-group">
                                 @Html.LabelFor(model => model.EmployeeName, "Remaining Amount", htmlAttributes: new { @class = "bmd-label-floating" })
                                 @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = (ViewBag.RemainingAmount) } })
-                               
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.LabelFor(model => model.HrComment, "HR Comment", htmlAttributes: new { @class = "bmd-label-static custom-label" })
                                 @Html.TextBoxFor(model => model.HrComment, new { @readonly = "readonly", @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-floating" })
+                                @Html.LabelFor(model => model.HrName, "HR Name", htmlAttributes: new { @class = "bmd-label-static custom-label" })
                                 @Html.TextBoxFor(model => model.HrName, new { @readonly = "readonly", @class = "form-control" })
                             </div>
                         </div>
@@ -160,7 +162,7 @@
                 });
             };
             if (regionsSelect.length != 0) {
-                $("#EmployeeDepartment").val('@ViewBag.EmployeeDepartment');                
+                $("#EmployeeDepartment").val('@ViewBag.EmployeeDepartment');
                 regionsSelect.selectpicker();
             }
         });
@@ -175,9 +177,9 @@
 
         }
 
-        
-       $(function () {              
-                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);                
+
+       $(function () {
+                    $("#ID").val(@ViewData["OPDEXPENSE_ID"]);
          });
 
     </script>

@@ -119,7 +119,7 @@ namespace Onion.WebApp.Controllers
                         model.OPDExpenseID = Security.DecryptId(Request.Url.Segments[3].ToString());
                             }                  
                     model.ImgLst = _opdExpenseImageService.GetOpdExpensesImageAgainstOpdExpenseId(Convert.ToInt32(model.OPDExpenseID));
-
+                    ViewData["OPDTYPE"] = model.OPDType;
                     // Info
                     return this.View(model);
                 }
